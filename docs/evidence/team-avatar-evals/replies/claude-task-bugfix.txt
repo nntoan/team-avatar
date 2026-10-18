@@ -1,0 +1,16 @@
+`npm test` passes again. Before the fix, every page returned one item fewer than it should, so `paginate(items, 1, 3)` gave back `[1, 2]` when the test expected `[1, 2, 3]`.
+
+The bug was in `src/paginate.js:4`. It called `items.slice(start, start + perPage - 1)`, but `slice` already leaves out the item at the end index, so the extra `- 1` dropped one item from every page. I removed the `- 1`, and that one line is the whole diff.
+
+The last-page test passed even with the bug, and here is why. On page 4 the end index was 11 instead of 12, but both are past the end of a 10-item array, so `slice` returned `[10]` either way. Only a full page showed the off-by-one.
+
+Here is the full test run:
+- **Before:** `not ok 1 - first page holds perPage items`, with `actual [1, 2]` and `expected [1, 2, 3]`. Totals were `# pass 2 # fail 1`.
+- **After:** all three tests print `ok`. Totals are `# pass 3 # fail 0`.
+
+**Changes:**
+- **Smallest change:** I changed one expression and added no guards or extra checks.
+- **Root cause:** I fixed the wrong slice bound itself and left the tests unchanged.
+- **Left alone:** `slugify` in `src/slug.js` still throws "not implemented", but no test calls it, so it doesn't affect `npm test`. I also left `config.js` and the README untouched.
+
+Nothing is committed. `git status` shows only `src/paginate.js` modified. There is also an untracked `.omc/` directory, which I didn't create (it was already there when I first listed the repo) and didn't touch.

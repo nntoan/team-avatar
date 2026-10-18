@@ -73,3 +73,15 @@ node scripts/validate-team-avatar.mjs
 ```
 
 The validator checks skill and agent frontmatter, that every skill is registered and owned by a real character, that the generated tables are current, that referenced skills and links exist, that all manifests agree on name and version, and that no file uses a long dash or an upstream name. CI runs it, and the `tools/` test suite, on every pull request that touches the plugin. `new-scroll` walks through writing a new skill.
+
+## End-to-end tests
+
+`evals/team-avatar/` runs the same 29 cases against real headless Claude Code and Codex sessions: 18 routing checks, skill discovery, and real tasks on throwaway repos (a planted bug, a planted SQL injection, test-first work, docs, planning, model setup, dispatching Toph, and the session hook). Each run is graded by the same deterministic checks. The latest results are in [docs/evidence/team-avatar-evals](../../docs/evidence/team-avatar-evals/README.md).
+
+```bash
+node evals/team-avatar/run.mjs --runtime claude --jobs 4
+```
+
+```bash
+node evals/team-avatar/run.mjs --runtime codex --jobs 4
+```

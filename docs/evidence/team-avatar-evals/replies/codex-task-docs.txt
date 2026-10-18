@@ -1,0 +1,3 @@
+Rewrote [README.md](/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/evals-final/codex/work/task-docs/README.md) in plain language, with a runnable example and accurate limitations.
+
+Applied Laziness Protocol to keep changes to the README and Prove It Works to verify the example. `npm test` reports 2 passes and 1 existing pagination failure. Nothing committed.

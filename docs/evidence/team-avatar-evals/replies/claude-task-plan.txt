@@ -1,0 +1,24 @@
+I wrote the plan to `plan.md`. It describes one PR in three steps, and I didn't touch any code. When it lands, a shelf user will page through an array by handing back the cursor from the previous page instead of doing page arithmetic. Whoever maintains it next gets a single `paginate` function and no page-number API to keep in sync.
+
+**What the plan rests on:**
+- **Callers.** The only caller of `paginate` and `pageCount` is `test/paginate.test.js`. I confirmed this with `grep -rn paginate src test`. That makes it reasonable to migrate the caller and delete the old API in the same PR, with no deprecation period.
+- **An existing bug.** The old API drops an item from every full page, because of `start + perPage - 1` at `src/paginate.js:4`. `npm test` on `8cc0189` gives 2 passes and 1 failure ("first page holds perPage items"). The plan doesn't fix this separately, since that line gets deleted. The new tests cover the slicing instead.
+
+**The cursor design.** A page request is `{ limit, after? }` and a page comes back as `{ items, nextCursor | null }`. The cursor is an opaque string that encodes the index of the next item. I chose an index because nothing in the repo changes the array between pages. Because callers can't read inside the cursor, a later version can switch to a key-based cursor without breaking them. `pageCount` has no cursor equivalent, so it's deleted along with the old API.
+
+**The steps:**
+1. Write tests for the new API, then build it under the temporary name `paginateCursor`. The tests cover:
+   - an array whose length is an exact multiple of the page size, which should end with `nextCursor: null` and no empty extra page
+   - walking every page and getting the original array back
+   - errors for a bad `limit` or a garbage cursor
+2. Move the existing tests over to the new API.
+3. In one commit, delete the old `paginate` and `pageCount`, rename `paginateCursor` to `paginate`, bump the version to `2.0.0`, and rewrite the README usage. The check is that the module exports only `paginate` and `npm test` passes with no failures.
+
+**Riskiest step.** Deleting the old API in step 3 will break callers outside this repo, and I have no way to see how many there are. `package.json` doesn't even declare an entry point. The major version bump signals the break, and publishing 2.0.0 can't be undone, so the plan leaves that to you.
+
+**Choice for you.** If your callers change the array while they page through it, the cursor should hold an item key instead of an index. The plan says which signature to use in that case. It's best to switch before the first release.
+
+**Principles that shaped this:**
+- "Migrate Callers Then Delete Legacy APIs" is why the plan has no deprecation period.
+- "Subtract Before You Add" is why the off-by-one is removed by deleting it rather than patched.
+- "Sequence Work into Verifiable Units" is why each step has a check you can run.

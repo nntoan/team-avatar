@@ -1,0 +1,9 @@
+Toph says `pageCount` is defined at **`src/paginate.js:7`**:
+
+```js
+export function pageCount(total, perPage) {
+```
+
+It's an exported function, and it's the only definition in the repo. The only other references are in `test/paginate.test.js`: it's imported at line 3 and called at line 16 (`pageCount(10, 3)`, which expects 4). I ran a grep across the repo and it shows the same lines.
+
+Toph's first run ended with "Finished. Nothing more to do." and no answer, and I couldn't resume her to ask again. This answer is from a second dispatch where I spelled out the report format. No files were edited.

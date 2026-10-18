@@ -1,0 +1,20 @@
+```markdown
+# Team Avatar models
+
+Which model each Team Avatar character runs on. avatar-mode reads this sheet before it dispatches, and a line it lacks keeps its default. `inherit` runs on the parent session's model. A value may carry a reasoning effort, as in `opus @high` (levels: low, medium, high, xhigh, max). `panel` is a list, one runner per entry. `default effort` sets the level for a value without one, and `session` keeps the parent session's effort. `session hook: off` stops the SessionStart hook from routing work into avatar-mode.
+
+aang: inherit
+sokka: sonnet
+toph: sonnet
+toph review: opus
+katara: opus
+zuko: opus
+iroh: opus
+appa: sonnet
+momo: haiku
+suki: opus
+strongest: fable
+panel: opus, fable, sonnet, haiku
+default effort: session
+session hook: off
+```

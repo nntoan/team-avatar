@@ -1,0 +1,26 @@
+Here's the sheet I'd write to `/Users/tmcfarlane/.claude/team-avatar-models.md`. I didn't write anything, and no sheet exists there yet.
+
+```markdown
+# Team Avatar models
+
+Which model each Team Avatar character runs on. avatar-mode reads this sheet before it dispatches, and a line it lacks keeps its default. `inherit` runs on the parent session's model. A value may carry a reasoning effort, as in `opus @high` (levels: low, medium, high, xhigh, max). `panel` is a list, one runner per entry. `default effort` sets the level for a value without one, and `session` keeps the parent session's effort. `session hook: off` stops the SessionStart hook from routing work into avatar-mode.
+
+aang: inherit
+sokka: sonnet
+toph: sonnet
+toph review: opus
+katara: opus
+zuko: opus
+iroh: opus
+appa: sonnet
+momo: haiku
+suki: opus
+strongest: fable
+panel: opus, fable, sonnet, haiku
+default effort: session
+session hook: off
+```
+
+Only two lines differ from the defaults: `sokka: sonnet` (default `opus`) and `session hook: off` (default `on`). I took every other value from what `show-sheet.sh claude` printed, and those match the defaults in the skill. All the model names are ones this session's `Agent` tool accepts: `opus`, `fable`, `sonnet`, `haiku` and `inherit`.
+
+I don't have a reliable validation result. I ran `check-sheet.sh` on the content through stdin so nothing would be written. It printed `sheet ok`, but the script reads its input twice. The first read failed with "Bad file descriptor", so the check may have run on empty input. To validate it properly, I'd write the file and run `check-sheet.sh` on it. Say the word and I'll do that.

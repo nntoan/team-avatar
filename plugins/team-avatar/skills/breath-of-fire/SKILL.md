@@ -42,6 +42,7 @@ On Codex, read [avatar-mode/references/codex.md](../avatar-mode/references/codex
 - A number without its workload, build, and spread is not a result.
 - Correctness first. A faster wrong answer is a bug (`healing-water`).
 - Keep the benchmark script. It is the lever the next engineer reruns.
+- Ship the fix. Do not stop to ask whether an unstated detail matters, such as how many times a callback runs. Read the callers and tests instead. If nothing observes that detail, make the change, pin the behavior that is observed with a test, and name the detail you changed in the reply so the user can push back. Hold back only when a caller or test truly depends on it (Never Block on the Human, Fire in `four-elements`).
 
 ## Reply
 

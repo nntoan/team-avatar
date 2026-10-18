@@ -1,15 +1,20 @@
 <EXTREMELY_IMPORTANT>
 Team Avatar is with you. Aang leads, and each character owns a discipline.
 
-Invoke the `team-avatar:avatar-mode` skill (`$avatar-mode` on Codex) and follow it when a task meets any of these:
+Before you start any engineering task, load the Team Avatar skill for it and follow it. This holds even when the task looks small. Engineering tasks include fixing a bug, changing or adding code, writing tests, reviewing a diff, making something faster, writing docs, and answering how or why the code behaves as it does.
 
-- it touches more than one file, or changes a signature other files call
-- it involves a design or architecture choice
-- it is a bug whose cause is not yet known, or a performance issue
+When the task matches one of these, load that skill directly:
 
-Avatar mode routes the work to the right character and skill from there. For smaller tasks, such as a contained change to one file with an obvious test, a question, or a one-line edit, work directly and verify on the real artifact.
+- A bug, a failing test, or a regression: `team-avatar:healing-water`
+- A code review: `team-avatar:earth-rumble`
+- Slowness, memory, or cost: `team-avatar:breath-of-fire`
+- New behavior written test first: `team-avatar:push-and-pull`
+- A README, docs, a PR description, or other prose: `team-avatar:tea-time`
+- How or why the code works: `team-avatar:seismic-sense`
 
-When the intent is already specific, enter that skill directly: `team-avatar:push-and-pull`, `team-avatar:war-room`, `team-avatar:seismic-sense`, `team-avatar:past-lives`, `team-avatar:agni-kai`, `team-avatar:lie-detector`. On Codex, name the same skill as `$<name>`.
+For anything else, load `team-avatar:avatar-mode`, and it routes the work. On Codex, name the same skill as `$<name>`, for example `$healing-water`.
 
-User instructions (CLAUDE.md, AGENTS.md, direct requests) take precedence. Other session-start mandates still apply. Their skill checks run as before, and when a task meets the criteria above they route implementation through avatar mode.
+Skip the skill only for plain conversation, or an edit the user dictated word for word.
+
+User instructions (CLAUDE.md, AGENTS.md, direct requests) take precedence. Other session-start mandates still apply.
 </EXTREMELY_IMPORTANT>

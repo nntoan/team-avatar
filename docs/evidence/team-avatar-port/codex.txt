@@ -1,0 +1,15 @@
+$ codex plugin list   (team-avatar entry)
+team-avatar@team-avatar  installed, enabled  0.2.0    /Users/tmcfarlane/repo/oh-my-cursor/plugins/team-avatar
+
+$ codex exec "List every team-avatar skill, then the count."   (last lines)
+team-avatar:what-you-seek
+team-avatar:white-lotus
+team-avatar:yip-yip
+Count: 58
+
+$ codex exec "Use $avatar-mode. Route these five requests, citing the route table."
+1. Appa routes to `long-flight` ([route table, line 94](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.2.0/skills/avatar-mode/SKILL.md:94)).
+2. Aang routes to `past-lives` ([route table, line 44](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.2.0/skills/avatar-mode/SKILL.md:44)).
+3. Suki routes to `kyoshi-formation` ([route table, line 107](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.2.0/skills/avatar-mode/SKILL.md:107)).
+4. Toph routes to `earth-rumble` ([route table, line 82](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.2.0/skills/avatar-mode/SKILL.md:82)).
+5. Zuko routes to `redemption-arc` ([route table, line 75](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.2.0/skills/avatar-mode/SKILL.md:75)).

@@ -1,0 +1,22 @@
+$ # inject 6 defects into a scratch copy, then run the validator
+plugins/team-avatar/agents/momo.md: frontmatter name "momu" must equal file name "momo"
+plugins/team-avatar/team.json: skill "yip-yip" has no registry entry
+plugins/team-avatar/skills/avatar-mode/SKILL.md: generated roster region is stale, run node scripts/generate-team-avatar.mjs
+plugins/team-avatar/README.md: generated roster region is stale, run node scripts/generate-team-avatar.mjs
+plugins/team-avatar/agents/appa.md: generated skills region is stale, run node scripts/generate-team-avatar.mjs
+plugins/team-avatar/skills/tea-time/SKILL.md: line 75 names the upstream project; use Team Avatar names
+plugins/team-avatar/skills/tea-time/SKILL.md: references unknown skill "healing-wind"
+plugins/team-avatar: versions disagree: 0.1.0, 0.2.0
+plugins/team-avatar/skills/tea-time/SKILL.md: line 75 contains a long dash
+
+9 problem(s)
+exit=1
+
+$ cd plugins/team-avatar/tools && bun install --frozen-lockfile && bun test && bun run typecheck
+6 packages installed [43.00ms]
+ 253 pass
+ 0 fail
+ 707 expect() calls
+Ran 253 tests across 10 files. [25.12s]
+$ tsc --project tsconfig.json
+typecheck exit=0

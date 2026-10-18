@@ -17,9 +17,9 @@ Zuko's honor did not come back when he caught the Avatar. It came back when he o
 
 1. **Build the timeline.** From logs, deploys, alerts, and chat: when it started, when it was detected, when it was mitigated, when it was resolved. Every entry cites its source.
 2. **Measure the impact.** Who was affected, for how long, and what they lost. Use real numbers or label them *estimated*.
-3. **Find the root cause.** Use `healing-water` to reproduce and name the mechanism. Then ask why the mechanism was possible, and why it was not caught. Stop at causes you can change.
+3. **Find the root cause.** Use `healing-water` to reproduce and name the mechanism. When the evidence is a live process or a captured profile, use `ember-trace` to read it first. Then ask why the mechanism was possible, and why it was not caught. Stop at causes you can change.
 4. **Ask what helped and what hurt.** Which alert fired, which dashboard lied, which runbook was missing, which step took longest.
-5. **Turn lessons into structure.** For each lesson, pick the strongest fix that exists: a test, a type, a lint, a check in CI, an alert, a guard in the deploy, before a document or a reminder. A lesson that lives only in prose will be forgotten.
+5. **Turn lessons into structure.** For each lesson, pick the strongest fix that exists: a test, a type, a lint, a check in CI, an alert, a guard in the deploy, before a document or a reminder. A lesson that lives only in prose will be forgotten. When the incident repeats a mistake class agents keep making, run `honor-code`.
 6. **Write the postmortem** with `tea-time`.
 
 ## Postmortem shape
@@ -40,4 +40,4 @@ Actions: <owner, structural fix, tracking link>
 
 - Blameless. Name systems and decisions, never a person as the cause.
 - No action item without an owner and a tracking link.
-- Every action prefers structure over prose (Fire in `four-elements`).
+- Every action prefers structure over prose (Encode Lessons in Structure, Fire in `four-elements`).

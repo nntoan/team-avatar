@@ -8,6 +8,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, resolve, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const ROOT = resolve(fileURLToPath(import.meta.url), "../..");
 const PLUGIN = join(ROOT, "plugins", "team-avatar");
@@ -41,7 +42,8 @@ function frontmatter(file) {
 const walk = (dir) =>
   readdirSync(dir, { recursive: true, withFileTypes: true })
     .filter((d) => d.isFile())
-    .map((d) => join(d.parentPath ?? d.path, d.name));
+    .map((d) => join(d.parentPath ?? d.path, d.name))
+    .filter((f) => !f.includes("/node_modules/"));
 
 const NAME = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const skillsDir = join(PLUGIN, "skills");
@@ -72,22 +74,38 @@ for (const agent of agents) {
   for (const s of loads) if (!skills.includes(s)) fail(file, `loads unknown skill "${s}"`);
 }
 
-const avatar = readFileSync(join(skillsDir, "avatar-mode", "SKILL.md"), "utf8");
-const table = avatar.slice(avatar.indexOf("## The team"), avatar.indexOf("## Route the task"));
-for (const s of skills) if (!table.includes(`\`${s}\``)) fail(join(skillsDir, "avatar-mode", "SKILL.md"), `team table omits skill "${s}"`);
-for (const a of agents) {
-  if (!new RegExp(`^\\| ${a[0].toUpperCase()}${a.slice(1)} \\|`, "m").test(table)) {
-    fail(join(skillsDir, "avatar-mode", "SKILL.md"), `team table omits character "${a}"`);
-  }
+const registryFile = join(PLUGIN, "team.json");
+const registry = readJson(registryFile);
+const registered = (registry.skills ?? []).map((s) => s.name);
+const characters = (registry.characters ?? []).map((c) => c.name);
+for (const s of skills) if (!registered.includes(s)) fail(registryFile, `skill "${s}" has no registry entry`);
+for (const s of registered) if (!skills.includes(s)) fail(registryFile, `registry lists missing skill "${s}"`);
+if (new Set(registered).size !== registered.length) fail(registryFile, "a skill is listed twice");
+for (const s of registry.skills ?? []) if (!characters.includes(s.owner)) fail(registryFile, `skill "${s.name}" has unknown owner "${s.owner}"`);
+for (const a of agents) if (!characters.includes(a)) fail(registryFile, `agent "${a}" is not a registered character`);
+for (const c of characters) if (!agents.includes(c)) fail(registryFile, `character "${c}" has no agent file`);
+const generator = spawnSync(process.execPath, [join(ROOT, "scripts", "generate-team-avatar.mjs"), "--check"], { encoding: "utf8" });
+if (generator.status !== 0) for (const line of generator.stderr.trim().split("\n")) problems.push(line);
+
+// Skills speak in Team Avatar's own names. Upstream credit lives in the files below.
+const UPSTREAM = /\b(pstack|poteto)/i;
+const CREDIT = new Set(["README.md", "NOTICE.md", "team.json"]);
+for (const file of walk(PLUGIN)) {
+  const rel = relative(PLUGIN, file);
+  if (CREDIT.has(rel) || rel.startsWith("licenses/") || !/\.(md|json|sh|mjs|ts|ps1|awk)$/.test(file)) continue;
+  readFileSync(file, "utf8").split("\n").forEach((line, i) => {
+    if (UPSTREAM.test(line)) fail(file, `line ${i + 1} names the upstream project; use Team Avatar names`);
+  });
 }
 
-// Only names after a routing verb count, so code spans like `git log -S` are not mistaken for skills.
-const ROUTE = /(?:Load|Run|run|Use|use|with|to|via|follows|Hand to|hand to|see|See|in) `([a-z0-9]+(?:-[a-z0-9]+)+)`/g;
+// Only names after a routing verb count, and tool or file names in the plugin are allowed, so code spans like `git log -S` are not mistaken for skills.
+const ROUTE = /(?:Load|Run|run|follows|Hand to|hand to|hands to|route to|routes to|Route to) `([a-z0-9]+(?:-[a-z0-9]+)+)`/g;
+const pluginNames = new Set(walk(PLUGIN).flatMap((f) => relative(PLUGIN, f).split("/")).map((n) => n.replace(/\.[a-z]+$/, "")));
 const files = walk(PLUGIN).filter((f) => f.endsWith(".md"));
 for (const file of files) {
   const text = readFileSync(file, "utf8");
   for (const [, ref] of text.matchAll(ROUTE)) {
-    if (!skills.includes(ref) && !agents.includes(ref)) fail(file, `references unknown skill "${ref}"`);
+    if (!skills.includes(ref) && !agents.includes(ref) && !pluginNames.has(ref)) fail(file, `references unknown skill "${ref}"`);
   }
   for (const [, href] of text.matchAll(/\]\(([^)#\s]+)(?:#[^)]*)?\)/g)) {
     if (/^[a-z]+:/.test(href)) continue;

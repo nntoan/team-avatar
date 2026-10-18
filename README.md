@@ -39,7 +39,7 @@ _Created by <a href="https://zeroclickdev.ai/">ZeroClickDev</a>_
 
 ## New: Team Avatar skills for Claude Code and Codex (preview)
 
-Team Avatar is becoming a universal set of principal-level engineering skills. Each character owns a discipline: Sokka plans, Toph investigates and reviews, Katara heals bugs, Zuko owns performance and incidents, Iroh writes and teaches, Appa ships, and Momo scouts. Aang routes the work through `avatar-mode`.
+Team Avatar is becoming a universal set of principal-level engineering skills, with 58 skills across 9 characters. Sokka plans, Toph investigates and reviews, Katara heals bugs and guards code health, Zuko owns performance and incidents, Iroh writes and teaches, Appa ships, Momo scouts, and Suki leads parallel squads. Aang routes the work through `avatar-mode`.
 
 ```bash
 claude plugin marketplace add tmcfarlane/oh-my-cursor && claude plugin install team-avatar@team-avatar

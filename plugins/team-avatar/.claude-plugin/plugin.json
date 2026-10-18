@@ -1,7 +1,7 @@
 {
   "name": "team-avatar",
   "displayName": "Team Avatar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Principal-level engineering skills, each owned by a character from Avatar: The Last Airbender. Aang routes the work through avatar-mode.",
   "author": {
     "name": "Trent McFarlane",

@@ -2,40 +2,31 @@
 
 Principal-level engineering skills for Claude Code and Codex. Each skill belongs to a character from *Avatar: The Last Airbender*, and each character owns the discipline that fits who they are. Aang routes the work through `avatar-mode`. The rest of the team does the part they are best at.
 
-The approach draws on pstack's poteto mode: read before you claim, name the data shape before you write logic, ship the smallest change the evidence justifies, and prove it on the real artifact.
+The ground rules are the same everywhere. Read before you claim. Name the data shape before you write logic. Ship the smallest change the evidence justifies. Prove it on the real artifact. Team Avatar adapts pstack's poteto mode, and [NOTICE.md](NOTICE.md) credits every upstream source.
 
 ## The team
 
-| Character | Why them | Discipline | Skills |
-|-----------|----------|------------|--------|
-| Aang | The Avatar balances all four elements and refuses false choices. | Orchestration and the final call | `avatar-mode`, `four-elements` |
-| Sokka | No bending, just plans, maps, and a boomerang that comes back. | Planning and architecture | `master-plan`, `war-room` |
-| Toph | Blind, sees everything through vibrations, and does not care about your feelings. | Investigation and blunt review | `seismic-sense`, `earth-rumble` |
-| Katara | A healer who finds the blockage and uses the least force that heals. | Debugging and tests | `healing-water`, `push-and-pull` |
-| Zuko | Learned that fire comes from the breath, and that honor comes from owning mistakes. | Performance and incidents | `breath-of-fire`, `redemption-arc` |
-| Iroh | Explains hard things simply and never wastes a word or a tea leaf. | Writing and teaching | `tea-time`, `white-lotus` |
-| Appa | Carries the whole team, steadily, the whole way. | Faithful execution and shipping | `steady-flight`, `yip-yip` |
-| Momo | Flies ahead, looks, and comes back fast. | Throwaway spikes and quick tasks | `scouting-flight` |
+<!-- team:roster:start -->
+| Character | Discipline | Skills |
+|-----------|------------|--------|
+| Aang | Orchestration, history, and the final call | `avatar-mode`, `four-elements`, `past-lives`, `spirit-world`, `iceberg-wake`, `meditation`, `avatar-setup`, `avatar-help` |
+| Sokka | Planning, architecture, and inventions | `master-plan`, `war-room`, `day-of-black-sun`, `battle-map`, `war-journal`, `invention-workshop`, `sharpen-the-sword` |
+| Toph | Investigation and blunt review | `seismic-sense`, `earth-rumble`, `metalbending`, `lie-detector`, `my-cabbages`, `plain-talk` |
+| Katara | Debugging, tests, and code health | `healing-water`, `push-and-pull`, `heal-ci`, `purify`, `clear-water`, `vital-signs`, `checkup`, `typescript-forms` |
+| Zuko | Performance, forensics, and incidents | `breath-of-fire`, `steady-flame`, `dragon-dance`, `ember-trace`, `twin-flames`, `agni-kai`, `redemption-arc`, `honor-code` |
+| Iroh | Writing, teaching, and skill craft | `tea-time`, `white-lotus`, `what-you-seek`, `new-scroll`, `pai-sho` |
+| Appa | Execution, shipping, and PR care | `steady-flight`, `yip-yip`, `light-load`, `long-flight`, `safe-landing`, `clear-skies`, `messenger-hawk`, `make-camp`, `break-camp`, `shedding-season` |
+| Momo | Throwaway spikes and quick tasks | `scouting-flight` |
+| Suki | Parallel squads and long autonomous runs | `kyoshi-formation`, `kyoshi-command`, `night-watch`, `full-patrol`, `shield-wall` |
+<!-- team:roster:end -->
 
-## The skills
+## How it fits together
 
-| Skill | Use it for |
-|-------|------------|
-| `avatar-mode` | The entry point. Routes any nontrivial task and sets the non-negotiables. |
-| `four-elements` | The principles. Air subtracts, Water adapts, Earth holds, Fire drives. |
-| `master-plan` | Breaking multi-step work into units that each end in a check. |
-| `war-room` | Comparing competing designs and recording the decision. |
-| `seismic-sense` | Read-only investigation with a `file:line` for every claim. |
-| `earth-rumble` | Severity-ranked review where every finding is verified. |
-| `healing-water` | Reproduce, root-cause, and fix a bug with runtime evidence. |
-| `push-and-pull` | Test-first rhythm and tests that assert behavior. |
-| `breath-of-fire` | Performance work against a measured baseline. |
-| `redemption-arc` | Incident response and blameless postmortems. |
-| `tea-time` | Docs, PR descriptions, commit messages, and every reply. |
-| `white-lotus` | Teaching, explaining, and onboarding. |
-| `steady-flight` | Executing an existing plan one verified unit at a time. |
-| `yip-yip` | Opening a PR and driving it to merge-ready. |
-| `scouting-flight` | Prototypes that settle a question by observation. |
+- **`avatar-mode` is the front door.** Ask for it with a task in plain words. Aang picks the character and the skill chain, and holds the rules every skill follows.
+- **`four-elements` holds the principles.** Air subtracts, Water adapts, Earth holds, Fire drives. Each principle has its own reference file.
+- **The session hook turns avatar mode on for you.** When a session starts, it tells the agent to route nontrivial work through `avatar-mode`. Turn it off with `session hook: off` in the model sheet.
+- **`avatar-setup` picks the models.** It writes a small sheet (`~/.claude/team-avatar-models.md` or `~/.codex/team-avatar-models.md`) with one model per character, a `panel` of models for multi-model reviews, and the hook switch. With no sheet, the defaults apply.
+- **`avatar-help` explains all of this to a new user**, with prompt recipes.
 
 ## Install
 
@@ -61,12 +52,24 @@ Start a session and ask for `$avatar-mode`, or call a skill directly, for exampl
 
 To try a local checkout, pass its path instead of `tmcfarlane/oh-my-cursor`.
 
+## Requirements
+
+Most skills need nothing but the agent. A few drive helper tools:
+
+- `long-flight`, `safe-landing`, and `kyoshi-command` run the [bun](https://bun.sh) tools in `tools/` (the PR watcher, the shipping gate, and the orchestration store). The tools install their one dependency on first run.
+- `master-plan`, `make-camp`, `shedding-season`, `meditation`, and `avatar-mode` ship small scripts that run with plain `node`, `sh`, or `bash`.
+- PR skills use the GitHub CLI (`gh`).
+
 ## Develop
 
-Run the validator before you commit:
+Every skill has an owner in [team.json](team.json). The roster tables in this README, in `avatar-mode`, and in each character file are generated from it. To add or move a skill, edit `team.json`, then run both scripts from the repository root:
+
+```bash
+node scripts/generate-team-avatar.mjs
+```
 
 ```bash
 node scripts/validate-team-avatar.mjs
 ```
 
-It checks skill and agent frontmatter, that every referenced skill exists, that every skill appears in the `avatar-mode` team table, that links resolve, that all manifests agree on name and version, and that no file uses a long dash. CI runs it on every pull request that touches the plugin.
+The validator checks skill and agent frontmatter, that every skill is registered and owned by a real character, that the generated tables are current, that referenced skills and links exist, that all manifests agree on name and version, and that no file uses a long dash or an upstream name. CI runs it, and the `tools/` test suite, on every pull request that touches the plugin. `new-scroll` walks through writing a new skill.

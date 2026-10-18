@@ -1,6 +1,6 @@
 {
   "name": "team-avatar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Principal-level engineering skills, each owned by a character from Avatar: The Last Airbender. Aang routes the work through avatar-mode. Tool names resolve through skills/avatar-mode/references/codex.md.",
   "author": {
     "name": "Trent McFarlane",
@@ -11,6 +11,7 @@
   "license": "MIT",
   "keywords": ["team-avatar", "avatar-mode", "skills", "principal-engineering", "workflow", "codex", "claude-code"],
   "skills": "./skills/",
+  "hooks": "./hooks/codex-hooks.json",
   "interface": {
     "displayName": "Team Avatar",
     "shortDescription": "Principal-level engineering skills with an Avatar cast",

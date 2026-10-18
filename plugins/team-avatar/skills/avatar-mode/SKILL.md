@@ -33,7 +33,7 @@ Keep the todolist in the session's task tools. On Claude Code these are `TaskCre
 
 ## Route the task
 
-Match the request to a row, then open a todolist whose first items are that skill's steps, copied in verbatim, before any task-specific todos. A step you choose not to do stays in the list with a one-line `skip: <reason>`. When a chain names several skills, their steps go in the list in chain order.
+Match the request to a row, then load that skill before you do anything else. On Claude Code, call the Skill tool with `team-avatar:<name>`. On Codex, invoke `$<name>`. The route table names the skill. It does not hold the skill's steps, so never work from the table alone, even when the task looks small. Then open a todolist whose first items are that skill's steps, copied in verbatim, before any task-specific todos. A step you choose not to do stays in the list with a one-line `skip: <reason>`. When a chain names several skills, their steps go in the list in chain order.
 
 **Understand**
 

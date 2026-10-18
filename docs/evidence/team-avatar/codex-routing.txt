@@ -1,0 +1,4 @@
+$ codex exec 'Use $avatar-mode. Do not change any files. A user says: "Checkout got slow after last week's deploy, p95 went from 200ms to 900ms." Which character and skill chain does avatar-mode route this to, and what is the first step of that skill? Answer in at most four short lines.'
+
+Zuko: `avatar-mode` → `breath-of-fire` → `yip-yip` ([routing](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.1.0/skills/avatar-mode/SKILL.md:39), [handoff](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.1.0/skills/breath-of-fire/SKILL.md:29)).
+First: **Set the target**. Name the metric, workload, and success threshold ([step 1](/Users/tmcfarlane/.codex/plugins/cache/team-avatar/team-avatar/0.1.0/skills/breath-of-fire/SKILL.md:12)).

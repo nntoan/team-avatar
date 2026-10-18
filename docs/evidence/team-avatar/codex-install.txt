@@ -1,0 +1,2 @@
+$ codex plugin list   (team-avatar entry)
+team-avatar@team-avatar  installed, enabled  0.1.0    /Users/tmcfarlane/repo/oh-my-cursor/plugins/team-avatar

@@ -37,6 +37,20 @@ _Created by <a href="https://zeroclickdev.ai/">ZeroClickDev</a>_
 > that holds risky calls (~84% fewer prompts) · paste-in [`/automate` recipes](automations/README.md) ·
 > Windows parity. See the [validated reference](VALIDATION.md) · [contributions welcome](CONTRIBUTING.md).
 
+## New: Team Avatar skills for Claude Code and Codex (preview)
+
+Team Avatar is becoming a universal set of principal-level engineering skills. Each character owns a discipline: Sokka plans, Toph investigates and reviews, Katara heals bugs, Zuko owns performance and incidents, Iroh writes and teaches, Appa ships, and Momo scouts. Aang routes the work through `avatar-mode`.
+
+```bash
+claude plugin marketplace add tmcfarlane/oh-my-cursor && claude plugin install team-avatar@team-avatar
+```
+
+```bash
+codex plugin marketplace add tmcfarlane/oh-my-cursor && codex plugin add team-avatar@team-avatar
+```
+
+See [plugins/team-avatar](plugins/team-avatar/README.md) for the roster and every skill. The Cursor install below is unchanged.
+
 ## Quick Start (One Command)
 
 **macOS / Linux:**

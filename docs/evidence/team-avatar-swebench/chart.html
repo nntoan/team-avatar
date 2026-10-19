@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><title>SWE-bench Verified Mini</title>
+<style>
+body{margin:0;background:#fcfcfb;color:#1f1f1d;font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:28px 32px;width:1180px}
+h1{font-size:22px;margin:0 0 4px}p{margin:0 0 16px;color:#5b5a54}
+.legend{display:flex;gap:18px;color:#5b5a54;font-size:14px;margin-bottom:10px}.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.panels{display:flex;gap:48px}.panel{flex:1}.panel h2{font-size:16px;margin:0 0 10px}
+.row{display:flex;align-items:center;gap:10px;margin:8px 0}.lab{width:110px;color:#5b5a54;font-size:13px;text-align:right}
+.track{width:220px;flex:none;height:26px}.bar{height:26px;border-radius:4px}.val{font-size:13px;margin-left:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.foot{margin-top:18px;color:#5b5a54;font-size:13px}
+</style>
+<h1>SWE-bench Verified Mini, official harness, 50 tasks</h1>
+<p>Share of tasks resolved, one attempt per task. Bars start at 0. Neither tool's gap between setups is statistically significant.</p>
+<div class="legend"><span><i style="background:#2a78d6"></i>Without Team Avatar</span><span><i style="background:#eb6834"></i>Team Avatar installed</span><span><i style="background:#1baf7a"></i>Team Avatar, asked by name</span></div>
+<div class="panels">
+<div class="panel"><h2>Claude Code</h2>
+<div class="row"><div class="lab">Without</div><div class="track"><div class="bar" style="width:96%;background:#2a78d6"></div></div><span class="val">96% (48/50), $0.36/task</span></div>
+<div class="row"><div class="lab">Installed</div><div class="track"><div class="bar" style="width:100%;background:#eb6834"></div></div><span class="val">100% (50/50), $0.49/task</span></div>
+<div class="row"><div class="lab">Asked by name</div><div class="track"><div class="bar" style="width:96%;background:#1baf7a"></div></div><span class="val">96% (48/50), $0.69/task</span></div>
+</div>
+<div class="panel"><h2>Codex</h2>
+<div class="row"><div class="lab">Without</div><div class="track"><div class="bar" style="width:84%;background:#2a78d6"></div></div><span class="val">84% (42/50), 792k tokens/task</span></div>
+<div class="row"><div class="lab">Installed</div><div class="track"><div class="bar" style="width:82%;background:#eb6834"></div></div><span class="val">82% (41/50), 2,041k tokens/task</span></div>
+</div></div>
+<div class="foot">Paired exact McNemar test: Claude Code installed vs without p = 0.50, asked by name vs without p = 1.00, Codex installed vs without p = 1.00.</div>

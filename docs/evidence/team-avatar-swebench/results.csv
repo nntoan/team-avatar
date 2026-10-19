@@ -1,0 +1,251 @@
+model,instance_id,repo,resolved,status,seconds,tokens,cost_usd,patch_lines,skills
+claude-invoked,django__django-11790,django/django,true,resolved,53,550916,0.4990012,16,
+claude-invoked,django__django-11815,django/django,true,resolved,99,791421,0.6348342,24,
+claude-invoked,django__django-11848,django/django,true,resolved,80,700901,0.7673148000000002,23,healing-water
+claude-invoked,django__django-11880,django/django,true,resolved,51,626127,0.5187646,43,
+claude-invoked,django__django-11885,django/django,true,resolved,173,1054100,0.8673354,144,
+claude-invoked,django__django-11951,django/django,true,resolved,56,618862,0.5008085999999999,15,
+claude-invoked,django__django-11964,django/django,true,resolved,74,715199,0.570267,20,healing-water
+claude-invoked,django__django-11999,django/django,true,resolved,101,638321,0.5258894,19,healing-water
+claude-invoked,django__django-12039,django/django,true,resolved,86,794627,0.6463485999999999,70,
+claude-invoked,django__django-12050,django/django,true,resolved,34,366489,0.40383060000000004,14,
+claude-invoked,django__django-12143,django/django,true,resolved,46,568036,0.5075221999999999,16,healing-water
+claude-invoked,django__django-12155,django/django,true,resolved,131,1172532,0.8134453999999999,56,healing-water
+claude-invoked,django__django-12193,django/django,true,resolved,63,697055,0.5416932,16,healing-water
+claude-invoked,django__django-12209,django/django,true,resolved,60,566820,0.5256288,42,
+claude-invoked,django__django-12262,django/django,true,resolved,61,651829,0.5792375999999999,14,healing-water
+claude-invoked,django__django-12273,django/django,true,resolved,162,1082387,0.751985,43,healing-water
+claude-invoked,django__django-12276,django/django,true,resolved,54,558564,0.47825579999999995,25,
+claude-invoked,django__django-12304,django/django,true,resolved,51,443165,0.48965719999999996,14,
+claude-invoked,django__django-12308,django/django,true,resolved,65,569975,0.5123944,17,healing-water
+claude-invoked,django__django-12325,django/django,true,resolved,106,784727,0.6620356000000001,14,
+claude-invoked,django__django-12406,django/django,false,unresolved,76,585736,0.5642864,40,healing-water
+claude-invoked,django__django-12708,django/django,true,resolved,68,870033,0.6228471999999999,45,healing-water
+claude-invoked,django__django-12713,django/django,true,resolved,41,580537,0.5157566000000001,41,healing-water
+claude-invoked,django__django-12774,django/django,true,resolved,77,980988,0.6605057999999997,56,
+claude-invoked,django__django-9296,django/django,true,resolved,63,748689,0.5313996,50,
+claude-invoked,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,66,731920,0.6002554000000001,17,healing-water
+claude-invoked,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,true,resolved,114,1023308,0.6987370000000002,20,healing-water
+claude-invoked,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,93,651782,0.5570072,15,
+claude-invoked,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,195,1894213,1.0958316000000001,123,
+claude-invoked,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,true,resolved,186,1378564,0.9170946000000001,78,healing-water
+claude-invoked,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,true,resolved,151,1506907,1.0383514000000003,134,
+claude-invoked,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,198,1644002,1.0773692000000001,136,
+claude-invoked,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,70,501706,0.5292172,43,
+claude-invoked,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,true,resolved,90,975265,0.705436,46,
+claude-invoked,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,100,913127,0.6884724000000001,94,
+claude-invoked,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,115,1192122,0.8427572000000002,39,healing-water
+claude-invoked,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,56,443055,0.4777114,32,
+claude-invoked,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,144,1332597,0.8490856000000002,58,healing-water
+claude-invoked,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,182,1787058,0.9564716,36,
+claude-invoked,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,258,2302004,1.3596530000000002,150,healing-water
+claude-invoked,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,133,1426745,0.8645712000000002,28,healing-water
+claude-invoked,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,125,850382,0.6417164,27,
+claude-invoked,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,138,952020,0.7207946,16,healing-water
+claude-invoked,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,true,resolved,153,1683343,1.0253134,58,
+claude-invoked,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,105,855636,0.6657016000000002,14,healing-water
+claude-invoked,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,108,842775,0.6093442000000001,15,healing-water
+claude-invoked,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,92,1041333,0.6745114000000001,27,healing-water
+claude-invoked,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,31,430473,0.42912100000000003,21,
+claude-invoked,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,576,2002631,1.249308,169,healing-water
+claude-invoked,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,47,567737,0.5026858,14,healing-water
+claude-with,django__django-11790,django/django,true,resolved,81,507361,0.3947862,16,
+claude-with,django__django-11815,django/django,true,resolved,102,466041,0.381783,19,
+claude-with,django__django-11848,django/django,true,resolved,40,300711,0.31836960000000003,23,
+claude-with,django__django-11880,django/django,true,resolved,53,348373,0.2856318,13,
+claude-with,django__django-11885,django/django,true,resolved,193,883375,0.7016865999999999,144,
+claude-with,django__django-11951,django/django,true,resolved,34,399220,0.31717780000000007,15,
+claude-with,django__django-11964,django/django,true,resolved,87,473644,0.4073995999999999,20,
+claude-with,django__django-11999,django/django,true,resolved,49,351777,0.33051280000000005,18,
+claude-with,django__django-12039,django/django,true,resolved,64,421776,0.386591,33,
+claude-with,django__django-12050,django/django,true,resolved,60,503682,0.3678142,14,
+claude-with,django__django-12143,django/django,true,resolved,45,245605,0.2658574,14,
+claude-with,django__django-12155,django/django,true,resolved,40,405916,0.3565486,19,
+claude-with,django__django-12193,django/django,true,resolved,32,313698,0.33079080000000005,16,healing-water
+claude-with,django__django-12209,django/django,true,resolved,53,302388,0.3117714,13,
+claude-with,django__django-12262,django/django,true,resolved,82,514560,0.41291800000000006,14,
+claude-with,django__django-12273,django/django,true,resolved,88,574098,0.43927219999999995,15,
+claude-with,django__django-12276,django/django,true,resolved,63,408551,0.34884180000000004,25,
+claude-with,django__django-12304,django/django,true,resolved,68,366871,0.3811884,13,
+claude-with,django__django-12308,django/django,true,resolved,73,469440,0.3764514,17,
+claude-with,django__django-12325,django/django,true,resolved,390,987118,0.6726118000000001,38,
+claude-with,django__django-12406,django/django,true,resolved,616,450864,0.7777296000000001,53,
+claude-with,django__django-12708,django/django,true,resolved,168,631507,0.4613672000000001,46,
+claude-with,django__django-12713,django/django,true,resolved,133,515111,0.4108567999999999,41,
+claude-with,django__django-12774,django/django,true,resolved,81,748314,0.517334,40,
+claude-with,django__django-9296,django/django,true,resolved,63,691798,0.4418262,51,
+claude-with,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,80,654521,0.49681720000000007,17,healing-water
+claude-with,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,true,resolved,54,480072,0.39231720000000003,20,
+claude-with,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,30,196359,0.28442800000000007,15,
+claude-with,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,235,1183544,0.8167897999999999,84,
+claude-with,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,true,resolved,266,880906,0.683249,82,healing-water
+claude-with,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,true,resolved,150,1128775,0.8848682000000001,147,
+claude-with,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,true,resolved,108,915935,0.6841172,89,
+claude-with,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,46,520219,0.4260408,46,
+claude-with,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,true,resolved,102,884171,0.6515685999999999,52,
+claude-with,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,88,933850,0.5946580000000001,93,
+claude-with,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,101,1076390,0.6802136,40,
+claude-with,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,44,523463,0.43949299999999997,30,
+claude-with,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,26,293991,0.3014574,13,
+claude-with,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,38,353070,0.32948500000000003,39,
+claude-with,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,360,2478226,1.3217871999999997,238,healing-water
+claude-with,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,76,713506,0.5192100000000001,27,
+claude-with,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,26,253911,0.30587,14,
+claude-with,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,23,247205,0.2761164,16,
+claude-with,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,true,resolved,193,1850083,1.0451608000000001,46,healing-water
+claude-with,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,89,756483,0.5602885999999999,27,
+claude-with,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,83,627424,0.46746920000000003,15,
+claude-with,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,33,241779,0.2874692,27,
+claude-with,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,34,297150,0.29495400000000005,16,
+claude-with,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,617,1575737,1.0412257999999999,173,
+claude-with,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,26,247335,0.27342920000000004,14,
+claude-without,django__django-11790,django/django,true,resolved,60,326572,0.24443620000000002,16,
+claude-without,django__django-11815,django/django,true,resolved,102,434125,0.3236934,19,
+claude-without,django__django-11848,django/django,true,resolved,70,467085,0.3622556,24,
+claude-without,django__django-11880,django/django,true,resolved,63,369391,0.2603792,13,
+claude-without,django__django-11885,django/django,true,resolved,186,764802,0.5853008,159,
+claude-without,django__django-11951,django/django,true,resolved,39,281711,0.21411380000000002,15,
+claude-without,django__django-11964,django/django,true,resolved,48,376061,0.2693698,20,
+claude-without,django__django-11999,django/django,true,resolved,91,417361,0.30917039999999996,23,
+claude-without,django__django-12039,django/django,true,resolved,68,573657,0.3988342,68,
+claude-without,django__django-12050,django/django,true,resolved,79,453379,0.28448860000000004,15,
+claude-without,django__django-12143,django/django,true,resolved,24,119536,0.16194500000000003,14,
+claude-without,django__django-12155,django/django,true,resolved,38,288240,0.2351866,19,
+claude-without,django__django-12193,django/django,true,resolved,23,243826,0.21236,16,
+claude-without,django__django-12209,django/django,true,resolved,63,333209,0.2767992,19,
+claude-without,django__django-12262,django/django,true,resolved,46,244884,0.2229852,14,
+claude-without,django__django-12273,django/django,true,resolved,99,427108,0.355794,15,
+claude-without,django__django-12276,django/django,true,resolved,51,334369,0.2461276,25,
+claude-without,django__django-12304,django/django,true,resolved,85,464737,0.3225159999999999,15,
+claude-without,django__django-12308,django/django,true,resolved,74,419369,0.2936041999999999,17,
+claude-without,django__django-12325,django/django,true,resolved,553,893881,0.5401794,32,
+claude-without,django__django-12406,django/django,false,unresolved,59,292760,0.2728748,40,
+claude-without,django__django-12708,django/django,true,resolved,186,715286,0.4577702,19,
+claude-without,django__django-12713,django/django,true,resolved,98,469414,0.3299128,41,
+claude-without,django__django-12774,django/django,true,resolved,50,415951,0.2910846,24,
+claude-without,django__django-9296,django/django,true,resolved,81,465706,0.3372922,51,
+claude-without,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,91,341545,0.2903062,17,
+claude-without,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,true,resolved,120,548477,0.38705979999999995,20,
+claude-without,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,38,423436,0.29682959999999997,15,
+claude-without,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,188,1019756,0.7109325999999999,83,
+claude-without,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,true,resolved,156,760596,0.517315,75,
+claude-without,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,true,resolved,176,896748,0.6476622000000002,105,
+claude-without,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,127,587765,0.4883006,119,
+claude-without,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,43,330871,0.296056,46,
+claude-without,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,true,resolved,81,912279,0.5880228000000001,49,
+claude-without,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,43,470750,0.3517686000000001,80,
+claude-without,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,120,657839,0.4858962,39,
+claude-without,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,50,341235,0.3237571999999999,36,
+claude-without,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,33,382330,0.27437000000000006,26,
+claude-without,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,44,511651,0.34044979999999997,36,
+claude-without,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,134,1031385,0.6715490000000001,78,
+claude-without,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,57,438189,0.3315142,15,
+claude-without,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,78,759479,0.43809480000000006,27,
+claude-without,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,19,153978,0.18410919999999997,16,
+claude-without,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,true,resolved,107,771543,0.5699333999999999,47,
+claude-without,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,114,730217,0.5115062,27,
+claude-without,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,40,417374,0.30216679999999996,15,
+claude-without,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,29,195904,0.1980856,27,
+claude-without,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,43,279400,0.24071760000000003,16,
+claude-without,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,145,869744,0.7038641999999999,156,
+claude-without,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,17,244103,0.20575600000000002,14,
+codex-with,django__django-11790,django/django,false,unresolved,190,821496,,13,healing-water push-and-pull purify clear-water earth-rumble tea-time
+codex-with,django__django-11815,django/django,true,resolved,247,1709762,,20,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble
+codex-with,django__django-11848,django/django,true,resolved,156,824312,,21,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-11880,django/django,true,resolved,175,922536,,47,healing-water tea-time purify clear-water earth-rumble push-and-pull
+codex-with,django__django-11885,django/django,true,resolved,278,2025752,,169,healing-water push-and-pull tea-time war-room purify clear-water earth-rumble
+codex-with,django__django-11951,django/django,true,resolved,241,1275870,,15,healing-water push-and-pull purify clear-water tea-time earth-rumble
+codex-with,django__django-11964,django/django,true,resolved,182,1077887,,34,healing-water push-and-pull purify clear-water tea-time earth-rumble
+codex-with,django__django-11999,django/django,true,resolved,343,2181717,,14,healing-water push-and-pull avatar-mode tea-time purify clear-water four-elements earth-rumble
+codex-with,django__django-12039,django/django,true,resolved,255,1172053,,90,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-12050,django/django,true,resolved,194,1486271,,14,healing-water tea-time push-and-pull avatar-mode purify clear-water earth-rumble
+codex-with,django__django-12143,django/django,true,resolved,201,1595135,,14,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-12155,django/django,true,resolved,145,1254852,,14,healing-water purify clear-water tea-time earth-rumble
+codex-with,django__django-12193,django/django,true,resolved,212,1347152,,16,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble
+codex-with,django__django-12209,django/django,true,resolved,299,2595255,,121,healing-water push-and-pull avatar-mode tea-time purify clear-water earth-rumble four-elements
+codex-with,django__django-12262,django/django,true,resolved,193,1224985,,14,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble
+codex-with,django__django-12273,django/django,false,unresolved,207,1553441,,14,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-12276,django/django,true,resolved,167,969956,,53,healing-water tea-time push-and-pull avatar-setup purify clear-water earth-rumble
+codex-with,django__django-12304,django/django,true,resolved,151,854434,,14,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-12308,django/django,true,resolved,163,1050594,,18,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble
+codex-with,django__django-12325,django/django,true,resolved,251,1662722,,61,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-12406,django/django,true,resolved,256,1696258,,83,healing-water push-and-pull avatar-mode tea-time purify clear-water war-room earth-rumble
+codex-with,django__django-12708,django/django,true,resolved,235,1920617,,68,healing-water push-and-pull avatar-mode tea-time purify clear-water seismic-sense earth-rumble
+codex-with,django__django-12713,django/django,true,resolved,172,1315982,,33,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble four-elements
+codex-with,django__django-12774,django/django,true,resolved,193,1388659,,20,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,django__django-9296,django/django,true,resolved,157,1021783,,50,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,232,1776481,,43,healing-water push-and-pull avatar-mode seismic-sense past-lives tea-time purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,false,unresolved,293,2199846,,18,healing-water avatar-mode push-and-pull tea-time purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,251,2098342,,14,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,320,3328102,,200,healing-water avatar-mode push-and-pull tea-time war-room purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,false,unresolved,382,3474641,,130,healing-water avatar-setup seismic-sense push-and-pull tea-time war-room purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,false,unresolved,363,2653568,,89,healing-water push-and-pull avatar-mode tea-time war-room seismic-sense purify clear-water earth-rumble four-elements
+codex-with,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,302,2324135,,219,healing-water tea-time push-and-pull war-room purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,158,1331116,,53,healing-water push-and-pull seismic-sense purify clear-water tea-time earth-rumble
+codex-with,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,false,unresolved,409,2954926,,51,healing-water push-and-pull tea-time purify clear-water earth-rumble metalbending war-room
+codex-with,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,251,1869919,,113,healing-water push-and-pull seismic-sense war-room purify clear-water tea-time earth-rumble
+codex-with,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,234,2097238,,33,healing-water push-and-pull tea-time avatar-mode seismic-sense past-lives purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,327,2903257,,50,healing-water avatar-setup push-and-pull seismic-sense past-lives tea-time purify clear-water earth-rumble war-room
+codex-with,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,209,1820450,,13,healing-water push-and-pull tea-time purify clear-water
+codex-with,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,154,1161279,,23,healing-water purify clear-water push-and-pull tea-time earth-rumble
+codex-with,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,959,7526019,,328,healing-water avatar-mode push-and-pull tea-time war-room purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,202,2498480,,16,healing-water push-and-pull purify clear-water earth-rumble tea-time
+codex-with,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,256,2685840,,14,healing-water avatar-mode tea-time push-and-pull purify clear-water earth-rumble seismic-sense
+codex-with,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,224,2851623,,49,healing-water avatar-mode tea-time purify clear-water earth-rumble four-elements
+codex-with,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,false,unresolved,944,8210527,,88,healing-water push-and-pull avatar-mode tea-time seismic-sense war-room purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,210,1870732,,14,healing-water push-and-pull avatar-mode tea-time purify clear-water seismic-sense past-lives earth-rumble
+codex-with,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,267,1887474,,14,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,205,1334612,,14,healing-water push-and-pull tea-time purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,101,684026,,16,healing-water push-and-pull purify clear-water tea-time
+codex-with,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,false,unresolved,473,3831884,,81,healing-water tea-time push-and-pull war-room purify clear-water earth-rumble
+codex-with,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,153,1701623,,14,healing-water push-and-pull tea-time avatar-mode purify clear-water four-elements earth-rumble
+codex-without,django__django-11790,django/django,true,resolved,100,412860,,16,
+codex-without,django__django-11815,django/django,true,resolved,186,671291,,15,
+codex-without,django__django-11848,django/django,true,resolved,118,474538,,23,
+codex-without,django__django-11880,django/django,true,resolved,61,245450,,48,
+codex-without,django__django-11885,django/django,true,resolved,240,741506,,164,
+codex-without,django__django-11951,django/django,true,resolved,86,439933,,15,
+codex-without,django__django-11964,django/django,true,resolved,173,375798,,52,
+codex-without,django__django-11999,django/django,true,resolved,98,404245,,20,
+codex-without,django__django-12039,django/django,true,resolved,143,670602,,91,
+codex-without,django__django-12050,django/django,true,resolved,84,292950,,14,
+codex-without,django__django-12143,django/django,true,resolved,88,336906,,14,
+codex-without,django__django-12155,django/django,true,resolved,143,507786,,17,
+codex-without,django__django-12193,django/django,true,resolved,129,590164,,16,
+codex-without,django__django-12209,django/django,true,resolved,172,792141,,126,
+codex-without,django__django-12262,django/django,true,resolved,154,618957,,14,
+codex-without,django__django-12273,django/django,false,unresolved,199,969974,,33,
+codex-without,django__django-12276,django/django,true,resolved,120,500084,,50,
+codex-without,django__django-12304,django/django,true,resolved,91,265669,,16,
+codex-without,django__django-12308,django/django,true,resolved,161,674721,,25,
+codex-without,django__django-12325,django/django,true,resolved,128,926850,,93,
+codex-without,django__django-12406,django/django,true,resolved,137,774461,,102,
+codex-without,django__django-12708,django/django,true,resolved,116,455586,,50,
+codex-without,django__django-12713,django/django,true,resolved,60,212417,,33,
+codex-without,django__django-12774,django/django,true,resolved,132,584945,,54,
+codex-without,django__django-9296,django/django,true,resolved,191,309979,,50,
+codex-without,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,132,609924,,54,
+codex-without,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,false,unresolved,147,793212,,31,
+codex-without,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,182,1269225,,26,
+codex-without,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,364,1987435,,275,
+codex-without,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,false,unresolved,320,1972733,,117,
+codex-without,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,false,unresolved,165,992665,,104,
+codex-without,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,209,1448254,,181,
+codex-without,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,104,566429,,63,
+codex-without,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,false,unresolved,196,1185347,,182,
+codex-without,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,180,860282,,130,
+codex-without,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,226,1203765,,67,
+codex-without,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,156,838749,,70,
+codex-without,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,142,582768,,13,
+codex-without,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,119,597643,,23,
+codex-without,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,402,2533792,,308,
+codex-without,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,146,796708,,41,
+codex-without,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,134,604786,,14,
+codex-without,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,304,1684318,,151,
+codex-without,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,false,unresolved,256,1271992,,107,
+codex-without,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,116,859593,,43,
+codex-without,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,false,unresolved,142,679583,,64,
+codex-without,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,103,496230,,14,
+codex-without,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,59,303248,,16,
+codex-without,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,343,1813863,,249,
+codex-without,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,56,382215,,14,

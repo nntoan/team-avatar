@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-// A/B benchmark: the same tasks with and without Team Avatar, on Claude Code or Codex.
+// A/B benchmark: the same tasks with Team Avatar, with pstack, or with neither, on Claude Code or Codex.
 //
-//   node evals/team-avatar/bench/bench.mjs --runtime claude|codex --arm with|without [--repeat 3] [--jobs 4] [--tasks id,id] [--out dir]
+//   node evals/team-avatar/bench/bench.mjs --runtime claude|codex --arm without|with|invoked|pstack|pstack-invoked [--repeat 3] [--jobs 4] [--tasks id,id] [--out dir]
 //   node evals/team-avatar/bench/bench.mjs --grade-dir <repo> --task <id> [--final reply.txt]   # score an existing repo
 //
-// Every arm runs with the other workflow plugins switched off, so Team Avatar is
-// the only difference. "with" installs it and leaves the prompt alone. "invoked"
-// also starts the prompt with avatar mode, the way a user who asks for it would. Hidden graders in hidden/ never enter the agent's repo
-// until the run is over.
+// Every arm runs with every other workflow plugin switched off, so the plugin under test
+// is the only difference. "with" and "pstack" install one plugin and leave the prompt
+// alone. "invoked" and "pstack-invoked" also start the prompt with that plugin's mode,
+// the way a user who asks for it would. Hidden graders in hidden/ never enter the
+// agent's repo until the run is over.
 
 import { spawn, spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
@@ -25,8 +26,9 @@ if (args["grade-dir"]) {
   args.arm ??= "with";
 }
 const { runtime, arm } = args;
-if (!["claude", "codex"].includes(runtime) || !["with", "without", "invoked"].includes(arm)) {
-  console.error("usage: bench.mjs --runtime claude|codex --arm with|without|invoked [--repeat n] [--jobs n] [--tasks id,id] [--out dir]");
+const ARMS = ["without", "with", "invoked", "pstack", "pstack-invoked"];
+if (!["claude", "codex"].includes(runtime) || !ARMS.includes(arm)) {
+  console.error(`usage: bench.mjs --runtime claude|codex --arm ${ARMS.join("|")} [--repeat n] [--jobs n] [--tasks id,id] [--out dir]`);
   process.exit(2);
 }
 const repeat = Number(args.repeat ?? 3);
@@ -55,28 +57,36 @@ function setup(task, rep) {
   return dir;
 }
 
+const plugin = arm.startsWith("pstack") ? "pstack" : arm === "without" ? null : "team-avatar";
+const PSTACK_CACHE = join(process.env.HOME, ".claude", "plugins", "cache", "pstack-claude", "pstack");
+const pstackDir = () => join(PSTACK_CACHE, readdirSync(PSTACK_CACHE).filter((v) => /^\d/.test(v)).sort((a, b) => a.localeCompare(b, undefined, { numeric: true })).pop());
+
 function command(dir, finalFile, prompt) {
   if (runtime === "claude") {
     return ["claude", [
       "-p", prompt, "--output-format", "stream-json", "--verbose",
       "--permission-mode", "acceptEdits", "--allowedTools", "Bash,Read,Edit,Write,Glob,Grep,Skill,Agent,Task,TodoWrite",
       "--no-session-persistence", "--setting-sources", "project,local",
-      ...(arm !== "without" ? ["--plugin-dir", PLUGIN] : []),
+      ...(plugin === "team-avatar" ? ["--plugin-dir", PLUGIN] : plugin === "pstack" ? ["--plugin-dir", pstackDir()] : []),
     ]];
   }
   return ["codex", [
     "exec", "--json", "--skip-git-repo-check", "-s", "workspace-write", "-C", dir, "-o", finalFile,
     "--dangerously-bypass-hook-trust",
-    "-c", "plugins.pstack@pstack-claude.enabled=false", "-c", "plugins.tstack@personal.enabled=false",
-    ...(arm === "without" ? ["-c", "plugins.team-avatar@team-avatar.enabled=false"] : []),
+    "-c", "plugins.tstack@personal.enabled=false",
+    ...(plugin !== "pstack" ? ["-c", "plugins.pstack@pstack-claude.enabled=false"] : []),
+    ...(plugin !== "team-avatar" ? ["-c", "plugins.team-avatar@team-avatar.enabled=false"] : []),
     prompt,
   ]];
 }
 
-const INVOKE = { claude: "/team-avatar:avatar-mode ", codex: "$avatar-mode " };
+const INVOKE = {
+  "invoked": { claude: "/team-avatar:avatar-mode ", codex: "$avatar-mode " },
+  "pstack-invoked": { claude: "/pstack:poteto-mode ", codex: "$poteto-mode " },
+};
 
 function runAgent(dir, finalFile, task) {
-  const prompt = (arm === "invoked" ? INVOKE[runtime] : "") + task.prompt;
+  const prompt = (INVOKE[arm]?.[runtime] ?? "") + task.prompt;
   const [bin, argv] = command(dir, finalFile, prompt);
   const started = Date.now();
   return new Promise((done) => {
@@ -112,12 +122,12 @@ function teamAvatarSkills(evts, raw) {
   if (runtime === "claude") {
     const uses = evts.flatMap((e) => (e.type === "assistant" ? e.message?.content ?? [] : [])).filter((b) => b.type === "tool_use");
     return [...new Set(uses.flatMap((t) => {
-      if (t.name === "Skill" && String(t.input?.skill).startsWith("team-avatar:")) return [String(t.input.skill).slice(12)];
-      const m = JSON.stringify(t.input ?? {}).match(/team-avatar\/skills\/([a-z-]+)\/SKILL\.md/);
-      return m ? [m[1]] : [];
+      if (t.name === "Skill" && /^(team-avatar|pstack):/.test(String(t.input?.skill))) return [String(t.input.skill).replace(/^team-avatar:/, "")];
+      const m = JSON.stringify(t.input ?? {}).match(/(team-avatar|pstack)\/(?:[\d.]+\/)?skills\/([a-z0-9-]+)\/SKILL\.md/);
+      return m ? [m[1] === "pstack" ? `pstack:${m[2]}` : m[2]] : [];
     }))];
   }
-  return [...new Set([...raw.matchAll(/team-avatar\/[\d.]+\/skills\/([a-z-]+)\/SKILL\.md/g)].map((m) => m[1]))];
+  return [...new Set([...raw.matchAll(/(team-avatar|pstack)\/[\d.]+\/skills\/([a-z0-9-]+)\/SKILL\.md/g)].map((m) => (m[1] === "pstack" ? `pstack:${m[2]}` : m[2])))];
 }
 
 function nodeTest(dir, files) {

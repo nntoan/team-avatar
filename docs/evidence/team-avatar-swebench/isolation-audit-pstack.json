@@ -1,0 +1,14 @@
+{
+  "flagged": [],
+  "noted": [
+    {
+      "model": "codex-pstack",
+      "instance_id": "sphinx-doc__sphinx-8475",
+      "paths": [
+        "/Users/tmcfarlane/.cache/team-avatar-swebench/run/work/codex-pstack/sphinx-doc__sphinx-8265/sphinx/jinja2glue.py",
+        "/Users/tmcfarlane/.cache/team-avatar-swebench/run/work/codex-pstack/sphinx-doc__sphinx-8265/sphinx/util/docutils.py",
+        "/Users/tmcfarlane/.cache/team-avatar-swebench/run/work/codex-pstack/sphinx-doc__sphinx-8265/tests/test_docutilsconf.py"
+      ]
+    }
+  ]
+}

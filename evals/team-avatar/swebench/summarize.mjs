@@ -23,7 +23,13 @@ const meta = {};
 for (const model of Object.keys(results)) for (const m of lines(join(out, "predictions", `${model}.meta.jsonl`))) (meta[model] ??= {})[m.instance_id] = m;
 
 const runtimes = [["claude", "Claude Code"], ["codex", "Codex"]];
-const arms = [["without", "Without Team Avatar"], ["with", "Team Avatar installed"], ["invoked", "Team Avatar, asked by name"]];
+const arms = [
+  ["without", "No workflow plugin"],
+  ["with", "Team Avatar installed"],
+  ["invoked", "Team Avatar, asked by name"],
+  ["pstack", "pstack installed"],
+  ["pstack-invoked", "pstack, asked by name"],
+];
 const present = (r) => arms.filter(([a]) => results[`${r}-${a}`]);
 const resolvedSet = (model) => new Set(ids.filter((id) => results[model]?.[id]?.resolved));
 const pct = (n, d) => (d ? `${((100 * n) / d).toFixed(0)}%` : "n/a");
@@ -59,35 +65,38 @@ for (const [r, rl] of runtimes) {
     const skillRuns = m.filter((x) => (x.skills ?? []).length).length;
     rows.push(`| ${rl} | ${al} | **${solved.size}/${graded.length} (${pct(solved.size, graded.length)})** | ${byRepo.join(" | ")} | ${m.filter((x) => !x.patchLines).length} | ${a === "without" ? "n/a" : `${skillRuns}/${m.length}`} | ${Math.round(mean(m.map((x) => x.seconds)) / 6) / 10} min | ${Math.round(mean(m.map((x) => x.tokens ?? 0)) / 1000)}k${Number.isNaN(cost) ? "" : `, $${cost.toFixed(2)}`} |`);
   }
-  const base = `${r}-without`;
-  for (const [a, al] of present(r).filter(([x]) => x !== "without")) {
-    const model = `${r}-${a}`;
+  const pairs = [
+    ...present(r).filter(([x]) => x !== "without").map(([a, al]) => [`${r}-without`, `${r}-${a}`, `${al} vs no plugin`]),
+    ...[["with", "pstack"], ["invoked", "pstack-invoked"]].filter(([x, y]) => results[`${r}-${x}`] && results[`${r}-${y}`])
+      .map(([x, y]) => [`${r}-${y}`, `${r}-${x}`, `${arms.find(([a]) => a === x)[1]} vs ${arms.find(([a]) => a === y)[1]}`]),
+  ];
+  for (const [base, model, al] of pairs) {
     const both = ids.filter((id) => results[base]?.[id] && results[model]?.[id]);
     const s0 = resolvedSet(base);
     const s1 = resolvedSet(model);
     const gained = both.filter((id) => s1.has(id) && !s0.has(id));
     const lost = both.filter((id) => s0.has(id) && !s1.has(id));
-    tests.push(`| ${rl} | ${al} vs without | ${both.filter((id) => s1.has(id)).length - both.filter((id) => s0.has(id)).length >= 0 ? "+" : ""}${both.filter((id) => s1.has(id)).length - both.filter((id) => s0.has(id)).length} tasks | ${gained.length} | ${lost.length} | ${mcnemar(gained.length, lost.length).toFixed(3)} |`);
+    tests.push(`| ${rl} | ${al} | ${both.filter((id) => s1.has(id)).length - both.filter((id) => s0.has(id)).length >= 0 ? "+" : ""}${both.filter((id) => s1.has(id)).length - both.filter((id) => s0.has(id)).length} tasks | ${gained.length} | ${lost.length} | ${mcnemar(gained.length, lost.length).toFixed(3)} |`);
   }
 }
 
-const md = `# SWE-bench Verified Mini: Team Avatar vs plain Claude Code and Codex
+const md = `# SWE-bench Verified Mini: Team Avatar, pstack, and plain Claude Code and Codex
 
 [SWE-bench Verified Mini](https://huggingface.co/datasets/MariusHobbhahn/swe-bench-verified-mini) is 50 tasks from SWE-bench Verified (25 Django, 25 Sphinx). Each task is a real GitHub issue. A task counts as resolved only when the official \`swebench\` harness applies the agent's patch and the project's hidden tests pass, using the published task images.
 
-Each setup got one attempt per task: the same checkout, the same issue text, and no hints. "Without" runs the tool with no workflow plugins. "Installed" adds only the Team Avatar plugin. Changes to files that the hidden test patch rewrites are dropped from every patch, so no setup is failed by a conflict with its own new tests.
+Each setup got one attempt per task: the same checkout, the same issue text, and no hints. "No workflow plugin" runs the tool with every workflow plugin off. "Installed" turns on exactly one plugin, Team Avatar or pstack, and leaves the prompt alone. "Asked by name" also starts the prompt with that plugin's mode (\`avatar-mode\` or \`poteto-mode\`). Changes to files that the hidden test patch rewrites are dropped from every patch, so no setup is failed by a conflict with its own new tests.
 
-| Tool | Setup | Resolved | Django | Sphinx | Empty patches | Runs that loaded a Team Avatar skill | Time per task | Tokens per task |
+| Tool | Setup | Resolved | Django | Sphinx | Empty patches | Runs that loaded a plugin skill | Time per task | Tokens per task |
 |------|-------|---:|---:|---:|---:|---:|---:|---:|
 ${rows.join("\n")}
 
-"Runs that loaded a Team Avatar skill" counts Skill tool calls on Claude Code and skill files read on Codex. In the asked-by-name setup the prompt itself loads \`avatar-mode\` in every run, so that column counts the runs that went on to load a second skill.
+"Runs that loaded a plugin skill" counts Skill tool calls on Claude Code and skill files read on Codex. In the asked-by-name setups the prompt itself loads \`avatar-mode\` or \`poteto-mode\` in every run, so that column counts the runs that went on to load a second skill.
 
 ## Is the difference real?
 
 The same 50 tasks ran in every setup, so the fair test is paired. It counts only the tasks one setup solved and the other did not. The p-value is an exact two-sided McNemar test. With 50 tasks, a p-value above 0.05 means the gap could be chance.
 
-| Tool | Comparison | Net change | Solved only with Team Avatar | Solved only without | p-value |
+| Tool | Comparison | Net change | Solved only by the first | Solved only by the second | p-value |
 |------|-----------|---:|---:|---:|---:|
 ${tests.join("\n")}
 `;

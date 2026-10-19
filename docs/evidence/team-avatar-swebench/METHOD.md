@@ -30,3 +30,13 @@ The defensible claim is that Team Avatar keeps Claude Code at a 96 to 100% resol
 - **Small sample.** With 50 tasks, two setups must disagree on about 6 tasks, nearly all in the same direction, before a gap is significant. Gaps of 1 or 2 tasks are within chance.
 - **Possible memorization.** These are public 2019 to 2022 Django and Sphinx issues with merged fixes, so both models may have seen the fixes in training. That can inflate both setups' absolute scores. It affects the with-and-without comparison less, because the same model runs every setup.
 - **Not a leaderboard submission.** The agents ran on a developer laptop with their default models and tools, not in the official agent scaffolds. Compare these numbers with each other, not with published leaderboard scores.
+
+## pstack comparison
+
+pstack ran the same 50 tasks under the same rules, with only pstack switched on: pstack-claude 0.9.92 on Claude Code and 0.9.93 to 0.9.94 on Codex, whose cache updated during the run. It ran later than the Team Avatar setups, on the same machine and the same tool versions.
+
+- **Claude Code.** 48 of 50 with pstack installed and 49 of 50 with poteto mode asked by name, against 48 for no plugin and 50 and 48 for Team Avatar. Installed pstack never loaded a skill beyond its session hook.
+- **Codex.** 43 of 50 with pstack installed, against 42 for no plugin and 41 for Team Avatar.
+- **Cost.** pstack costs about the same as Team Avatar: $0.47 and $0.65 per task on Claude Code, and about 2,036k tokens and 5.6 minutes per task on Codex.
+
+No pairwise gap among the three setups is significant (every p is 0.5 or higher). pstack publishes no benchmark numbers of its own to compare against. The pstack isolation audit found 0 runs that saw their own answer, after two runs that listed the dataset's file name were rerun ([isolation-audit-pstack.json](isolation-audit-pstack.json)).

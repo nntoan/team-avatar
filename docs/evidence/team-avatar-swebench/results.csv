@@ -49,6 +49,106 @@ claude-invoked,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,92,104133
 claude-invoked,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,31,430473,0.42912100000000003,21,
 claude-invoked,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,576,2002631,1.249308,169,healing-water
 claude-invoked,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,47,567737,0.5026858,14,healing-water
+claude-pstack,django__django-11790,django/django,true,resolved,38,358200,0.5025232,16,
+claude-pstack,django__django-11815,django/django,true,resolved,51,487045,0.4122464,19,
+claude-pstack,django__django-11848,django/django,true,resolved,28,310361,0.32105560000000005,23,
+claude-pstack,django__django-11880,django/django,true,resolved,38,360173,0.31801700000000005,13,
+claude-pstack,django__django-11885,django/django,true,resolved,110,1038514,0.7839306,144,
+claude-pstack,django__django-11951,django/django,true,resolved,26,361020,0.31972120000000004,15,
+claude-pstack,django__django-11964,django/django,true,resolved,21,310195,0.3263792,20,
+claude-pstack,django__django-11999,django/django,true,resolved,23,307346,0.30810099999999996,20,
+claude-pstack,django__django-12039,django/django,true,resolved,58,483659,0.4007757999999999,33,
+claude-pstack,django__django-12050,django/django,true,resolved,53,358326,0.30799660000000006,14,
+claude-pstack,django__django-12143,django/django,true,resolved,27,0,,16,
+claude-pstack,django__django-12155,django/django,true,resolved,32,304909,0.3221516000000001,18,
+claude-pstack,django__django-12193,django/django,true,resolved,37,358298,0.32273299999999994,16,
+claude-pstack,django__django-12209,django/django,true,resolved,77,420565,0.3746584,13,
+claude-pstack,django__django-12262,django/django,true,resolved,37,413593,0.37132659999999995,14,
+claude-pstack,django__django-12273,django/django,true,resolved,1252,206185,0.8968938,23,
+claude-pstack,django__django-12276,django/django,true,resolved,31,473845,0.3724448,25,
+claude-pstack,django__django-12304,django/django,true,resolved,58,414540,0.37839140000000004,13,
+claude-pstack,django__django-12308,django/django,true,resolved,32,417579,0.3699368,17,
+claude-pstack,django__django-12325,django/django,true,resolved,53,600984,0.4805966,38,
+claude-pstack,django__django-12406,django/django,true,resolved,103,770359,0.5121172000000002,53,
+claude-pstack,django__django-12708,django/django,true,resolved,109,764034,0.5262271999999999,19,
+claude-pstack,django__django-12713,django/django,true,resolved,34,310934,0.318577,41,
+claude-pstack,django__django-12774,django/django,true,resolved,64,640017,0.46032960000000006,24,
+claude-pstack,django__django-9296,django/django,true,resolved,30,359908,0.32259599999999994,16,
+claude-pstack,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,48,483483,0.408759,17,
+claude-pstack,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,true,resolved,67,610141,0.4649974,20,
+claude-pstack,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,66,545199,0.44839780000000007,15,
+claude-pstack,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,158,1182997,0.7348278,66,
+claude-pstack,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,true,resolved,215,946072,0.6971100000000001,72,
+claude-pstack,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,true,resolved,179,1420075,0.9782808000000001,134,
+claude-pstack,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,110,1199558,0.7634742000000002,137,
+claude-pstack,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,65,531671,0.4115216,46,
+claude-pstack,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,true,resolved,61,573640,0.471099,46,
+claude-pstack,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,115,851437,0.5669815999999999,69,
+claude-pstack,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,97,824507,0.6242922,39,
+claude-pstack,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,65,654073,0.5028938,32,
+claude-pstack,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,50,471748,0.37883120000000003,13,
+claude-pstack,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,30,356164,0.3230772,23,
+claude-pstack,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,false,unresolved,245,5492279,0.19835343000000003,179,
+claude-pstack,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,81,723396,0.5095864,27,
+claude-pstack,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,45,599463,0.4409006,27,
+claude-pstack,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,21,249484,0.292543,16,
+claude-pstack,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,true,resolved,133,1105944,0.7442976,42,
+claude-pstack,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,19,301011,0.3036042,14,
+claude-pstack,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,72,694037,0.4802299999999999,15,
+claude-pstack,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,65,632837,0.4637854,27,
+claude-pstack,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,28,307893,0.31036679999999994,21,
+claude-pstack,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,231,1995300,1.1636831999999997,162,
+claude-pstack,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,22,256148,0.29118479999999997,14,
+claude-pstack-invoked,django__django-11790,django/django,true,resolved,64,612751,0.6775962000000002,16,
+claude-pstack-invoked,django__django-11815,django/django,true,resolved,71,780285,0.608136,20,
+claude-pstack-invoked,django__django-11848,django/django,true,resolved,104,700865,0.5862923999999999,25,
+claude-pstack-invoked,django__django-11880,django/django,true,resolved,43,682444,0.5237734000000001,13,
+claude-pstack-invoked,django__django-11885,django/django,true,resolved,258,1214449,0.924615,144,
+claude-pstack-invoked,django__django-11951,django/django,true,resolved,25,364782,0.38896079999999994,15,
+claude-pstack-invoked,django__django-11964,django/django,true,resolved,43,575939,0.5001022,20,
+claude-pstack-invoked,django__django-11999,django/django,true,resolved,87,431053,0.43256039999999996,18,
+claude-pstack-invoked,django__django-12039,django/django,true,resolved,111,939496,0.6728110000000002,33,
+claude-pstack-invoked,django__django-12050,django/django,true,resolved,33,365480,0.40204540000000005,14,
+claude-pstack-invoked,django__django-12143,django/django,true,resolved,31,424985,0.4220191999999999,16,
+claude-pstack-invoked,django__django-12155,django/django,true,resolved,36,434014,0.43374240000000003,14,
+claude-pstack-invoked,django__django-12193,django/django,true,resolved,36,548051,0.4699972,16,
+claude-pstack-invoked,django__django-12209,django/django,true,resolved,61,842871,0.6076750000000001,42,
+claude-pstack-invoked,django__django-12262,django/django,true,resolved,60,629179,0.5494902,14,
+claude-pstack-invoked,django__django-12273,django/django,true,resolved,1052,319670,0.9611319999999999,18,
+claude-pstack-invoked,django__django-12276,django/django,true,resolved,41,563823,0.4747866,25,
+claude-pstack-invoked,django__django-12304,django/django,true,resolved,56,569296,0.5086693999999999,14,
+claude-pstack-invoked,django__django-12308,django/django,true,resolved,89,770628,0.5715114,17,
+claude-pstack-invoked,django__django-12325,django/django,true,resolved,238,732638,0.6363,38,
+claude-pstack-invoked,django__django-12406,django/django,true,resolved,54,508423,0.5142334,53,
+claude-pstack-invoked,django__django-12708,django/django,true,resolved,116,1048322,0.6914612,19,
+claude-pstack-invoked,django__django-12713,django/django,true,resolved,45,702359,0.5438711999999999,41,
+claude-pstack-invoked,django__django-12774,django/django,true,resolved,58,841618,0.6193464,46,
+claude-pstack-invoked,django__django-9296,django/django,true,resolved,52,1001460,0.6052984000000001,48,
+claude-pstack-invoked,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,382,1000559,0.6919251999999999,17,
+claude-pstack-invoked,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,true,resolved,119,723533,0.5820744,20,
+claude-pstack-invoked,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,30,310093,0.41797120000000004,15,
+claude-pstack-invoked,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,157,1057446,0.7855086,90,
+claude-pstack-invoked,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,true,resolved,752,82634,0.9761322,60,
+claude-pstack-invoked,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,true,resolved,163,1617938,1.0868607999999997,123,
+claude-pstack-invoked,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,163,1968614,1.1307045999999998,113,
+claude-pstack-invoked,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,107,837686,0.6225860000000001,70,
+claude-pstack-invoked,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,true,resolved,82,836903,0.6770079999999999,46,
+claude-pstack-invoked,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,93,912531,0.6646958000000001,94,
+claude-pstack-invoked,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,149,1042152,0.7855566,39,
+claude-pstack-invoked,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,134,1074032,0.7393586000000001,32,
+claude-pstack-invoked,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,44,562343,0.4947724,13,
+claude-pstack-invoked,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,70,826785,0.574945,36,
+claude-pstack-invoked,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,268,2519693,1.453235,181,
+claude-pstack-invoked,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,127,1325190,0.8319088000000001,27,
+claude-pstack-invoked,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,83,843275,0.6386516,14,
+claude-pstack-invoked,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,83,634810,0.5370708000000001,16,
+claude-pstack-invoked,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,true,resolved,114,985929,0.7594592000000001,30,
+claude-pstack-invoked,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,75,712631,0.5782206,14,
+claude-pstack-invoked,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,55,689589,0.550859,15,
+claude-pstack-invoked,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,76,971415,0.6876941999999999,27,
+claude-pstack-invoked,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,33,429660,0.42487240000000004,16,
+claude-pstack-invoked,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,225,1746496,1.1678986000000002,113,
+claude-pstack-invoked,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,45,424178,0.42595879999999997,14,
 claude-with,django__django-11790,django/django,true,resolved,81,507361,0.3947862,16,
 claude-with,django__django-11815,django/django,true,resolved,102,466041,0.381783,19,
 claude-with,django__django-11848,django/django,true,resolved,40,300711,0.31836960000000003,23,
@@ -149,6 +249,56 @@ claude-without,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,29,195904
 claude-without,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,43,279400,0.24071760000000003,16,
 claude-without,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,145,869744,0.7038641999999999,156,
 claude-without,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,17,244103,0.20575600000000002,14,
+codex-pstack,django__django-11790,django/django,true,resolved,188,1035409,,13,pstack:poteto-mode pstack:how pstack:why pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:no-comments
+codex-pstack,django__django-11815,django/django,true,resolved,318,1287971,,14,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:how pstack:tdd pstack:principle-prove-it-works pstack:principle-fix-root-causes pstack:no-comments
+codex-pstack,django__django-11848,django/django,true,resolved,203,1099613,,21,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:why pstack:tdd pstack:no-comments
+codex-pstack,django__django-11880,django/django,true,resolved,146,890726,,47,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:unslop pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments
+codex-pstack,django__django-11885,django/django,true,resolved,477,2819831,,167,pstack:poteto-mode pstack:how pstack:architect pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:tdd pstack:unslop pstack:arena pstack:principle-laziness-protocol pstack:no-comments pstack:why
+codex-pstack,django__django-11951,django/django,true,resolved,283,1044535,,15,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:how pstack:why pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:principle-sequence-verifiable-units pstack:no-comments
+codex-pstack,django__django-11964,django/django,true,resolved,223,942982,,16,pstack:poteto-mode pstack:principle-fix-root-causes pstack:principle-model-the-domain pstack:unslop pstack:how pstack:tdd pstack:why pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments
+codex-pstack,django__django-11999,django/django,true,resolved,256,1394676,,17,pstack:poteto-mode pstack:how pstack:why pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:no-comments pstack:principle-laziness-protocol pstack:principle-test-behavior-not-implementation pstack:principle-sequence-verifiable-units
+codex-pstack,django__django-12039,django/django,true,resolved,270,1702902,,83,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:tdd pstack:how pstack:why pstack:no-comments
+codex-pstack,django__django-12050,django/django,true,resolved,194,753684,,14,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:tdd pstack:unslop pstack:no-comments pstack:principle-laziness-protocol
+codex-pstack,django__django-12143,django/django,true,resolved,206,829059,,14,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:how pstack:why pstack:tdd pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:no-comments
+codex-pstack,django__django-12155,django/django,true,resolved,186,1050512,,17,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:no-comments
+codex-pstack,django__django-12193,django/django,true,resolved,173,900444,,16,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:tdd pstack:how pstack:why pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments
+codex-pstack,django__django-12209,django/django,true,resolved,386,2027683,,135,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:why pstack:no-comments pstack:technical-writing
+codex-pstack,django__django-12262,django/django,true,resolved,217,1105811,,14,pstack:poteto-mode pstack:how pstack:tdd pstack:principle-model-the-domain pstack:unslop pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:no-comments pstack:principle-laziness-protocol
+codex-pstack,django__django-12273,django/django,false,unresolved,691,3014460,,37,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:why pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:no-comments pstack:principle-test-behavior-not-implementation pstack:principle-laziness-protocol pstack:architect pstack:principle-attack-the-premise
+codex-pstack,django__django-12276,django/django,true,resolved,224,1395166,,51,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:unslop pstack:tdd pstack:no-comments pstack:how pstack:why pstack:technical-writing
+codex-pstack,django__django-12304,django/django,true,resolved,158,944854,,14,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:how pstack:why pstack:tdd pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:no-comments pstack:principle-sequence-verifiable-units
+codex-pstack,django__django-12308,django/django,true,resolved,241,1199137,,25,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:how pstack:why pstack:tdd pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:architect pstack:no-comments
+codex-pstack,django__django-12325,django/django,true,resolved,450,2069170,,80,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:principle-fix-root-causes pstack:principle-laziness-protocol pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:no-comments pstack:why pstack:tdd
+codex-pstack,django__django-12406,django/django,true,resolved,362,2288665,,84,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:why pstack:tdd pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:architect pstack:arena pstack:no-comments
+codex-pstack,django__django-12708,django/django,true,resolved,226,1225385,,48,pstack:poteto-mode pstack:how pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:unslop pstack:principle-prove-it-works pstack:principle-laziness-protocol pstack:no-comments pstack:why
+codex-pstack,django__django-12713,django/django,true,resolved,184,976262,,32,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:tdd pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments
+codex-pstack,django__django-12774,django/django,true,resolved,245,1491232,,24,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:tdd pstack:unslop pstack:how pstack:why pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments pstack:principle-sequence-verifiable-units
+codex-pstack,django__django-9296,django/django,true,resolved,285,1190426,,33,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:unslop pstack:no-comments pstack:how pstack:architect pstack:tdd pstack:technical-writing
+codex-pstack,sphinx-doc__sphinx-10323,sphinx-doc/sphinx,true,resolved,246,1637370,,29,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:tdd pstack:why pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:no-comments pstack:technical-writing
+codex-pstack,sphinx-doc__sphinx-10435,sphinx-doc/sphinx,false,unresolved,224,1700274,,18,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:principle-test-behavior-not-implementation pstack:principle-sequence-verifiable-units pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-10466,sphinx-doc/sphinx,true,resolved,359,2268804,,14,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:how pstack:why pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-10673,sphinx-doc/sphinx,true,resolved,968,7261729,,279,pstack:poteto-mode pstack:how pstack:architect pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:why pstack:arena pstack:tdd pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments pstack:technical-writing pstack:principle-attack-the-premise
+codex-pstack,sphinx-doc__sphinx-11510,sphinx-doc/sphinx,false,unresolved,502,3910099,,109,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:why pstack:tdd pstack:architect pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:arena pstack:no-comments pstack:technical-writing
+codex-pstack,sphinx-doc__sphinx-7590,sphinx-doc/sphinx,false,unresolved,663,5127971,,134,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:architect pstack:tdd pstack:principle-prove-it-works pstack:arena pstack:no-comments pstack:principle-laziness-protocol pstack:why pstack:principle-fix-root-causes
+codex-pstack,sphinx-doc__sphinx-7748,sphinx-doc/sphinx,false,unresolved,421,3190893,,143,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:unslop pstack:how pstack:architect pstack:tdd pstack:arena pstack:no-comments pstack:principle-laziness-protocol pstack:technical-writing
+codex-pstack,sphinx-doc__sphinx-7757,sphinx-doc/sphinx,true,resolved,537,1654917,,53,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:how pstack:why pstack:tdd pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-7985,sphinx-doc/sphinx,false,unresolved,411,2760276,,64,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:why pstack:principle-test-behavior-not-implementation pstack:architect pstack:arena pstack:no-comments pstack:principle-laziness-protocol
+codex-pstack,sphinx-doc__sphinx-8035,sphinx-doc/sphinx,true,resolved,516,3458928,,183,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:architect pstack:arena pstack:principle-laziness-protocol pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:principle-separate-before-serializing-shared-state pstack:technical-writing pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-8056,sphinx-doc/sphinx,true,resolved,299,2153272,,28,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:architect pstack:principle-test-behavior-not-implementation pstack:no-comments pstack:arena pstack:principle-laziness-protocol
+codex-pstack,sphinx-doc__sphinx-8265,sphinx-doc/sphinx,true,resolved,370,2545424,,63,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:architect pstack:arena pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-8269,sphinx-doc/sphinx,true,resolved,235,1641240,,13,pstack:poteto-mode pstack:principle-model-the-domain pstack:unslop pstack:tdd pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-8475,sphinx-doc/sphinx,true,resolved,177,856059,,23,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:unslop pstack:principle-test-behavior-not-implementation pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-8548,sphinx-doc/sphinx,true,resolved,650,6360042,,339,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:tdd pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:why pstack:principle-prove-it-works pstack:architect pstack:no-comments pstack:arena pstack:principle-laziness-protocol
+codex-pstack,sphinx-doc__sphinx-8551,sphinx-doc/sphinx,true,resolved,411,2500585,,16,pstack:poteto-mode pstack:how pstack:why pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:tdd pstack:architect pstack:arena pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-8638,sphinx-doc/sphinx,true,resolved,248,1512179,,14,pstack:poteto-mode pstack:how pstack:unslop pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:tdd pstack:why pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-8721,sphinx-doc/sphinx,true,resolved,611,2676216,,54,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:why pstack:tdd pstack:architect pstack:principle-laziness-protocol pstack:arena pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-9229,sphinx-doc/sphinx,false,unresolved,421,2688330,,49,pstack:poteto-mode pstack:unslop pstack:principle-model-the-domain pstack:how pstack:why pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:architect pstack:arena pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-9230,sphinx-doc/sphinx,true,resolved,244,1664114,,31,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:unslop pstack:tdd pstack:why pstack:no-comments pstack:technical-writing
+codex-pstack,sphinx-doc__sphinx-9281,sphinx-doc/sphinx,true,resolved,270,1276648,,14,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:unslop pstack:tdd pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:why pstack:no-comments pstack:principle-laziness-protocol
+codex-pstack,sphinx-doc__sphinx-9320,sphinx-doc/sphinx,true,resolved,219,1359505,,14,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-prove-it-works pstack:unslop pstack:architect pstack:principle-test-behavior-not-implementation pstack:no-comments pstack:principle-laziness-protocol
+codex-pstack,sphinx-doc__sphinx-9367,sphinx-doc/sphinx,true,resolved,152,1198000,,16,pstack:poteto-mode pstack:tdd pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:principle-test-behavior-not-implementation pstack:principle-prove-it-works pstack:unslop pstack:how pstack:why pstack:no-comments
+codex-pstack,sphinx-doc__sphinx-9461,sphinx-doc/sphinx,true,resolved,690,4568130,,151,pstack:poteto-mode pstack:how pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:architect pstack:tdd pstack:arena pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments pstack:why
+codex-pstack,sphinx-doc__sphinx-9698,sphinx-doc/sphinx,true,resolved,195,1172050,,14,pstack:poteto-mode pstack:principle-model-the-domain pstack:principle-fix-root-causes pstack:unslop pstack:tdd pstack:how pstack:why pstack:principle-prove-it-works pstack:principle-test-behavior-not-implementation pstack:no-comments
 codex-with,django__django-11790,django/django,false,unresolved,190,821496,,13,healing-water push-and-pull purify clear-water earth-rumble tea-time
 codex-with,django__django-11815,django/django,true,resolved,247,1709762,,20,healing-water push-and-pull tea-time avatar-mode purify clear-water earth-rumble
 codex-with,django__django-11848,django/django,true,resolved,156,824312,,21,healing-water push-and-pull tea-time purify clear-water earth-rumble

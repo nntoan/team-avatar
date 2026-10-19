@@ -1,28 +1,33 @@
 #!/usr/bin/env node
-// Generate SWE-bench predictions with Claude Code or Codex, with or without Team Avatar.
+// Generate SWE-bench predictions with Claude Code or Codex, with Team Avatar, with pstack, or with neither.
 //
-//   node evals/team-avatar/swebench/generate.mjs --dataset tasks.json --runtime claude|codex --arm without|with|invoked \
+//   node evals/team-avatar/swebench/generate.mjs --dataset tasks.json --runtime claude|codex \
+//     --arm without|with|invoked|pstack|pstack-invoked \
 //     [--jobs 4] [--ids id,id] [--out dir] [--timeout 1800] [--reverse true]
 //
 // Each task gets a fresh checkout at its base commit, one headless agent run on the
 // issue text, and a patch written to <out>/predictions/<runtime>-<arm>.jsonl in the
-// format the official swebench harness reads. Every arm runs with the other workflow
-// plugins switched off, so Team Avatar is the only difference between arms.
+// format the official swebench harness reads. Every arm runs with every other workflow
+// plugin switched off, so the plugin under test is the only difference between arms.
+// "with" and "pstack" install one plugin. "invoked" and "pstack-invoked" also start the
+// prompt with that plugin's mode.
 
 import { spawn, spawnSync } from "node:child_process";
-import { appendFileSync, existsSync, mkdirSync, openSync, closeSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, openSync, closeSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 
 const HERE = resolve(fileURLToPath(import.meta.url), "..");
 const PLUGIN = resolve(HERE, "../../../plugins/team-avatar");
+const PSTACK_CACHE = join(process.env.HOME, ".claude", "plugins", "cache", "pstack-claude", "pstack");
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((pairs, arg, i, all) => (arg.startsWith("--") ? [...pairs, [arg.slice(2), all[i + 1]]] : pairs), []),
 );
 const { runtime, arm } = args;
-if (!args.dataset || !["claude", "codex"].includes(runtime) || !["without", "with", "invoked"].includes(arm)) {
-  console.error("usage: generate.mjs --dataset tasks.json --runtime claude|codex --arm without|with|invoked [--jobs n] [--ids a,b] [--out dir]");
+const ARMS = ["without", "with", "invoked", "pstack", "pstack-invoked"];
+if (!args.dataset || !["claude", "codex"].includes(runtime) || !ARMS.includes(arm)) {
+  console.error(`usage: generate.mjs --dataset tasks.json --runtime claude|codex --arm ${ARMS.join("|")} [--jobs n] [--ids a,b] [--out dir]`);
   process.exit(2);
 }
 const out = resolve(args.out ?? join(tmpdir(), "team-avatar-swebench"));
@@ -63,8 +68,19 @@ function checkout(task) {
   return dir;
 }
 
+const plugin = arm.startsWith("pstack") ? "pstack" : arm === "without" ? null : "team-avatar";
+const INVOKE = {
+  "invoked": { claude: "/team-avatar:avatar-mode ", codex: "$avatar-mode " },
+  "pstack-invoked": { claude: "/pstack:poteto-mode ", codex: "$poteto-mode " },
+};
+function pstackDir() {
+  const versions = existsSync(PSTACK_CACHE) ? readdirSync(PSTACK_CACHE).filter((v) => /^\d/.test(v)) : [];
+  if (!versions.length) throw new Error(`no pstack install under ${PSTACK_CACHE}`);
+  return join(PSTACK_CACHE, versions.sort((a, b) => a.localeCompare(b, undefined, { numeric: true })).pop());
+}
+
 const prompt = (task) =>
-  `${arm === "invoked" ? (runtime === "claude" ? "/team-avatar:avatar-mode " : "$avatar-mode ") : ""}` +
+  `${INVOKE[arm]?.[runtime] ?? ""}` +
   `You are in a git checkout of ${task.repo} at the commit where the issue below was reported. ` +
   `Resolve the issue by changing the repository's source files. Do not commit.\n\n<issue>\n${task.problem_statement}\n</issue>`;
 
@@ -74,14 +90,15 @@ function command(dir, finalFile, text) {
       "-p", text, "--output-format", "stream-json", "--verbose",
       "--permission-mode", "acceptEdits", "--allowedTools", "Bash,Read,Edit,Write,Glob,Grep,Skill,Agent,Task,TodoWrite",
       "--no-session-persistence", "--setting-sources", "project,local",
-      ...(arm !== "without" ? ["--plugin-dir", PLUGIN] : []),
+      ...(plugin === "team-avatar" ? ["--plugin-dir", PLUGIN] : plugin === "pstack" ? ["--plugin-dir", pstackDir()] : []),
     ]];
   }
   return ["codex", [
     "exec", "--json", "--skip-git-repo-check", "-s", "workspace-write", "-C", dir, "-o", finalFile,
     "--dangerously-bypass-hook-trust",
-    "-c", "plugins.pstack@pstack-claude.enabled=false", "-c", "plugins.tstack@personal.enabled=false",
-    ...(arm === "without" ? ["-c", "plugins.team-avatar@team-avatar.enabled=false"] : []),
+    "-c", "plugins.tstack@personal.enabled=false",
+    ...(plugin !== "pstack" ? ["-c", "plugins.pstack@pstack-claude.enabled=false"] : []),
+    ...(plugin !== "team-avatar" ? ["-c", "plugins.team-avatar@team-avatar.enabled=false"] : []),
     text,
   ]];
 }
@@ -126,7 +143,7 @@ function telemetry(stdout, finalFile) {
     const r = [...events].reverse().find((e) => e.type === "result") ?? {};
     const u = r.usage ?? {};
     const uses = events.flatMap((e) => (e.type === "assistant" ? e.message?.content ?? [] : [])).filter((b) => b.type === "tool_use");
-    const skills = [...new Set(uses.filter((t) => t.name === "Skill").map((t) => String(t.input?.skill)).filter((s) => s.startsWith("team-avatar:")).map((s) => s.slice(12)))];
+    const skills = [...new Set(uses.filter((t) => t.name === "Skill").map((t) => String(t.input?.skill)).filter((s) => /^(team-avatar|pstack):/.test(s)).map((s) => s.replace(/^team-avatar:/, "")))];
     return {
       cost: r.total_cost_usd ?? null,
       tokens: (u.input_tokens ?? 0) + (u.cache_read_input_tokens ?? 0) + (u.cache_creation_input_tokens ?? 0) + (u.output_tokens ?? 0),
@@ -136,7 +153,7 @@ function telemetry(stdout, finalFile) {
     };
   }
   const tokens = events.filter((e) => e.type === "turn.completed").reduce((n, e) => n + (e.usage?.input_tokens ?? 0) + (e.usage?.output_tokens ?? 0), 0);
-  const skills = [...new Set([...stdout.matchAll(/team-avatar\/[\d.]+\/skills\/([a-z-]+)\/SKILL\.md/g)].map((m) => m[1]))];
+  const skills = [...new Set([...stdout.matchAll(/(team-avatar|pstack)\/[\d.]+\/skills\/([a-z0-9-]+)\/SKILL\.md/g)].map((m) => (m[1] === "pstack" ? `pstack:${m[2]}` : m[2])))];
   return { cost: null, tokens, turns: null, skills, final: existsSync(finalFile) ? readFileSync(finalFile, "utf8") : "" };
 }
 

@@ -10,7 +10,7 @@
       "name": "team-avatar",
       "source": "./plugins/team-avatar",
       "description": "Principal-level engineering skills for Claude Code and Codex. Aang routes the work, and each character owns one discipline.",
-      "version": "0.2.0"
+      "version": "1.0.0"
     }
   ]
 }

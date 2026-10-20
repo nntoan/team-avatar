@@ -1,68 +1,82 @@
 <div align="center">
 
-<div style="font-size: 2.0em; font-weight: 800; line-height: 1.1;">
-  <strong>oh-my-cursor</strong>
-</div>
-
-<div style="font-size: 0.85em; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; margin: 4px 0;">presents</div>
-
 <p align="center">
-  <a href="https://github.com/tmcfarlane/oh-my-cursor">
-    <img src="screenshots/teamavatar.png" alt="oh-my-cursor: Team Avatar Agent Orchestration" width="560">
+  <a href="https://github.com/tmcfarlane/team-avatar">
+    <img src="screenshots/teamavatar.png" alt="Team Avatar" width="560">
   </a>
 </p>
 <div style="font-size: 2.5em; font-weight: 700; letter-spacing: 0.12em;">
   <strong>TEAM AVATAR</strong>
 </div>
 
-**An Avatar-themed AI dev team for Cursor.** 8 specialist agents, real per-model routing,<br>
-and hooks that block bad commits — pure config files, no runtime, no wrapper CLI.<br>
+**A universal agent orchestrator for Claude Code, Codex, and Cursor.**<br>
+Nine characters from *Avatar: The Last Airbender*. 58 engineering skills. One mode that routes the work.<br>
 _Created by <a href="https://zeroclickdev.ai/">ZeroClickDev</a>_
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/tmcfarlane/oh-my-cursor)](https://github.com/tmcfarlane/oh-my-cursor/stargazers)
-[![Validated on Cursor 3.8.23](https://img.shields.io/badge/validated-Cursor%203.8.23-22c55e.svg)](VALIDATION.md)
+[![GitHub Stars](https://img.shields.io/github/stars/tmcfarlane/team-avatar)](https://github.com/tmcfarlane/team-avatar/stargazers)
 <br>
 
 </div>
 
-> **v0.4.1 — Hardening** (June 28, 2026, validated on **Cursor 3.9.8**: 13/15 → 15/15): a git
-> `pre-commit` backstop catches `as any`/`@ts-ignore` commits even when the agent commits via
-> Cursor's **native git path** (which bypasses the shell hook), and credential-file reads
-> (`~/.ssh`, `~/.aws`, `*.pem`, …) are now **held** deterministically. See [`CHANGELOG`](CHANGELOG.md).
->
-> **v0.4.0 — Enforcement + Automation** (June 26, 2026, validated live on Cursor 3.8.23):
-> [hooks](#hooks-cursor-agent-loop) that **block** an agent's destructive commands and
-> `as any`/`@ts-ignore` commits · an [auto-review policy](#auto-review-policy-permissionsjson)
-> that holds risky calls (~84% fewer prompts) · paste-in [`/automate` recipes](automations/README.md) ·
-> Windows parity. See the [validated reference](VALIDATION.md) · [contributions welcome](CONTRIBUTING.md).
+## The honest version
 
-## New: Team Avatar skills for Claude Code and Codex (preview)
+We took [pstack](https://github.com/cursor/plugins/tree/main/pstack), Lauren Tan's excellent agent workflow pack, by way of Michael Denyer's [Claude Code and Codex port](https://github.com/michael-denyer/pstack-claude). Then we slapped Avatar characters on top of it.
 
-Team Avatar is becoming a universal set of principal-level engineering skills, with 58 skills across 9 characters. Sokka plans, Toph investigates and reviews, Katara heals bugs and guards code health, Zuko owns performance and incidents, Iroh writes and teaches, Appa ships, Momo scouts, and Suki leads parallel squads. Aang routes the work through `avatar-mode`.
+It probably made it worse. It is definitely cooler.
+
+Every pstack skill and playbook is here, renamed and owned by a character. Katara heals bugs. Toph reviews your diff and does not care about your feelings. Zuko owns performance and incidents. Iroh writes the docs and makes the tea. Aang routes everything through `avatar-mode`. [NOTICE](plugins/team-avatar/NOTICE.md) credits every upstream source.
+
+We measured it, too. On [SWE-bench Verified Mini](docs/evidence/team-avatar-swebench/README.md), Team Avatar, pstack, and no plugin at all solve about the same number of tasks in both Claude Code and Codex. None of the gaps is statistically significant, and both plugins cost more per task. You are not buying a higher score. You are buying habits: reproduce the bug first, write the regression test, review the diff, explain the number.
+
+## See it work
+
+One prompt, three bugs, three Katara subagents working at the same time. Both runs are real terminal sessions on a small demo repo with three failing tests, recorded and replayed frame by frame. [How they were made](docs/evidence/release-v1.0.0/README.md).
+
+**Claude Code**: `/team-avatar:kyoshi-formation` starts three `team-avatar:katara` agents, one per module.
+
+<img src="docs/evidence/release-v1.0.0/claude-subagents-running.png" alt="Claude Code running three Katara subagents in parallel" width="820">
+
+<img src="docs/evidence/release-v1.0.0/claude-result.png" alt="Claude Code reporting all three fixes with root causes" width="820">
+
+**Codex**: `$kyoshi-formation` gives each Katara its own worktree, then merges and reruns the suite.
+
+<img src="docs/evidence/release-v1.0.0/codex-subagents-start.png" alt="Codex starting three Katara agents" width="820">
+
+<img src="docs/evidence/release-v1.0.0/codex-result.png" alt="Codex reporting three passing fixes" width="820">
+
+## Install
+
+Claude Code:
 
 ```bash
-claude plugin marketplace add tmcfarlane/oh-my-cursor && claude plugin install team-avatar@team-avatar
+claude plugin marketplace add tmcfarlane/team-avatar && claude plugin install team-avatar@team-avatar
 ```
+
+Codex:
 
 ```bash
-codex plugin marketplace add tmcfarlane/oh-my-cursor && codex plugin add team-avatar@team-avatar
+codex plugin marketplace add tmcfarlane/team-avatar && codex plugin add team-avatar@team-avatar
 ```
 
-See [plugins/team-avatar](plugins/team-avatar/README.md) for the roster and every skill. The Cursor install below is unchanged.
+Then ask for `avatar-mode` (`/team-avatar:avatar-mode` in Claude Code, `$avatar-mode` in Codex) with any engineering task. [plugins/team-avatar](plugins/team-avatar/README.md) has the full roster and every skill.
+
+## Team Avatar for Cursor (the original oh-my-cursor)
+
+The Cursor edition still ships as config files: 8 agents, slash commands, and hooks that block bad commits. Its install is below and unchanged.
 
 ## Quick Start (One Command)
 
 **macOS / Linux:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-irm https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1 | iex
 ```
 
 ## What Is This?
@@ -234,7 +248,7 @@ Skills: [`crafting-effective-readmes`](skills/crafting-effective-readmes/SKILL.m
 
 ## Model Policy
 
-Default model: **Composer 2.5** (`composer-2.5-fast`). See Cursor model docs for current availability and routing behavior. Higher speed, uses Cursor’s Auto + Composer pool. ([#20](https://github.com/tmcfarlane/oh-my-cursor/issues/20), [#21](https://github.com/tmcfarlane/oh-my-cursor/issues/21))
+Default model: **Composer 2.5** (`composer-2.5-fast`). See Cursor model docs for current availability and routing behavior. Higher speed, uses Cursor’s Auto + Composer pool. ([#20](https://github.com/tmcfarlane/team-avatar/issues/20), [#21](https://github.com/tmcfarlane/team-avatar/issues/21))
 
 **Exceptions:**
 
@@ -253,7 +267,7 @@ Coordinator-spawned workers may use Cursor’s `fast` tier or inherit the coordi
 ### macOS / Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash
 ```
 
 <details>
@@ -277,7 +291,7 @@ Append these flags to the `curl ... | bash` one-liner above. Hacking locally? Cl
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1 | iex
 ```
 
 <details>
@@ -285,10 +299,10 @@ irm https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.ps1 |
 
 ```powershell
 # PowerShell 7+ / Windows 11 one-liner with flags:
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.ps1))) -Scope project -Force
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1))) -Scope project -Force
 
 # Or clone and run locally (all versions):
-git clone https://github.com/tmcfarlane/oh-my-cursor.git && cd oh-my-cursor
+git clone https://github.com/tmcfarlane/team-avatar.git && cd oh-my-cursor
 .\install.ps1                    # Default (user scope)
 .\install.ps1 -Scope project    # Project scope
 .\install.ps1 -AlsoClaude -AlsoCodex  # Cross-tool compat
@@ -546,7 +560,7 @@ Adapted from **[oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode)*
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=tmcfarlane/oh-my-cursor&type=date&legend=top-left)](https://www.star-history.com/#tmcfarlane/oh-my-cursor&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmcfarlane/team-avatar&type=date&legend=top-left)](https://www.star-history.com/#tmcfarlane/team-avatar&type=date&legend=top-left)
 
 ## Contributing
 

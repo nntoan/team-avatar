@@ -33,7 +33,7 @@ The ground rules are the same everywhere. Read before you claim. Name the data s
 ### Claude Code
 
 ```bash
-claude plugin marketplace add tmcfarlane/oh-my-cursor
+claude plugin marketplace add tmcfarlane/team-avatar
 claude plugin install team-avatar@team-avatar
 ```
 
@@ -44,13 +44,13 @@ To try a local checkout without installing, run `claude --plugin-dir plugins/tea
 ### Codex
 
 ```bash
-codex plugin marketplace add tmcfarlane/oh-my-cursor
+codex plugin marketplace add tmcfarlane/team-avatar
 codex plugin add team-avatar@team-avatar
 ```
 
 Start a session and ask for `$avatar-mode`, or call a skill directly, for example `$earth-rumble`. Codex reads [skills/avatar-mode/references/codex.md](skills/avatar-mode/references/codex.md) for its tool and subagent equivalents. Character subagents need `multi_agent = true` under `[features]` in `~/.codex/config.toml`.
 
-To try a local checkout, pass its path instead of `tmcfarlane/oh-my-cursor`.
+To try a local checkout, pass its path instead of `tmcfarlane/team-avatar`.
 
 ## Requirements
 

@@ -9,7 +9,7 @@ When someone new arrives at the Air Temple, Aang does not hand them a scroll. He
 
 For a help question, do not start the work. The user asked how, and a Team Avatar run spends real tokens, so let them send the prompt. A message that asks for work, such as "use team avatar to fix this bug", is not a help question. Read [`avatar-mode`](../avatar-mode/SKILL.md) and do the work under it.
 
-This file maps questions to the skills that own the answers. Read the matching skill before answering. Its instructions take precedence over this map. The local links point into the installed plugin, so give the user the public copy: `https://github.com/tmcfarlane/oh-my-cursor/blob/main/plugins/team-avatar/` followed by the file's path relative to the plugin root.
+This file maps questions to the skills that own the answers. Read the matching skill before answering. Its instructions take precedence over this map. The local links point into the installed plugin, so give the user the public copy: `https://github.com/tmcfarlane/team-avatar/blob/main/plugins/team-avatar/` followed by the file's path relative to the plugin root.
 
 On Codex, read [avatar-mode/references/codex.md](../avatar-mode/references/codex.md) for tool equivalents.
 
@@ -54,7 +54,7 @@ Each character is also a subagent. On Claude Code it is `team-avatar:<character>
 
 ## Get set up
 
-1. Identify the runtime and install type, then give the matching install command from the plugin [README](https://github.com/tmcfarlane/oh-my-cursor/blob/main/plugins/team-avatar/README.md#install).
+1. Identify the runtime and install type, then give the matching install command from the plugin [README](https://github.com/tmcfarlane/team-avatar/blob/main/plugins/team-avatar/README.md#install).
 2. Read [`avatar-setup`](../avatar-setup/SKILL.md) before you explain model choices, effort, where the sheet lives, or automatic routing. The plugin's SessionStart hook routes nontrivial work into `avatar-mode`. To turn it off, set `session hook: off` in the runtime's sheet. Codex runs the hook only after the user trusts it through `/hooks`. A skills-only install has no hook.
 3. Offer a first task prompt with a goal and a check that can pass or fail, per [references/prompting.md](references/prompting.md), in the runtime's invocation syntax below.
 

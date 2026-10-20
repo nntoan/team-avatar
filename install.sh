@@ -97,8 +97,8 @@ ${DIM}${CURSOR_MODE_LABEL}${RESET}
 Install Team Avatar agent configurations for Cursor.
 
 ${BOLD}USAGE${RESET}
-  curl -fsSL https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.sh | bash
-  curl -fsSL https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main/install.sh | bash -s -- [OPTIONS]
+  curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash -s -- [OPTIONS]
   bash install.sh [OPTIONS]
 
 ${BOLD}OPTIONS${RESET}
@@ -221,7 +221,7 @@ toggle_orchestrator_rule() {
 # Embedded source files (all 12 agent/rule files)
 # ---------------------------------------------------------------------------
 
-SOURCE_BASE_URL_DEFAULT="https://raw.githubusercontent.com/tmcfarlane/oh-my-cursor/main"
+SOURCE_BASE_URL_DEFAULT="https://raw.githubusercontent.com/tmcfarlane/team-avatar/main"
 # Override for forks/dev:
 #   OH_MY_CURSOR_SOURCE_BASE_URL="https://raw.githubusercontent.com/<you>/<repo>/<ref>" bash install.sh
 OH_MY_CURSOR_SOURCE_BASE_URL="${OH_MY_CURSOR_SOURCE_BASE_URL:-$SOURCE_BASE_URL_DEFAULT}"

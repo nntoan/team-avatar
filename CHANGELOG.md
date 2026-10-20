@@ -1,11 +1,24 @@
 # Changelog
 
-All notable changes to oh-my-cursor are documented here. Format follows
+All notable changes to Team Avatar (formerly oh-my-cursor) are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/); this project uses [SemVer](https://semver.org/).
 
 > **Validated against Cursor 3.9.8** (latest) — every release is verified on a real
 > Cursor build before tagging. See [`VALIDATION.md`](VALIDATION.md) for the per-version
 > compatibility matrix and the 2-minute re-validation check.
+
+## [1.0.0] - 2026-10-19
+
+Team Avatar becomes a universal agent orchestrator for Claude Code and Codex, and the repository is renamed from `oh-my-cursor` to `team-avatar`. The Cursor edition below still ships unchanged.
+
+We took [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan, through Michael Denyer's [Claude Code and Codex port](https://github.com/michael-denyer/pstack-claude), and put Avatar characters on top of it. It probably made it worse. It is definitely cooler.
+
+### Added
+- **Team Avatar plugin** (`plugins/team-avatar`) for Claude Code and Codex: 58 skills owned by 9 characters, with `avatar-mode` as the entry point that routes each task. Every pstack skill and playbook has a Team Avatar skill, credited in `NOTICE.md`.
+- **Suki**, a ninth character, for parallel squads and long autonomous runs.
+- A session-start hook that turns avatar mode on, and `avatar-setup` to pick a model per character.
+- A skill registry (`team.json`), a generator that keeps every roster table in sync, and a validator that runs in CI.
+- **Evidence.** A 29-case end-to-end suite (29 of 29 on both tools), an A/B benchmark with hidden graders, and SWE-bench Verified Mini runs comparing Team Avatar, pstack, and no plugin. No plugin raised the SWE-bench score by a significant margin, and both plugins cost more per task. See `docs/evidence/`.
 
 ## [0.4.2] — 2026-06-28
 

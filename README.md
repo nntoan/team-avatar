@@ -61,6 +61,22 @@ codex plugin marketplace add tmcfarlane/team-avatar && codex plugin add team-ava
 
 Then ask for `avatar-mode` (`/team-avatar:avatar-mode` in Claude Code, `$avatar-mode` in Codex) with any engineering task. [plugins/team-avatar](plugins/team-avatar/README.md) has the full roster and every skill.
 
+## Other harnesses
+
+Every skill is a plain Markdown `SKILL.md` in the [Agent Skills](https://agentskills.io) format, so any coding harness that loads Agent Skills can run them: OpenCode, Hermes Agent, OpenClaw, Muse Code, Gemini CLI, GitHub Copilot, Amp, Goose, and more. [T3 Code](https://github.com/pingdotgg/t3code) runs the Claude Code, Codex, Cursor, and OpenCode agents already on your machine, so install Team Avatar into the one it drives.
+
+The [`skills` CLI](https://github.com/vercel-labs/skills) installs the 58 skills for the agents you pick:
+
+```bash
+npx skills add tmcfarlane/team-avatar/plugins/team-avatar
+```
+
+Keep the `plugins/team-avatar` path. The repository root also holds the Cursor edition's skills, and a bare `tmcfarlane/team-avatar` lists both sets.
+
+To install by hand, copy each folder in `plugins/team-avatar/skills/` into a directory your harness scans. OpenCode, OpenClaw, and Muse Code all read `~/.agents/skills/`. Hermes Agent reads `~/.hermes/skills/`, or add `~/.agents/skills` to `skills.external_dirs` in `~/.hermes/config.yaml`.
+
+Outside Claude Code and Codex you get the skills on their own. The `team-avatar:<character>` subagents, the session hook, and the helper tools that `master-plan`, `kyoshi-command`, `long-flight`, and `safe-landing` run from `plugins/team-avatar/tools` come only with the plugins.
+
 ## Team Avatar for Cursor (the original oh-my-cursor)
 
 The Cursor edition still ships as config files: 8 agents, slash commands, and hooks that block bad commits. Its install is below and unchanged.

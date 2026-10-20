@@ -1,6 +1,6 @@
 # Team Avatar
 
-Principal-level engineering skills for Claude Code and Codex. Each skill belongs to a character from *Avatar: The Last Airbender*, and each character owns the discipline that fits who they are. Aang routes the work through `avatar-mode`. The rest of the team does the part they are best at.
+Principal-level engineering skills for Claude Code and Codex. Each skill belongs to a character from *Avatar: The Last Airbender*, and each character owns the discipline that fits who they are. Aang routes the work through `avatar-mode`. The rest of the team does the part they are best at. Other harnesses that load Agent Skills can run the skills too, as [Other harnesses](../../README.md#other-harnesses) explains.
 
 The ground rules are the same everywhere. Read before you claim. Name the data shape before you write logic. Ship the smallest change the evidence justifies. Prove it on the real artifact. Team Avatar adapts pstack's poteto mode, and [NOTICE.md](NOTICE.md) credits every upstream source.
 
@@ -25,8 +25,8 @@ The ground rules are the same everywhere. Read before you claim. Name the data s
 - **`avatar-mode` is the front door.** Ask for it with a task in plain words. Aang picks the character and the skill chain, and holds the rules every skill follows.
 - **`four-elements` holds the principles.** Air subtracts, Water adapts, Earth holds, Fire drives. Each principle has its own reference file.
 - **The session hook turns avatar mode on for you.** When a session starts, it tells the agent to route nontrivial work through `avatar-mode`. Turn it off with `session hook: off` in the model sheet.
-- **`avatar-setup` picks the models.** It writes a small sheet (`~/.claude/team-avatar-models.md` or `~/.codex/team-avatar-models.md`) with one model per character, a `panel` of models for multi-model reviews, and the hook switch. With no sheet, the defaults apply.
-- **`avatar-help` explains all of this to a new user**, with prompt recipes.
+- **`avatar-setup` picks the models.** It writes a small sheet with one model per character, a `panel` of models for multi-model reviews, a default effort, and the hook switch. [Pick the models](#pick-the-models) covers the sheet and its defaults.
+- **`avatar-help` is the guide for new users.** It explains all of this, with prompt recipes.
 
 ## Install
 
@@ -52,6 +52,29 @@ Start a session and ask for `$avatar-mode`, or call a skill directly, for exampl
 
 To try a local checkout, pass its path instead of `tmcfarlane/team-avatar`.
 
+## Pick the models
+
+Each character runs on the model its line names in the runtime's sheet. Claude Code reads `~/.claude/team-avatar-models.md`, and Codex reads `~/.codex/team-avatar-models.md`. Run `avatar-setup` (`/team-avatar:avatar-setup` or `$avatar-setup`) to write or change the sheet. To print the lines that apply, run this from the repository root:
+
+```bash
+sh plugins/team-avatar/skills/avatar-setup/scripts/show-sheet.sh claude
+```
+
+Pass `codex` instead of `claude` for the Codex sheet. A line that the sheet doesn't have takes its default:
+
+| Line | Default | Runs |
+|------|---------|------|
+| `aang` | `inherit` | Aang as a subagent, on the parent session's model |
+| `sokka`, `katara`, `zuko`, `iroh`, `suki`, `toph review` | `opus` | Planning, fixes, performance, prose, squad workers and verification, and Toph's reviews |
+| `toph`, `appa` | `sonnet` | Investigation, and feature code that follows a settled plan |
+| `momo` | `haiku` | Throwaway spikes and trivial edits |
+| `strongest` | `fable` | The hardest changes and the strongest judgment calls |
+| `panel` | `opus, fable, sonnet, haiku` | Multi-model reviews, with one runner per entry |
+| `default effort` | `session` | The parent session's effort, for every line with no `@level` |
+| `session hook` | `on` | The SessionStart hook that routes work into `avatar-mode` |
+
+The defaults name Claude models. On Codex, run `$avatar-setup` once to name your Codex models. Without a Codex sheet, the agent picks Codex substitutes on its own. A line can also carry an effort, as in `sokka: opus @high`.
+
 ## Requirements
 
 Most skills need nothing but the agent. A few drive helper tools:
@@ -76,7 +99,7 @@ The validator checks skill and agent frontmatter, that every skill is registered
 
 ## End-to-end tests
 
-`evals/team-avatar/` runs the same 29 cases against real headless Claude Code and Codex sessions: 18 routing checks, skill discovery, and real tasks on throwaway repos (a planted bug, a planted SQL injection, test-first work, docs, planning, model setup, dispatching Toph, and the session hook). Each run is graded by the same deterministic checks. The latest results are in [docs/evidence/team-avatar-evals](../../docs/evidence/team-avatar-evals/README.md).
+`evals/team-avatar/` runs the same 29 cases against real headless Claude Code and Codex sessions: 18 routing checks, skill discovery, and real tasks on throwaway repos (a planted bug, a planted SQL injection, test-first work, docs, planning, model setup, dispatching Toph, and the session hook). The same deterministic checks grade every run. In the latest run, both Claude Code and Codex passed 29 of 29, as [docs/evidence/team-avatar-evals](../../docs/evidence/team-avatar-evals/README.md) shows.
 
 ```bash
 node evals/team-avatar/run.mjs --runtime claude --jobs 4

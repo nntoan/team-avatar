@@ -19,6 +19,8 @@ _Created by <a href="https://zeroclickdev.ai/">ZeroClickDev</a>_
 
 </div>
 
+https://github.com/user-attachments/assets/61db75bb-73e7-46d8-8863-fe9bbb8fad8c
+
 ## The honest version
 
 We took [pstack](https://github.com/cursor/plugins/tree/main/pstack), Lauren Tan's excellent agent workflow pack, by way of Michael Denyer's [Claude Code and Codex port](https://github.com/michael-denyer/pstack-claude). Then we slapped Avatar characters on top of it.

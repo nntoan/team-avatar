@@ -7,7 +7,7 @@ All notable changes to Team Avatar (formerly oh-my-cursor) are documented here. 
 > Cursor build before tagging. See [`VALIDATION.md`](VALIDATION.md) for the per-version
 > compatibility matrix and the 2-minute re-validation check.
 
-## [1.0.0] - 2026-10-19
+## [1.0.0] - 2026-10-24
 
 Team Avatar becomes a universal agent orchestrator for Claude Code and Codex, and the repository is renamed from `oh-my-cursor` to `team-avatar`. The Cursor edition below still ships unchanged.
 

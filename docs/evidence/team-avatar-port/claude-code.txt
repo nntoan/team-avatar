@@ -1,0 +1,18 @@
+$ node scripts/validate-team-avatar.mjs
+team-avatar OK: 58 skills, 9 agents
+
+$ claude plugin validate plugins/team-avatar
+✔ Validation passed
+
+$ claude plugin list   (team-avatar entry)
+  ❯ team-avatar@team-avatar
+    Version: 0.2.0
+    Read from: /Users/tmcfarlane/repo/oh-my-cursor/plugins/team-avatar
+    Scope: user
+    Status: ✔ enabled
+
+$ # session hook, temp HOME: no sheet, then "session hook: off"
+<EXTREMELY_IMPORTANT>
+Team Avatar is with you. Aang leads, and each character owns a discipline.
+
+lines with hook off: 0

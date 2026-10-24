@@ -1,0 +1,3 @@
+`# Avatar mode`
+
+That is the first heading in the skill text that loaded this session, right after the base directory line. I didn't edit any files.

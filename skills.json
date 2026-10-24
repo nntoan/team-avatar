@@ -19,7 +19,7 @@
     },
     {
       "name": "cursor-image-generation",
-      "source": "tmcfarlane/oh-my-cursor",
+      "source": "tmcfarlane/team-avatar",
       "agents": ["Zuko"]
     },
     {

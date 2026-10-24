@@ -1,0 +1,21 @@
+The branch breaks every balance calculation and adds a SQL injection. It should not merge until both are fixed. I made no edits. The commit message is just "feature change" (`git log main..HEAD`), so I judged the code against what the functions say they do.
+
+**Findings, most severe first:**
+
+```
+[blocker] src/db.js:7    (correctness)  SQL injection in findByOwner.
+[blocker] src/ledger.js:3 (correctness)  balance() throws on every input.
+[minor]   src/ledger.js:7 (correctness)  refund() records whatever amount it is given.
+```
+
+1. **SQL injection in `findByOwner`.** It builds the query by pasting `owner` straight into the SQL string. An owner value of `x' OR '1'='1` returns every account in the table. Stacked statements could do worse if the driver allows them. The neighbouring `findAccount` and `insertEntry` already use `$1` placeholders (`src/db.js:4`, `src/db.js:10`), so the fix is to do the same: `driver.query("SELECT * FROM accounts WHERE owner = $1", [owner])`. I found this by reading the code. I did not run it against a database.
+
+2. **`balance()` throws on every input.** The loop changed from `i < entries.length` to `i <= entries.length`, so the last pass reads `entries[entries.length].cents`, which is `undefined.cents`. I ran it: both `balance([{cents:100}])` and `balance([])` throw `Cannot read properties of undefined (reading 'cents')` (*measured*). Before this branch the function worked. Changing it back to `<` fixes it.
+
+3. **`refund()` records whatever amount it is given.** It writes `cents` to `insertEntry` without checking it. A zero, a non-integer, `NaN`, or a value with the wrong sign is written to the ledger as is. It also doesn't check that the account exists or that the caller is allowed to refund it. The repo doesn't say whether refunds should be stored as positive or negative amounts, and nothing calls `refund` yet (`grep` over `src` finds only the definition). So whether the sign is wrong is a *guess*, which is why this is minor and not a blocker. It's worth deciding the sign rule and adding a check before anything calls it.
+
+Nothing else in the repo calls `findByOwner` or `balance`. That means no existing caller breaks, but it also means no test caught the off-by-one.
+
+Two departures from the review process I normally follow. First, I skipped the separate code-quality review because you asked only about bugs and security. Second, with a diff this small (8 added lines across two files), I didn't send it to separate reviewer agents. I read the full files myself and ran `balance` to confirm the crash.
+
+**Verdict: fix the blockers before merging.** The injection and the crashing `balance()` each need a one-line fix, and `refund` needs a decision on what sign a refund should have.

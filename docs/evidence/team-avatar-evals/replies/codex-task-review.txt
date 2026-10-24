@@ -1,0 +1,7 @@
+- **[blocker] [src/db.js:7](/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/evals-final/codex/work/task-review/src/db.js:7) (correctness). SQL injection.** Calling `findByOwner("' OR 1=1 --")` produces a query that selects every account. Owners containing apostrophes also produce invalid SQL. Bind `owner` as a query parameter.
+
+- **[blocker] [src/ledger.js:3](/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/evals-final/codex/work/task-review/src/ledger.js:3) (correctness). Balance calculations always crash.** `i <= entries.length` reads past the array. Empty and populated arrays reproduce a `TypeError`; the same inputs succeed on `main`. Restore `<`.
+
+Applied **Prove It Works** through direct reproductions. `npm test` discovers zero tests. No files were changed.
+
+**Ship after blockers.** Fix the SQL injection and balance regression before merging.

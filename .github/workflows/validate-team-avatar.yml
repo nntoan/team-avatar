@@ -1,0 +1,43 @@
+name: validate-team-avatar
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/team-avatar/**"
+      - ".claude-plugin/**"
+      - ".agents/plugins/**"
+      - "scripts/validate-team-avatar.mjs"
+      - "scripts/generate-team-avatar.mjs"
+      - ".github/workflows/validate-team-avatar.yml"
+  pull_request:
+    paths:
+      - "plugins/team-avatar/**"
+      - ".claude-plugin/**"
+      - ".agents/plugins/**"
+      - "scripts/validate-team-avatar.mjs"
+      - "scripts/generate-team-avatar.mjs"
+      - ".github/workflows/validate-team-avatar.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate skills, agents, manifests, and house style
+        run: node scripts/validate-team-avatar.mjs
+
+  tools:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugins/team-avatar/tools
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      - run: bun run typecheck

@@ -1,0 +1,5 @@
+Fixed the off-by-one error in [src/paginate.js](src/paginate.js:4). `slice` excludes its end index, so subtracting one dropped an item from full pages.
+
+`npm test` now passes all 3 tests. Previously, the failing test returned `[1, 2]` instead of `[1, 2, 3]`. Boundary checks also pass.
+
+Fix Root Causes and Laziness Protocol kept the fix to one line. Prove It Works guided verification. Nothing staged or committed.

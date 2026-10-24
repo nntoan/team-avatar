@@ -1,0 +1,8 @@
+$ # inject 4 defects into a scratch copy, then run the validator
+plugins/team-avatar/agents/momo.md: frontmatter name "momu" must equal file name "momo"
+plugins/team-avatar/skills/tea-time/SKILL.md: references unknown skill "healing-wind"
+plugins/team-avatar: versions disagree: 0.1.0, 0.2.0
+plugins/team-avatar/skills/tea-time/SKILL.md: line 50 contains a long dash
+
+4 problem(s)
+exit=1

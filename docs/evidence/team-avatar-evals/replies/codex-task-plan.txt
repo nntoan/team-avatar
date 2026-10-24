@@ -1,0 +1,5 @@
+Created [plan.md](/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/evals-final/codex/work/task-plan/plan.md).
+
+It sequences baseline repair, cursor API addition, caller migration, and legacy deletion in one PR, applying Migrate Callers Then Delete Legacy APIs and Sequence Work into Verifiable Units.
+
+The main risk is array mutation during traversal. No code changed.

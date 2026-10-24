@@ -1,0 +1,6 @@
+{
+  "name": "wc-lite",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": { "wc-lite": "src/cli.js" }
+}

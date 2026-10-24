@@ -1,0 +1,14 @@
+{
+  "name": "team-avatar",
+  "displayName": "Team Avatar",
+  "version": "1.0.0",
+  "description": "Principal-level engineering skills, each owned by a character from Avatar: The Last Airbender. Aang routes the work through avatar-mode.",
+  "author": {
+    "name": "Trent McFarlane",
+    "url": "https://github.com/tmcfarlane"
+  },
+  "homepage": "https://github.com/tmcfarlane/team-avatar",
+  "repository": "https://github.com/tmcfarlane/team-avatar",
+  "license": "MIT",
+  "keywords": ["team-avatar", "avatar-mode", "skills", "principal-engineering", "workflow", "codex", "claude-code"]
+}

@@ -1,0 +1,9 @@
+**Environment wins over file; file wins over defaults.** This applies separately to each key because the loader merges `{ ...DEFAULTS, ...fromFile(path), ...fromEnv(env) }`. [Merge logic](src/config.js:23)
+
+- Defaults are `port: 3000`, `logLevel: "info"`, and `region: "us-east-1"`. [Defaults](src/config.js:3)
+- The file is `shelf.json` unless you supply another `path`. Environment values come from `process.env` unless you supply another `env` object. [Loader options](src/config.js:22)
+- Environment overrides use `SHELF_PORT`, `SHELF_LOG_LEVEL`, and `SHELF_REGION`. Empty strings are ignored. The port is converted with `Number()` without validation, so invalid numeric text becomes `NaN`. [Environment parsing](src/config.js:14)
+
+A missing file falls back to the other sources. Malformed JSON or other read errors throw, even when environment overrides exist. [File parsing](src/config.js:5)
+
+I applied Prove It Works by running six cases against the real loader. All passed. No files changed; `git status --short` remained empty.

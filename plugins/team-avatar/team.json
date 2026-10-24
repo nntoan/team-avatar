@@ -1,0 +1,81 @@
+{
+  "characters": [
+    { "name": "aang", "title": "Aang", "discipline": "Orchestration, history, and the final call" },
+    { "name": "sokka", "title": "Sokka", "discipline": "Planning, architecture, and inventions" },
+    { "name": "toph", "title": "Toph", "discipline": "Investigation and blunt review" },
+    { "name": "katara", "title": "Katara", "discipline": "Debugging, tests, and code health" },
+    { "name": "zuko", "title": "Zuko", "discipline": "Performance, forensics, and incidents" },
+    { "name": "iroh", "title": "Iroh", "discipline": "Writing, teaching, and skill craft" },
+    { "name": "appa", "title": "Appa", "discipline": "Execution, shipping, and PR care" },
+    { "name": "momo", "title": "Momo", "discipline": "Throwaway spikes and quick tasks" },
+    { "name": "suki", "title": "Suki", "discipline": "Parallel squads and long autonomous runs" }
+  ],
+  "skills": [
+    { "name": "avatar-mode", "owner": "aang", "from": ["poteto-mode", "playbooks/feature"] },
+    { "name": "four-elements", "owner": "aang", "from": ["principle-*"] },
+    { "name": "past-lives", "owner": "aang", "from": ["why"] },
+    { "name": "spirit-world", "owner": "aang", "from": ["recall"] },
+    { "name": "iceberg-wake", "owner": "aang", "from": ["ketchup"] },
+    { "name": "meditation", "owner": "aang", "from": ["reflect"] },
+    { "name": "avatar-setup", "owner": "aang", "from": ["setup-pstack"] },
+    { "name": "avatar-help", "owner": "aang", "from": ["poteto-help"] },
+
+    { "name": "master-plan", "owner": "sokka", "from": ["playbooks/multi-phase-plan"] },
+    { "name": "war-room", "owner": "sokka", "from": ["architect"] },
+    { "name": "day-of-black-sun", "owner": "sokka", "from": ["figure-it-out"] },
+    { "name": "battle-map", "owner": "sokka", "from": ["show-me-your-work"] },
+    { "name": "war-journal", "owner": "sokka", "from": ["what-did-i-get-done"] },
+    { "name": "invention-workshop", "owner": "sokka", "from": ["automate-me"] },
+    { "name": "sharpen-the-sword", "owner": "sokka", "from": ["sharpen"] },
+
+    { "name": "seismic-sense", "owner": "toph", "from": ["how", "playbooks/investigation"] },
+    { "name": "earth-rumble", "owner": "toph", "from": ["thermos", "thermo-nuclear-review"] },
+    { "name": "metalbending", "owner": "toph", "from": ["thermo-nuclear-code-quality-review"] },
+    { "name": "lie-detector", "owner": "toph", "from": ["interrogate"] },
+    { "name": "my-cabbages", "owner": "toph", "from": ["blast-radius"] },
+    { "name": "plain-talk", "owner": "toph", "from": ["bro"] },
+
+    { "name": "healing-water", "owner": "katara", "from": ["playbooks/bug-fix"] },
+    { "name": "push-and-pull", "owner": "katara", "from": ["tdd"] },
+    { "name": "heal-ci", "owner": "katara", "from": ["fix-ci"] },
+    { "name": "purify", "owner": "katara", "from": ["deslop"] },
+    { "name": "clear-water", "owner": "katara", "from": ["no-comments"] },
+    { "name": "vital-signs", "owner": "katara", "from": ["create-verification-skill"] },
+    { "name": "checkup", "owner": "katara", "from": ["maintain-verification-skill"] },
+    { "name": "typescript-forms", "owner": "katara", "from": ["typescript-best-practices"] },
+
+    { "name": "breath-of-fire", "owner": "zuko", "from": ["playbooks/perf-issue"] },
+    { "name": "steady-flame", "owner": "zuko", "from": ["benchmark-checklist"] },
+    { "name": "dragon-dance", "owner": "zuko", "from": ["playbooks/hillclimb"] },
+    { "name": "ember-trace", "owner": "zuko", "from": ["playbooks/runtime-forensics", "playbooks/trace-forensics"] },
+    { "name": "twin-flames", "owner": "zuko", "from": ["playbooks/visual-parity"] },
+    { "name": "agni-kai", "owner": "zuko", "from": ["arena"] },
+    { "name": "redemption-arc", "owner": "zuko", "from": [] },
+    { "name": "honor-code", "owner": "zuko", "from": ["correct"] },
+
+    { "name": "tea-time", "owner": "iroh", "from": ["unslop", "technical-writing"] },
+    { "name": "white-lotus", "owner": "iroh", "from": ["teach"] },
+    { "name": "what-you-seek", "owner": "iroh", "from": ["in-your-own-words"] },
+    { "name": "new-scroll", "owner": "iroh", "from": ["playbooks/authoring-a-skill"] },
+    { "name": "pai-sho", "owner": "iroh", "from": ["playbooks/eval"] },
+
+    { "name": "steady-flight", "owner": "appa", "from": ["playbooks/refactoring"] },
+    { "name": "yip-yip", "owner": "appa", "from": ["playbooks/opening-a-pr"] },
+    { "name": "light-load", "owner": "appa", "from": ["make-pr-easy-to-review"] },
+    { "name": "long-flight", "owner": "appa", "from": ["babysit", "playbooks/babysit"] },
+    { "name": "safe-landing", "owner": "appa", "from": ["playbooks/shipping"] },
+    { "name": "clear-skies", "owner": "appa", "from": ["fix-merge-conflicts"] },
+    { "name": "messenger-hawk", "owner": "appa", "from": ["get-pr-comments"] },
+    { "name": "make-camp", "owner": "appa", "from": ["playbooks/pause-safely"] },
+    { "name": "break-camp", "owner": "appa", "from": ["playbooks/session-pickup"] },
+    { "name": "shedding-season", "owner": "appa", "from": ["playbooks/worktree-cleanup"] },
+
+    { "name": "scouting-flight", "owner": "momo", "from": ["playbooks/prototype"] },
+
+    { "name": "kyoshi-formation", "owner": "suki", "from": ["swarm"] },
+    { "name": "kyoshi-command", "owner": "suki", "from": ["playbooks/orchestrate"] },
+    { "name": "night-watch", "owner": "suki", "from": ["playbooks/autonomous-run"] },
+    { "name": "full-patrol", "owner": "suki", "from": ["playbooks/autopilot-full"] },
+    { "name": "shield-wall", "owner": "suki", "from": ["playbooks/autopilot-stack"] }
+  ]
+}

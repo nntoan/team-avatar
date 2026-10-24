@@ -1,0 +1,14 @@
+$ node scripts/validate-team-avatar.mjs
+team-avatar OK: 15 skills, 8 agents
+
+$ claude plugin validate plugins/team-avatar
+Validating plugin manifest: /Users/tmcfarlane/repo/oh-my-cursor/plugins/team-avatar/.claude-plugin/plugin.json
+
+✔ Validation passed
+
+$ claude plugin list   (team-avatar entry)
+  ❯ team-avatar@team-avatar
+    Version: 0.1.0
+    Read from: /Users/tmcfarlane/repo/oh-my-cursor/plugins/team-avatar
+    Scope: user
+    Status: ✔ enabled

@@ -1,0 +1,56 @@
+{
+  "flagged": [],
+  "noted": [
+    {
+      "model": "claude-invoked",
+      "instance_id": "django__django-11885",
+      "paths": [
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/claude-invoked/;"
+      ]
+    },
+    {
+      "model": "claude-invoked",
+      "instance_id": "sphinx-doc__sphinx-11510",
+      "paths": [
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/venv-11510",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/venv-11510/bin/ruff",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/venv-11510;"
+      ]
+    },
+    {
+      "model": "claude-without",
+      "instance_id": "sphinx-doc__sphinx-9229",
+      "paths": [
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/claude-without/venv9229/bin/python3",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/claude-without/venv9229/lib/python3.9/site-packages/urllib3/__init__.py:35:"
+      ]
+    },
+    {
+      "model": "codex-with",
+      "instance_id": "sphinx-doc__sphinx-8269",
+      "paths": [
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-8265/sphinx/builders/linkcheck.py",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-8265/tests/test_build_linkcheck.py",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-7985/sphinx/builders/linkcheck.py"
+      ]
+    },
+    {
+      "model": "codex-with",
+      "instance_id": "sphinx-doc__sphinx-8475",
+      "paths": [
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-9230/.pytest_cache/.gitignore",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-9230/.codecov.yml",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-with/sphinx-doc__sphinx-8265/.travis.yml"
+      ]
+    },
+    {
+      "model": "codex-without",
+      "instance_id": "sphinx-doc__sphinx-8475",
+      "paths": [
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-9698/sphinx/domains/python.py",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-9698/sphinx/texinputs/python.ist",
+        "/private/tmp/claude-501/-Users-tmcfarlane-repo/3251ac6f-1e91-4eb7-992b-5b7b44882102/scratchpad/swe/run/work/codex-without/sphinx-doc__sphinx-9698/tests/roots/test-directive-code/python.rst"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+$ codex exec "Do not run any commands. List the name of every skill available to you that comes from the team-avatar plugin, one per line."
+
+team-avatar:avatar-mode  
+team-avatar:breath-of-fire  
+team-avatar:earth-rumble  
+team-avatar:four-elements  
+team-avatar:healing-water  
+team-avatar:master-plan  
+team-avatar:push-and-pull  
+team-avatar:redemption-arc  
+team-avatar:scouting-flight  
+team-avatar:seismic-sense  
+team-avatar:steady-flight  
+team-avatar:tea-time  
+team-avatar:war-room  
+team-avatar:white-lotus  
+team-avatar:yip-yip

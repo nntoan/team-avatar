@@ -1,0 +1,250 @@
+{
+  "tasks": [
+    {
+      "id": "root-cause-fix",
+      "skill": "healing-water",
+      "fixture": "invoice",
+      "prompt": "A customer reports their invoice total is a cent short, and `npm test` fails. Fix it. Do not commit.",
+      "scorer": "hidden-tests",
+      "hidden": "invoice.test.mjs",
+      "measures": "Fixes the cause, not the symptom. Hidden tests hit the other callers of the same helper.",
+      "allowed": "^(src|test)/",
+      "regression": {
+        "file": "src/money.js"
+      }
+    },
+    {
+      "id": "review-recall",
+      "skill": "earth-rumble",
+      "fixture": "payments",
+      "branch": "feature",
+      "prompt": "Review the change on this branch (compare it with main) before it merges. List every problem you find with file:line. Do not edit files.",
+      "scorer": "planted-bugs",
+      "planted": [
+        {
+          "file": "auth.js",
+          "line": 2,
+          "words": "assign|= \"admin\"|single =|every user|always (true|truthy|admin)|mutat"
+        },
+        {
+          "file": "transfer.js",
+          "line": 4,
+          "words": "await|unawaited|not awaited|race|promise|floating"
+        },
+        {
+          "file": "search.js",
+          "line": 3,
+          "words": "inject|interpolat|concatenat|parameteri|placeholder|template literal"
+        },
+        {
+          "file": "session.js",
+          "line": 3,
+          "words": "second|millisecond|unit|expire"
+        },
+        {
+          "file": "upload.js",
+          "line": 6,
+          "words": "travers|\\.\\./|basename|escape|outside"
+        },
+        {
+          "file": "retry.js",
+          "line": 6,
+          "words": "null|swallow|lastError|rethrow|throw|hides|undefined"
+        }
+      ],
+      "measures": "Share of 6 planted bugs the review reports.",
+      "allowed": "^$"
+    },
+    {
+      "id": "review-subtle",
+      "skill": "earth-rumble",
+      "fixture": "orders",
+      "branch": "feature",
+      "allowed": "^$",
+      "prompt": "Review the change on this branch (compare it with main) before it merges. List every problem you find with file:line. Do not edit files.",
+      "scorer": "planted-bugs",
+      "exact": true,
+      "planted": [
+        {
+          "file": "orders.js",
+          "line": 2,
+          "words": "forEach|not awaited|unawaited|fire.and.forget"
+        },
+        {
+          "file": "orders.js",
+          "line": 10,
+          "words": "userId|authori|ownership|other user|any user|IDOR"
+        },
+        {
+          "file": "inventory.js",
+          "line": 3,
+          "words": "race|TOCTOU|atomic|concurren|oversell"
+        },
+        {
+          "file": "webhook.js",
+          "line": 5,
+          "words": "timing|timingSafeEqual|constant.time"
+        },
+        {
+          "file": "validate.js",
+          "line": 2,
+          "words": "ReDoS|backtrack|catastrophic|exponential|empty string"
+        },
+        {
+          "file": "cart.js",
+          "line": 3,
+          "words": "float|rounding|precision|fraction|cents"
+        },
+        {
+          "file": "list.js",
+          "line": 5,
+          "words": "MAX_LIMIT|cap|unbounded|max limit|clamp"
+        },
+        {
+          "file": "list.js",
+          "line": 6,
+          "words": "offset|skip|first page|page - 1|off.by.one"
+        },
+        {
+          "file": "report.js",
+          "line": 2,
+          "words": "timezone|time zone|UTC|local|off by one day"
+        },
+        {
+          "file": "payments.js",
+          "line": 6,
+          "words": "swallow|silent|hides|empty array|response\\.ok|status"
+        }
+      ],
+      "measures": "Share of 10 subtle planted bugs the review reports (races, auth, timing-safe compare, ReDoS, money floats, time zones)."
+    },
+    {
+      "id": "test-strength",
+      "skill": "push-and-pull",
+      "fixture": "duration",
+      "prompt": "Implement parseDuration in src/duration.js. It turns strings like \"1h30m\", \"45s\", \"2h\" and \"1h5m10s\" into seconds, ignores surrounding whitespace, and throws a RangeError for empty input, unknown units, repeated units, or anything left over. Add tests. Do not commit.",
+      "scorer": "mutation",
+      "hidden": "duration.test.mjs",
+      "reference": "duration-reference.js",
+      "target": "src/duration.js",
+      "mutants": [
+        [
+          "{ h: 3600, m: 60, s: 1 }",
+          "{ h: 60, m: 60, s: 1 }"
+        ],
+        [
+          "{ h: 3600, m: 60, s: 1 }",
+          "{ h: 3600, m: 1, s: 1 }"
+        ],
+        [
+          "String(input).trim()",
+          "String(input)"
+        ],
+        [
+          "if (text === \"\") throw new RangeError(\"empty duration\");",
+          ""
+        ],
+        [
+          "if (seen.has(unit)) throw new RangeError(`repeated unit ${unit}`);",
+          ""
+        ],
+        [
+          "if (consumed !== text.length) throw new RangeError(`bad duration ${input}`);",
+          ""
+        ],
+        [
+          "Number(digits) * UNITS[unit]",
+          "Number(digits) + UNITS[unit]"
+        ],
+        [
+          "/(\\d+)([hms])/gy",
+          "/(\\d)([hms])/gy"
+        ]
+      ],
+      "measures": "Half correctness on hidden tests, half the share of 8 broken implementations the agent's own tests catch.",
+      "allowed": "^(src|test)/"
+    },
+    {
+      "id": "perf-without-regression",
+      "skill": "breath-of-fire",
+      "fixture": "catalog",
+      "prompt": "uniqueBy in src/unique.js takes about half a second on 40,000 items, and our catalog page calls it on every render. Make it fast. Do not change its behavior. Do not commit.",
+      "scorer": "perf",
+      "hidden": "catalog.test.mjs",
+      "bench": "catalog-bench.mjs",
+      "target_speedup": 10,
+      "measures": "Full score needs every hidden behavior test (NaN keys, -0, first occurrence wins) and a 10x speedup.",
+      "allowed": "^(src|test)/",
+      "evidence": "\\d+(\\.\\d+)?\\s*(ms|milliseconds)|\\d+(\\.\\d+)?\\s*(x|×)\\b"
+    },
+    {
+      "id": "prose-quality",
+      "skill": "tea-time",
+      "fixture": "wcl",
+      "prompt": "Rewrite README.md so it reads like an experienced engineer wrote it. Keep every fact that is true of the code. Do not commit.",
+      "scorer": "prose",
+      "file": "README.md",
+      "facts": [
+        "-l",
+        "-w",
+        "-c",
+        "(stdin|standard input)"
+      ],
+      "slop": [
+        "—",
+        "–",
+        "robust",
+        "cutting-edge",
+        "blazingly",
+        "seamless",
+        "empower",
+        "unlock",
+        "full potential",
+        "fast-paced",
+        "revolutioniz",
+        "leverag",
+        "state-of-the-art",
+        "holistic",
+        "game-changing",
+        "worth noting",
+        "potentially",
+        "granular insights",
+        "in order to",
+        "frictionless",
+        "journey",
+        "in conclusion",
+        "testament",
+        "elevate",
+        "new heights",
+        "✨",
+        "🚀",
+        "💡",
+        "🌊",
+        "welcome to"
+      ],
+      "measures": "Share of AI-tell phrases removed, times share of true facts kept.",
+      "allowed": "^README\\.md$"
+    },
+    {
+      "id": "investigate-not-guess",
+      "skill": "seismic-sense",
+      "fixture": "relay",
+      "prompt": "If someone starts relay with RELAY_PORT=abc, which port does the server actually listen on? Give the exact number and explain why with file:line references. Do not edit files.",
+      "scorer": "answer",
+      "answer": "\\b3000\\b",
+      "wrong": "listens on (port )?(NaN|8080|0)\\b",
+      "cites": [
+        [
+          "config\\.js:6",
+          0.2
+        ],
+        [
+          "server\\.js:7",
+          0.2
+        ]
+      ],
+      "measures": "Gets the real answer (3000, because NaN || 3000) and cites both lines that decide it.",
+      "allowed": "^$"
+    }
+  ]
+}

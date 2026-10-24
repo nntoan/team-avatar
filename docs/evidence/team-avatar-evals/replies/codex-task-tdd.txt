@@ -1,0 +1,5 @@
+Implemented `slugify` in [src/slug.js](src/slug.js) with all requested rules.
+
+Added seven input/output tests following Test Behavior, Not Implementation. They first failed with `"not implemented"` and now all pass.
+
+Prove It Works checks found `npm test` has 9 passes and 1 pre-existing pagination failure. `git diff --check` passes. Nothing committed.

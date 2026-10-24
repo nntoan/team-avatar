@@ -1,0 +1,14 @@
+`slugify` in `src/slug.js` now works as you described, and its six new tests pass. One test elsewhere in the suite still fails, because of an existing bug in `paginate` that has nothing to do with this change. Nothing is committed.
+
+**Test first.** I wrote `test/slug.test.js` before touching the function. It covers lowercasing, trimming, collapsing a run like `", World!! & "` into one hyphen, stripping hyphens at both ends, keeping digits, and input with no letters or digits giving `""`. Run against the old stub, all six failed with `error: 'not implemented'`. That failure only shows the function was missing. It doesn't show the tests catch wrong output.
+
+**The code.** It is one chain: `trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")`. Afterwards all six slug tests passed.
+
+**Checking the tests.** To make sure the tests catch wrong results, I broke the function three ways in a scratch copy, and each break was caught:
+- Without the hyphen-stripping step, `"--Hello--"` gave `'-hello-'` instead of `'hello'`.
+- Matching single characters instead of runs gave `'hello--world-----friends'`.
+- Without lowercasing, `"Hello"` gave `'ello'`.
+
+**Existing failure.** `npm test` reports 8 of 9 passing. The failure is "first page holds perPage items" in `test/paginate.test.js`. It fails without my change too. The cause is `src/paginate.js:4`, which slices to `start + perPage - 1`, so every page comes back one item short. You only asked for `slugify`, so I left it alone. I can fix it test-first the same way if you want.
+
+The working tree now has the edited `src/slug.js`, the new `test/slug.test.js`, and an untracked `.omc/` folder that a plugin created.

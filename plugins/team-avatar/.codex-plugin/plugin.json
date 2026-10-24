@@ -1,0 +1,29 @@
+{
+  "name": "team-avatar",
+  "version": "1.0.0",
+  "description": "Principal-level engineering skills, each owned by a character from Avatar: The Last Airbender. Aang routes the work through avatar-mode. Tool names resolve through skills/avatar-mode/references/codex.md.",
+  "author": {
+    "name": "Trent McFarlane",
+    "url": "https://github.com/tmcfarlane"
+  },
+  "homepage": "https://github.com/tmcfarlane/team-avatar",
+  "repository": "https://github.com/tmcfarlane/team-avatar",
+  "license": "MIT",
+  "keywords": ["team-avatar", "avatar-mode", "skills", "principal-engineering", "workflow", "codex", "claude-code"],
+  "skills": "./skills/",
+  "hooks": "./hooks/codex-hooks.json",
+  "interface": {
+    "displayName": "Team Avatar",
+    "shortDescription": "Principal-level engineering skills with an Avatar cast",
+    "longDescription": "Aang routes each task through avatar-mode. Sokka plans, Toph investigates and reviews, Katara heals bugs, Zuko owns performance and incidents, Iroh writes and teaches, Appa ships, and Momo scouts with throwaway prototypes.",
+    "developerName": "Trent McFarlane",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": [
+      "Use $avatar-mode to work on this.",
+      "Use $earth-rumble to review this diff.",
+      "Use $healing-water to fix this bug."
+    ],
+    "brandColor": "#E8A33D"
+  }
+}

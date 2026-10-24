@@ -1,0 +1,548 @@
+{
+  "cases": [
+    {
+      "id": "route-bug",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"The login button throws a 500 on Safari since yesterday.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "healing-water"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-perf",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Checkout p95 went from 200ms to 900ms after last week's deploy.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "breath-of-fire"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-incident",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"We had a two hour outage last night. Help me write up what went wrong.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "redemption-arc"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-review",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Review this diff for bugs and security holes before I merge it.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "earth-rumble"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-why",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Why did we pick Postgres over DynamoDB for the ledger?\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "past-lives"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-how",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"How does the config loader resolve environment overrides?\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "seismic-sense"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-babysit",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Babysit PR 812 until it is green.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "long-flight"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-fanout",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Fan this dependency audit out across all 20 packages in parallel.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "kyoshi-formation"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-docs",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Rewrite our README so it doesn't sound like AI wrote it.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "tea-time"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-plan",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Plan a migration from callbacks to promises across three services, as a stack of PRs.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "master-plan"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-prototype",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Mock up three layouts for the settings page so I can pick one.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "scouting-flight"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-conflicts",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"My branch has merge conflicts with main. Sort them out.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "clear-skies"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-ci",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"CI is red on my PR, the lint job keeps failing.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "heal-ci"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-catchup",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"I was away for a few hours. Catch me up on what changed in this chat.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "iceberg-wake"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-models",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Set which models each character uses.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "avatar-setup"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-blast",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"If I change this function's return type, who breaks?\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "my-cabbages"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-tdd",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"Write this feature test first, red then green.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "push-and-pull"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "route-land",
+      "kind": "routing",
+      "fixture": "shelf",
+      "prompt": "{avatar} Do not edit files. Read the route table in avatar-mode and decide which single Team Avatar skill it routes this request to. Reply with only that skill's name in backticks. The request: \"The stack is green. Verify it and land it.\"",
+      "checks": [
+        {
+          "type": "route",
+          "skill": "safe-landing"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "discover",
+      "kind": "discovery",
+      "fixture": "shelf",
+      "prompt": "Do not edit files and do not run commands. List the name of every skill available to you that comes from the team-avatar plugin, one per line, with no other text.",
+      "checks": [
+        {
+          "type": "lists_all_skills"
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "task-bugfix",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "{avatar} `npm test` fails in this repo. Fix it. Commit nothing.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "healing-water"
+        },
+        {
+          "type": "cmd",
+          "run": "node --test",
+          "expect": 0
+        },
+        {
+          "type": "file_unchanged",
+          "path": "test/paginate.test.js"
+        },
+        {
+          "type": "max_diff_lines",
+          "paths": [
+            "src"
+          ],
+          "max": 6
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "(off.by.one|perPage - 1|one item short|drops? the last)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task-review",
+      "kind": "task",
+      "fixture": "ledger",
+      "branch": "feature",
+      "prompt": "{avatar} Review the changes on this branch against main for bugs and security holes. Do not edit files.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "earth-rumble"
+        },
+        {
+          "type": "unchanged"
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "db\\.js",
+            "(inject|concatenat|placeholder|parameteri)",
+            "ledger\\.js",
+            "(<=|off.by.one|out of bounds|past the end|undefined)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task-investigate",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "{avatar} How does the config loader decide between the file, the environment, and the defaults? Which one wins? Do not edit files.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "seismic-sense"
+        },
+        {
+          "type": "unchanged"
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "config\\.js:\\d+",
+            "(env|environment)",
+            "(wins|override|precedence|last)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task-docs",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "{avatar} Rewrite README.md so it reads like a person wrote it. Keep it accurate to what the code does. Commit nothing.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "tea-time"
+        },
+        {
+          "type": "file_lacks",
+          "path": "README.md",
+          "patterns": [
+            "—",
+            "–",
+            "robust",
+            "seamless",
+            "leverage",
+            "cutting-edge",
+            "game-changer",
+            "comprehensive",
+            "It's worth noting",
+            "In order to",
+            "potentially"
+          ]
+        },
+        {
+          "type": "file_has",
+          "path": "README.md",
+          "patterns": [
+            "paginate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task-tdd",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "{avatar} Implement `slugify` in src/slug.js test first. It lowercases, trims, turns runs of non-alphanumeric characters into a single hyphen, and strips leading and trailing hyphens. Commit nothing.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "push-and-pull"
+        },
+        {
+          "type": "cmd",
+          "run": "node --test $(grep -rl slugify test)",
+          "expect": 0
+        },
+        {
+          "type": "cmd",
+          "run": "grep -rl slugify test",
+          "expect": 0
+        },
+        {
+          "type": "mutant",
+          "file": "src/slug.js",
+          "replace": "export function slugify(text) {\n  return text;\n}\n",
+          "run": "node --test $(grep -rl slugify test)",
+          "expect_fail": true
+        }
+      ]
+    },
+    {
+      "id": "task-plan",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "{avatar} Write a plan to plan.md for adding a cursor-based pagination API next to the page-number one, migrating callers, and deleting the old API. Do not write code yet.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "master-plan"
+        },
+        {
+          "type": "file_has",
+          "path": "plan.md",
+          "patterns": [
+            "Check",
+            "src/paginate\\.js"
+          ]
+        },
+        {
+          "type": "plan_units_have_checks",
+          "path": "plan.md"
+        },
+        {
+          "type": "file_unchanged",
+          "path": "src/paginate.js"
+        }
+      ]
+    },
+    {
+      "id": "task-setup-dryrun",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "{setup} Do not write any file. Show me the exact model sheet you would write if I want Sokka on sonnet, the session hook off, and everything else default. Put the sheet in one fenced code block.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "avatar-setup"
+        },
+        {
+          "type": "sheet_in_final"
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "sokka: sonnet",
+            "session hook: off"
+          ]
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "task-dispatch",
+      "kind": "task",
+      "fixture": "shelf",
+      "prompt": "Dispatch the Team Avatar character Toph as a subagent to find where `pageCount` is defined, and report her answer with a file:line. Do not edit files.",
+      "checks": [
+        {
+          "type": "agent_dispatched",
+          "agent": "toph"
+        },
+        {
+          "type": "unchanged"
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "paginate\\.js:\\d+"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task-hook",
+      "kind": "hook",
+      "fixture": "shelf",
+      "prompt": "Look at the context you were given before this message. If it contains a session-start message from Team Avatar, reply with the line that names Team Avatar, copied exactly. Otherwise reply NONE.",
+      "checks": [
+        {
+          "type": "hook_fired",
+          "text": "Team Avatar is with you"
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "Team Avatar is with you"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "invoke-loads",
+      "kind": "discovery",
+      "fixture": "shelf",
+      "prompt": "{avatar} Quote the first markdown heading of the avatar-mode skill's own text, exactly, in backticks. Do not edit files.",
+      "checks": [
+        {
+          "type": "skill_used",
+          "skill": "avatar-mode"
+        },
+        {
+          "type": "final_matches",
+          "patterns": [
+            "# Avatar mode"
+          ]
+        },
+        {
+          "type": "unchanged"
+        }
+      ]
+    }
+  ]
+}

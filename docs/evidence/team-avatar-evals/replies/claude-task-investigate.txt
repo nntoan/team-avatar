@@ -1,0 +1,20 @@
+The environment wins. Next comes the file, and the defaults lose. Each key is decided on its own, so one config can mix values from all three sources. I read the code and also ran it against sample inputs (*measured*). No files were edited.
+
+**How it decides.** `loadConfig` is a single object spread, `{ ...DEFAULTS, ...fromFile(path), ...fromEnv(env) }` (`src/config.js:23`). When two sources set the same key, the later one wins. Order of strength:
+
+1. `DEFAULTS` is `{ port: 3000, logLevel: "info", region: "us-east-1" }` (`src/config.js:3`).
+2. `fromFile` parses `shelf.json` from the current working directory by default (`src/config.js:22`). If the file is missing it returns `{}` (`src/config.js:9`).
+3. `fromEnv` reads only `SHELF_PORT`, `SHELF_LOG_LEVEL` and `SHELF_REGION` (`src/config.js:16-18`).
+
+With `{"port":4000,"logLevel":"debug"}` in the file and `SHELF_PORT=5000` set, the result was `port: 5000, logLevel: 'debug', region: 'us-east-1'` (*measured*).
+
+**Gotchas.** All of these I saw when I ran it.
+
+- **Empty env vars are ignored.** The env checks are truthiness checks, so `SHELF_LOG_LEVEL=""` does not override the file. The file's `debug` stayed.
+- **Invalid JSON throws.** A missing file is fine, but a malformed one throws a `SyntaxError` out of `loadConfig`. Only `ENOENT` is caught (`src/config.js:9-10`).
+- **No validation of values.** `SHELF_PORT=abc` produces `port: NaN`. The file's values are not type-checked either, so a port written as `"4000"` stays a string (*inferred* from `src/config.js:7`).
+- **Unknown file keys pass through.** An extra key in `shelf.json` showed up in the result.
+- **The relative path depends on where the process starts.** `"shelf.json"` resolves against the current working directory, not the package directory (*inferred*).
+- **Nothing calls it and nothing tests it.** No file in the repo calls `loadConfig`, and the only test file is `test/paginate.test.js` (from `git ls-files` and a grep).
+
+The repo is six files and the answer sits in one 25-line function, so I read it myself instead of handing it to Toph explorers. Prove It Works shaped one choice. I didn't stop at reading the spread order. I ran `loadConfig` with real inputs to confirm which source wins and to find the empty-string and `NaN` cases.

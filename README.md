@@ -21,6 +21,8 @@ _Created by <a href="https://zeroclickdev.ai/">ZeroClickDev</a>_
 
 https://github.com/user-attachments/assets/61db75bb-73e7-46d8-8863-fe9bbb8fad8c
 
+<sub>App screens are recreated from this repository's real runs and files. Narration is an AI clone of the author's voice.</sub>
+
 ## Origin story
 
 Team Avatar started in Cursor as oh-my-cursor. I upgraded to Cursor Ultra with 9 days left to burn about $300 in tokens, and built agent swarms to do real work while responsibly (irresponsibly) optimizing token burn. Turns out all it takes is Markdown config files and one orchestration rule. That edition still ships, and [Team Avatar for Cursor](#team-avatar-for-cursor-the-original-oh-my-cursor) covers it.

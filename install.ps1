@@ -8,7 +8,9 @@
     PowerShell equivalent of install.sh.
 
 .PARAMETER Scope
-    Install scope: 'user' (default, ~/.cursor/) or 'project' (./.cursor/).
+    Install scope: 'user' (default) installs a local Cursor plugin at
+    ~/.cursor/plugins/local/team-avatar/ (on Enterprise, an admin must turn on
+    Allow Local Plugin Imports). 'project' installs into ./.cursor/.
 
 .PARAMETER Force
     Overwrite existing files.
@@ -20,10 +22,10 @@
     Enable verbose output.
 
 .PARAMETER Uninstall
-    Remove installed agent and rule files.
+    Remove the installed plugin (user scope) or the installed files (project scope).
 
 .PARAMETER Disable
-    Disable orchestration (rename rule so Cursor stops applying it).
+    Disable orchestration (rename the plugin's rule so Cursor stops applying it).
 
 .PARAMETER Enable
     Re-enable orchestration (rename rule back).
@@ -84,14 +86,17 @@ $ErrorActionPreference = 'Stop'
 # Constants
 # ---------------------------------------------------------------------------
 
-$VERSION = '0.4.2'
-$CURSOR_MODE_LABEL = 'Team Avatar (Cursor 3.4+)'
+$VERSION = '0.5.0'
+$CURSOR_MODE_LABEL = 'Team Avatar (Cursor 3.27+)'
+$PLUGIN_NAME = 'team-avatar'
 
 $AGENT_FILES = @('aang.md', 'sokka.md', 'katara.md', 'zuko.md', 'toph.md', 'appa.md', 'momo.md', 'iroh.md')
 $PROTOCOL_FILES = @('protocols/team-avatar.md')
 $COMMAND_FILES = @('plan.md', 'build.md', 'search.md', 'fix.md', 'tasks.md', 'scout.md', 'cactus-juice.md', 'doc.md', 'image.md')
 $HOOK_FILES = @('post-edit-lint.sh', 'pre-commit-check.sh', 'guard-shell.sh')
 $CONFIG_FILES = @('hooks.json', 'permissions.json')
+$PLUGIN_FILES = @('.cursor-plugin/plugin.json', 'hooks/hooks.json')
+$CHARACTER_PATTERN = 'aang|sokka|katara|zuko|toph|appa|momo|iroh|cactus juice'
 $RULE_FILE = 'orchestrator.mdc'
 $RULE_FILE_DISABLED = 'orchestrator.mdc.disabled'
 $SKILL_DIRS = @(
@@ -156,18 +161,24 @@ function Resolve-InstallDirs {
 
     if ($InstallScope -eq 'user') {
         $cursorDir = Join-Path $HOME '.cursor'
+        $pluginDir = Join-Path (Join-Path (Join-Path $cursorDir 'plugins') 'local') $PLUGIN_NAME
+        $rootDir = $pluginDir
     }
     else {
         $cursorDir = Join-Path '.' '.cursor'
+        $pluginDir = $null
+        $rootDir = $cursorDir
     }
 
     return @{
         CursorDir   = $cursorDir
-        AgentsDir   = Join-Path $cursorDir 'agents'
-        RulesDir    = Join-Path $cursorDir 'rules'
-        CommandsDir = Join-Path $cursorDir 'commands'
-        HooksDir    = Join-Path $cursorDir 'hooks'
-        SkillsDir   = Join-Path $cursorDir 'skills'
+        PluginDir   = $pluginDir
+        RootDir     = $rootDir
+        AgentsDir   = Join-Path $rootDir 'agents'
+        RulesDir    = Join-Path $rootDir 'rules'
+        CommandsDir = Join-Path $rootDir 'commands'
+        HooksDir    = Join-Path $rootDir 'hooks'
+        SkillsDir   = Join-Path $rootDir 'skills'
     }
 }
 
@@ -245,16 +256,16 @@ function Copy-SourcesFromLocalRepo {
 
     try {
         foreach ($file in $AGENT_FILES) {
-            Copy-Item (Join-Path $scriptDir 'agents' $file) (Join-Path $OutDir $file) -Force
+            Copy-Item (Join-Path (Join-Path $scriptDir 'agents') $file) (Join-Path $OutDir $file) -Force
         }
 
         foreach ($file in $PROTOCOL_FILES) {
             $destSubDir = Join-Path $OutDir (Split-Path $file -Parent)
             if (-not (Test-Path $destSubDir)) { New-Item -ItemType Directory -Path $destSubDir -Force | Out-Null }
-            Copy-Item (Join-Path $scriptDir 'agents' $file) (Join-Path $OutDir $file) -Force
+            Copy-Item (Join-Path (Join-Path $scriptDir 'agents') $file) (Join-Path $OutDir $file) -Force
         }
 
-        Copy-Item (Join-Path $scriptDir 'rules' $RULE_FILE) (Join-Path $OutDir $RULE_FILE) -Force
+        Copy-Item (Join-Path (Join-Path $scriptDir 'rules') $RULE_FILE) (Join-Path $OutDir $RULE_FILE) -Force
 
         $cmdSrcDir = Join-Path $scriptDir 'commands'
         if (Test-Path $cmdSrcDir) {
@@ -279,6 +290,13 @@ function Copy-SourcesFromLocalRepo {
             if (Test-Path $configSrc) {
                 Copy-Item $configSrc (Join-Path $OutDir $file) -Force
             }
+        }
+
+        foreach ($file in $PLUGIN_FILES) {
+            $pluginSrc = Join-Path $scriptDir $file
+            $pluginOut = Join-Path $OutDir $file
+            New-Item -ItemType Directory -Path (Split-Path $pluginOut -Parent) -Force | Out-Null
+            Copy-Item $pluginSrc $pluginOut -Force
         }
 
         $skillsSrcDir = Join-Path $scriptDir 'skills'
@@ -328,6 +346,12 @@ function Get-SourcesFromGitHub {
 
         foreach ($file in $CONFIG_FILES) {
             Invoke-WebRequest -Uri "${SourceBaseUrl}/${file}" -OutFile (Join-Path $OutDir $file) -UseBasicParsing
+        }
+
+        foreach ($file in $PLUGIN_FILES) {
+            $pluginOut = Join-Path $OutDir $file
+            New-Item -ItemType Directory -Path (Split-Path $pluginOut -Parent) -Force | Out-Null
+            Invoke-WebRequest -Uri "${SourceBaseUrl}/${file}" -OutFile $pluginOut -UseBasicParsing
         }
 
         # Download skills via MANIFEST
@@ -694,7 +718,7 @@ function Install-Skills {
         }
         if ($legacyCount -gt 0) {
             Write-Host "Note: ${legacyCount} matching skill(s) found in ~/.agents/skills/ (legacy location)." -ForegroundColor DarkGray
-            Write-Host "They show as 'Rules' in Cursor UI. The new installs in ~/.cursor/skills/ show as 'Skills'." -ForegroundColor DarkGray
+            Write-Host "They show as 'Rules' in Cursor UI. The new installs in ${SkillsDir} show as 'Skills'." -ForegroundColor DarkGray
             Write-Host 'You can safely delete ~/.agents/skills/ once verified.' -ForegroundColor DarkGray
             Write-Host ''
         }
@@ -720,6 +744,151 @@ function Compare-SkillDirs {
     }
 
     return $true
+}
+
+# ---------------------------------------------------------------------------
+# User scope: move the old ~/.cursor layout aside, then build the local plugin
+# ---------------------------------------------------------------------------
+
+function Test-FileMatches {
+    param([string]$Path, [string]$Pattern)
+    return (Test-Path -LiteralPath $Path -PathType Leaf) -and [bool](Select-String -LiteralPath $Path -Pattern $Pattern -Quiet)
+}
+
+function Get-FirstDescription {
+    param([string]$SkillDir)
+    $skillFile = Join-Path $SkillDir 'SKILL.md'
+    if (-not (Test-Path -LiteralPath $skillFile -PathType Leaf)) { return $null }
+    $line = Select-String -LiteralPath $skillFile -Pattern '^description:' | Select-Object -First 1
+    if ($line) { return $line.Line.TrimEnd() }
+    return $null
+}
+
+function Get-LegacyUserFiles {
+    param(
+        [string]$CursorDir,
+        [string]$SkillsSrcDir
+    )
+
+    $found = New-Object System.Collections.Generic.List[string]
+
+    foreach ($file in $AGENT_FILES) {
+        $path = Join-Path (Join-Path $CursorDir 'agents') $file
+        $head = @(Get-Content -LiteralPath $path -TotalCount 2 -ErrorAction SilentlyContinue)
+        $name = [IO.Path]::GetFileNameWithoutExtension($file)
+        if ($head.Count -ge 2 -and ($head[1].TrimEnd() -ceq "name: ${name}" -or $head[1].StartsWith("name: ${name} is "))) { $found.Add("agents/${file}") }
+    }
+
+    foreach ($file in ($PROTOCOL_FILES + $LEGACY_PROTOCOL_FILES)) {
+        $path = Join-Path (Join-Path $CursorDir 'agents') $file
+        $head = @(Get-Content -LiteralPath $path -TotalCount 1 -ErrorAction SilentlyContinue)
+        if ($head.Count -ge 1 -and $head[0] -match '^# (Team Avatar|Swarm) Coordinator Protocol') { $found.Add("agents/${file}") }
+    }
+
+    foreach ($file in @($RULE_FILE, $RULE_FILE_DISABLED)) {
+        if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'rules') $file) 'Team Avatar orchestration') { $found.Add("rules/${file}") }
+    }
+
+    foreach ($file in $COMMAND_FILES) {
+        if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'commands') $file) $CHARACTER_PATTERN) { $found.Add("commands/${file}") }
+    }
+
+    foreach ($file in $HOOK_FILES) {
+        if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'hooks') $file) 'beforeShellExecution|afterFileEdit|Pre-commit hook') { $found.Add("hooks/${file}") }
+    }
+
+    $skillsDir = Join-Path $CursorDir 'skills'
+    $manifest = Join-Path $skillsDir 'MANIFEST'
+    $skills = New-Object System.Collections.Generic.List[string]
+    $skills.AddRange([string[]]$SKILL_DIRS)
+    if (Test-Path -LiteralPath $manifest -PathType Leaf) {
+        foreach ($line in (Get-Content -LiteralPath $manifest)) {
+            if (-not [string]::IsNullOrWhiteSpace($line)) { $skills.Add(($line.Trim() -split '/')[0]) }
+        }
+    }
+    foreach ($skill in ($skills | Select-Object -Unique)) {
+        $installed = Join-Path $skillsDir $skill
+        if (-not (Test-Path -LiteralPath $installed -PathType Container)) { continue }
+        $desc = Get-FirstDescription -SkillDir $installed
+        $srcDesc = if ($SkillsSrcDir) { Get-FirstDescription -SkillDir (Join-Path $SkillsSrcDir $skill) } else { $null }
+        if ($desc -and $srcDesc -and $desc -ceq $srcDesc) { $found.Add("skills/${skill}") }
+        else { Write-Host "  [left] skills/${skill} (not a copy of the bundled skill)" -ForegroundColor DarkGray }
+    }
+    if (Test-Path -LiteralPath $manifest -PathType Leaf) { $found.Add('skills/MANIFEST') }
+
+    return $found
+}
+
+function Move-LegacyUserFiles {
+    param(
+        [string]$CursorDir,
+        [string]$SkillsSrcDir,
+        [bool]$IsDryRun
+    )
+
+    $legacy = @(Get-LegacyUserFiles -CursorDir $CursorDir -SkillsSrcDir $SkillsSrcDir)
+    if ($legacy.Count -eq 0) { return }
+
+    $backupDir = Join-Path $CursorDir "team-avatar-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+    Write-Host "Moving files from the old layout in ${CursorDir} to ${backupDir}" -ForegroundColor White
+    Write-Host ''
+
+    foreach ($rel in $legacy) {
+        $src = Join-Path $CursorDir $rel
+        $dest = Join-Path $backupDir $rel
+        if ($IsDryRun) {
+            Write-Host "  [would move] ${rel} -> ${dest}" -ForegroundColor Yellow
+            continue
+        }
+        New-Item -ItemType Directory -Path (Split-Path $dest -Parent) -Force | Out-Null
+        Move-Item -LiteralPath $src -Destination $dest -Force
+        Write-Host "  [moved] ${rel} -> ${dest}" -ForegroundColor Yellow
+    }
+
+    Write-Host ''
+}
+
+function Install-UserPlugin {
+    param(
+        [hashtable]$Dirs,
+        [string]$WorkDir,
+        [bool]$IsForce,
+        [bool]$IsDryRun
+    )
+
+    $skillsSrc = if ($NoSkills) { $null } else { Join-Path $WorkDir 'skills' }
+    Move-LegacyUserFiles -CursorDir $Dirs.CursorDir -SkillsSrcDir $skillsSrc -IsDryRun $IsDryRun
+
+    Write-Host "Installing local Cursor plugin to $($Dirs.PluginDir)" -ForegroundColor White
+    Write-Host ''
+    Install-ToDir -TargetDir $Dirs.PluginDir -WorkDir $WorkDir -IsForce $IsForce -IsDryRun $IsDryRun
+    Install-FileSet -SrcDir $WorkDir -DestDir $Dirs.PluginDir -Label 'plugin manifest and hook config' -Files $PLUGIN_FILES -IsForce $IsForce -IsDryRun $IsDryRun
+
+    if (-not $IsDryRun -and [IO.Path]::DirectorySeparatorChar -eq '/') {
+        foreach ($file in $HOOK_FILES) {
+            $hook = Join-Path $Dirs.HooksDir $file
+            if (Test-Path $hook) { & chmod +x $hook }
+        }
+    }
+
+    $srcPerms = Join-Path $WorkDir 'permissions.json'
+    $destPerms = Join-Path $Dirs.CursorDir 'permissions.json'
+    if (Test-Path $srcPerms) {
+        if (-not (Test-Path $destPerms)) {
+            if ($IsDryRun) {
+                Write-Host '  [new] permissions.json' -ForegroundColor Green
+            }
+            else {
+                New-Item -ItemType Directory -Path $Dirs.CursorDir -Force | Out-Null
+                Copy-Item $srcPerms $destPerms -Force
+                Write-Host "  [installed] permissions.json to $($Dirs.CursorDir)" -ForegroundColor Green
+            }
+        }
+        elseif ((Get-FileHash $srcPerms).Hash -ne (Get-FileHash $destPerms).Hash) {
+            Write-Host "  [skipped] ${destPerms} exists and differs; left as is" -ForegroundColor Yellow
+        }
+        Write-Host ''
+    }
 }
 
 # ---------------------------------------------------------------------------
@@ -905,6 +1074,55 @@ function Uninstall-Agents {
     }
 }
 
+function Uninstall-Plugin {
+    param(
+        [hashtable]$Dirs,
+        [bool]$IsDryRun
+    )
+
+    Write-Host "oh-my-cursor v${VERSION}" -ForegroundColor White
+    Write-Host $CURSOR_MODE_LABEL -ForegroundColor DarkGray
+    Write-Host ''
+
+    if ($IsDryRun) {
+        Write-Host 'Dry run mode -- no changes will be made' -ForegroundColor Yellow
+        Write-Host ''
+    }
+
+    $workDir = Join-Path ([System.IO.Path]::GetTempPath()) "oh-my-cursor-$([guid]::NewGuid().ToString('N').Substring(0, 8))"
+    $skillsSrc = $null
+    try {
+        # The source copy tells the old bundled skills apart from a user's own same-named ones.
+        # Uninstall still works offline. Old skill folders then stay where they are.
+        New-Item -ItemType Directory -Path $workDir -Force | Out-Null
+        if ((Copy-SourcesFromLocalRepo -OutDir $workDir) -or (Get-SourcesFromGitHub -OutDir $workDir)) {
+            $skillsSrc = Join-Path $workDir 'skills'
+        }
+        else {
+            Write-Host 'Could not read the bundled skills, so old skill folders stay where they are.' -ForegroundColor Yellow
+            Write-Host ''
+        }
+        Move-LegacyUserFiles -CursorDir $Dirs.CursorDir -SkillsSrcDir $skillsSrc -IsDryRun $IsDryRun
+    }
+    finally {
+        if (Test-Path $workDir) { Remove-Item $workDir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
+    if (Test-Path $Dirs.PluginDir) {
+        if ($IsDryRun) {
+            Write-Host "  [remove] $($Dirs.PluginDir)" -ForegroundColor Red
+        }
+        else {
+            Remove-Item $Dirs.PluginDir -Recurse -Force
+            Write-Host "  [removed] $($Dirs.PluginDir)" -ForegroundColor Red
+        }
+    }
+    else {
+        Write-Host '  Nothing to remove' -ForegroundColor DarkGray
+    }
+    Write-Host ''
+}
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -923,7 +1141,12 @@ function Main {
     }
 
     if ($Uninstall) {
-        Uninstall-Agents -Dirs $dirs -IsDryRun $DryRun.IsPresent
+        if ($Scope -eq 'user') {
+            Uninstall-Plugin -Dirs $dirs -IsDryRun $DryRun.IsPresent
+        }
+        else {
+            Uninstall-Agents -Dirs $dirs -IsDryRun $DryRun.IsPresent
+        }
         return
     }
 
@@ -945,10 +1168,14 @@ function Main {
 
         New-SourceFiles -Dir $workDir
 
-        # Install to cursor dir
-        Write-Host "Installing to $($dirs.CursorDir)" -ForegroundColor White
-        Write-Host ''
-        Install-ToDir -TargetDir $dirs.CursorDir -WorkDir $workDir -IsForce $Force.IsPresent -IsDryRun $DryRun.IsPresent
+        if ($Scope -eq 'user') {
+            Install-UserPlugin -Dirs $dirs -WorkDir $workDir -IsForce $Force.IsPresent -IsDryRun $DryRun.IsPresent
+        }
+        else {
+            Write-Host "Installing to $($dirs.CursorDir)" -ForegroundColor White
+            Write-Host ''
+            Install-ToDir -TargetDir $dirs.CursorDir -WorkDir $workDir -IsForce $Force.IsPresent -IsDryRun $DryRun.IsPresent
+        }
 
         if ($AlsoClaude) {
             $claudeDir = if ($Scope -eq 'user') { Join-Path $HOME '.claude' } else { Join-Path '.' '.claude' }
@@ -979,9 +1206,9 @@ function Main {
         Write-Host ''
 
         if ($Scope -eq 'user') {
-            $rulePath = Join-Path $dirs.RulesDir $RULE_FILE
-            Write-Host 'Note: Cursor may require manual approval for file-based user rules.' -ForegroundColor Yellow
-            Write-Host "  If the rule does not appear, open ${rulePath} in Cursor and click ""Always Allow""." -ForegroundColor Yellow
+            Write-Host 'Restart Cursor or run Developer: Reload Window, then open Customize and check that the' -ForegroundColor Yellow
+            Write-Host '  team-avatar plugin shows its rules, agents, commands, skills, and hooks.' -ForegroundColor Yellow
+            Write-Host '  On Enterprise, an admin must turn on Allow Local Plugin Imports.' -ForegroundColor Yellow
             Write-Host ''
         }
     }

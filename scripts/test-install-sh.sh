@@ -185,6 +185,17 @@ check_not "uninstall left no old agent behind" test -e "$H3B/.cursor/agents/toph
 check_not "uninstall left no old skill behind" test -e "$H3B/.cursor/skills/planning"
 install_user "$H3B" --uninstall
 eq "uninstall twice exits 0" "$STATUS" "0"
+H3C="$(new_home)"
+install_user "$H3C"
+mkdir -p "$H3C/.cursor/skills" && cp -R "$ROOT/skills/planning" "$H3C/.cursor/skills/planning"
+LONE3="$(new_dir lone)"
+cp "$INSTALLER" "$LONE3/install.sh"
+OUT="$(cd "$TMP" && HOME="$H3C" OH_MY_CURSOR_SOURCE_BASE_URL="http://127.0.0.1:9" bash "$LONE3/install.sh" --uninstall 2>&1)"
+STATUS=$?
+eq "offline uninstall from a lone copy exits 0" "$STATUS" "0"
+check_not "offline uninstall removed the plugin" test -e "$H3C/.cursor/plugins/local/team-avatar"
+check "offline uninstall left the old skill in place" test -f "$H3C/.cursor/skills/planning/SKILL.md"
+check "offline uninstall says why" bash -c "printf '%s' \"\$1\" | grep -q 'Could not read the bundled skills'" _ "$OUT"
 
 printf '== 4. --disable then --enable\n'
 H4="$(new_home)"

@@ -1076,8 +1076,12 @@ main() {
   if [ "$UNINSTALL" = true ]; then
     if [ "$SCOPE" = "user" ]; then
       # The source copy tells the old bundled skills apart from a user's own same-named ones.
+      # Uninstall still works offline. Old skill folders then stay where they are.
       WORK_DIR=$(mktemp -d)
-      create_source_files "$WORK_DIR"
+      if ! copy_sources_from_local_repo "$WORK_DIR" && ! download_sources_from_github "$WORK_DIR" 2>/dev/null; then
+        log "${YELLOW}Could not read the bundled skills, so old skill folders stay where they are.${RESET}"
+        log ""
+      fi
       uninstall_plugin
     else
       uninstall_agents

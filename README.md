@@ -110,7 +110,7 @@ Outside Claude Code and Codex you get the skills on their own. The `team-avatar:
 
 The Cursor edition is a Cursor plugin: 8 agents, 9 slash commands, hooks that block bad commits, one orchestration rule, and 21 bundled skills. It runs on Cursor's built-in `Task` subagents, with no external runtime and no wrapper CLI. It doesn't use the Claude Code and Codex plugin above.
 
-Each agent runs on its own model through Cursor's `model:` field. When a pinned model can't run, Cursor runs that agent on the parent's model and says so in the result. [VALIDATION.md](VALIDATION.md) records which models were checked, and on which build.
+Each agent runs on its own model through Cursor's `model:` field. When a pinned model can't run, Cursor runs that agent on another model and shows which one ran. [VALIDATION.md](VALIDATION.md) records which models were checked, and on which build.
 
 Jump to: [Install](#install-the-cursor-edition) · [Orchestrator](#the-orchestrator) · [Agents](#the-agents) · [Model policy](#model-policy) · [Slash commands](#slash-commands) · [Orchestration modes](#orchestration-modes) · [Architecture](#architecture) · [Hooks](#hooks) · [Automations](#automations) · [Bundled skills](#bundled-skills) · [FAQ](#faq)
 
@@ -168,19 +168,19 @@ Windows PowerShell 5.1 runs `irm | iex` with the defaults only. To pass flags th
 
 </details>
 
-The installer writes to these folders:
+The installer writes to these folders. At user scope they sit inside the plugin folder, `~/.cursor/plugins/local/team-avatar/`.
 
 | Scope              | Agents                 | Rules                 | Commands                 | Hooks                 | Skills              |
 | ------------------ | ---------------------- | --------------------- | ------------------------ | --------------------- | ------------------- |
-| `--user` (default) | `~/.cursor/agents/`    | `~/.cursor/rules/`    | `~/.cursor/commands/`    | `~/.cursor/hooks/`    | `~/.cursor/skills/` |
+| `--user` (default) | `agents/`              | `rules/`              | `commands/`              | `hooks/`              | `skills/`           |
 | `--project`        | `./.cursor/agents/`    | `./.cursor/rules/`    | `./.cursor/commands/`    | `./.cursor/hooks/`    | `./.cursor/skills/` |
 | `--claude`         | Also `.claude/agents/` | Also `.claude/rules/` | Also `.claude/commands/` | Also `.claude/hooks/` | Not copied          |
 | `--codex`          | Also `.codex/agents/`  | Also `.codex/rules/`  | Also `.codex/commands/`  | Also `.codex/hooks/`  | Not copied          |
 | `--no-skills`      | ✓                      | ✓                     | ✓                        | ✓                     | Skipped             |
 
-The first time it runs, Cursor may ask you to approve the orchestrator rule. Open `~/.cursor/rules/orchestrator.mdc` and click **Always Allow**.
+After you install, restart Cursor or run **Developer: Reload Window**, then open **Customize** and check that the team-avatar plugin is listed.
 
-When you upgrade from v0.1, the installer removes the old agent files, such as hephaestus, prometheus, and atlas.
+When you upgrade a `--project` install from v0.1, the installer removes the old agent files, such as hephaestus, prometheus, and atlas.
 
 ### The orchestrator
 
@@ -361,9 +361,9 @@ model: claude-opus-5-5[effort=high] # model options go in brackets
 ---
 ```
 
-> **When a pinned model can't run, Cursor 3.27 runs the agent on the parent's model and says which model ran.** That happens when an admin blocks the model, your plan doesn't include it, or a legacy plan needs Max Mode for it. The subagent's task card shows the model that ran. An agent with no `model:` line inherits its parent's model.
+> **When a pinned model can't run, Cursor runs the agent on another model and shows which one ran.** That happens when an admin blocks the model, your plan doesn't include it, or a legacy plan needs Max Mode for it. Cursor's docs say the desktop app picks a compatible model, and the CLI uses the parent's model since v2026.10.22. The subagent's task card or result names the model that ran. An agent with no `model:` line inherits its parent's model.
 
-Models this edition uses, checked against Cursor's [model list](https://cursor.com/docs/models-and-pricing.md) on October 25, 2026: `composer-2.5-fast`, `claude-opus-5-5[effort=high]`, and `gemini-4-argon`. Opus 4.8, which Sokka and Iroh used before, is now hidden by default.
+Models this edition uses: `composer-2.5-fast`, `claude-opus-5-5[effort=high]`, and `gemini-4-argon`. `composer-2.5-fast` ran on Cursor 3.9.8. The other two follow Cursor's [docs](https://cursor.com/docs/models-and-pricing.md) as of October 25, 2026, and haven't run on a live build yet. Opus 4.8, which Sokka and Iroh used before, is now hidden by default.
 
 > **Model IDs change between Cursor versions.** Check them against your build before you rely on routing. The [VALIDATION.md](VALIDATION.md) sweep takes about 2 minutes.
 
@@ -455,15 +455,15 @@ On Cursor 3.4 and later, the agents run as a two-tier swarm. Coordinators (Aang,
 
 Hooks enforce rules at the system level, so nothing depends on an agent remembering to verify. They run through Cursor's [hooks](https://cursor.com/docs/hooks) system, from the plugin's `hooks/hooks.json` or a project's `.cursor/hooks.json`. Each hook is a script that reads a JSON payload on stdin. For `beforeShellExecution`, it returns an allow, deny, or ask decision.
 
-> **Both installs include the hooks.** The local plugin carries them in `hooks/hooks.json`, and `install.sh --project` writes `.cursor/hooks.json` into the repository. Plugin hooks start in the plugin's folder, so the guard moves to the command's working directory from Cursor's payload before it checks a commit. After you install, quit Cursor completely (Cmd+Q) and reopen it, and make sure the workspace is trusted. `scripts/test-cursor-hooks.sh` checks the guard's replies against Cursor's hook schema.
+> **Both installs include the hooks on macOS and Linux.** The local plugin carries them in `hooks/hooks.json`, and `--project` writes `.cursor/hooks.json` into the repository. On Windows, Cursor runs hooks through PowerShell and these hooks are bash scripts, so `install.ps1` leaves them off. Plugin hooks start in the plugin's folder, so the guard moves to the command's working directory from Cursor's payload before it checks a commit. After you install, quit Cursor completely (Cmd+Q) and reopen it, and make sure the workspace is trusted. `scripts/test-cursor-hooks.sh` checks the guard's replies against Cursor's hook schema.
 
 | Hook handler          | Event                  | Purpose                                                                         |
 | --------------------- | ---------------------- | ------------------------------------------------------------------------------- |
-| `guard-shell.sh`      | `beforeShellExecution` | Blocks destructive commands (`rm -rf /`, a force-push to `main`, a hard reset of a shared branch) and commits that contain forbidden anti-patterns (`as any`, `@ts-ignore`, empty catches) |
+| `guard-shell.sh`      | `beforeShellExecution` | Blocks destructive commands (`rm -rf /`, a force-push to `main`, a hard reset of a shared branch) and commits that contain forbidden anti-patterns (`as any`, `@ts-ignore`, empty catches). It matches text in the command, so it also blocks `rm -rf` on any absolute or home path and a force-push to any branch whose name contains `main` or `master`. |
 | `post-edit-lint.sh`   | `afterFileEdit`        | Lints the edited file and reports issues right away. It never blocks.          |
 | `pre-commit-check.sh` | (library)              | The anti-pattern checker that `guard-shell.sh` calls. It also works as a git pre-commit hook. |
 
-To try the hooks without blocking anything, set `OMC_HOOKS_OBSERVE=1`. `guard-shell.sh` then logs what it would block and allows it. Use observe mode to check the hooks on your build before you let them block.
+To try the hooks without blocking anything, set `OMC_HOOKS_OBSERVE=1`. `guard-shell.sh` then logs what it would block and allows it. Use observe mode to check the hooks on your build before you let them block. To turn the plugin's hooks off, replace `~/.cursor/plugins/local/team-avatar/hooks/hooks.json` with `{"version": 1, "hooks": {}}`. The installer keeps that edit unless you pass `--force`.
 
 #### Auto-review policy (`permissions.json`)
 

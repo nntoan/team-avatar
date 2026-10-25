@@ -17,28 +17,30 @@ default, and a slug list confirmed to route on a real build. Re-run the
 
 ## Cursor 3.27 update (2026-10-25): checked against the docs, live run pending
 
-Cursor 3.27 (October 22, 2026) changed several things this edition depends on. This update follows
-Cursor's docs. Nobody has run the suites on a 3.27 build yet, so run the
+This update follows Cursor's docs as of October 25, 2026, for desktop 3.27 and CLI v2026.10.22.
+Some of these behaviors changed after 3.9.8, the last build validated here, and the docs don't
+always say which release changed them. Nobody has run the suites on a 3.27 build yet, so run the
 [2-minute check](#2-minute-validation) and [`docs/E2E-TEST.md`](docs/E2E-TEST.md) before you rely on
 the matrix below.
 
-| Change in Cursor | What the edition does now | Source |
+| What Cursor's docs say | What the edition does now | Source |
 | ---------------- | ------------------------- | ------ |
 | A subagent's `name` is its identifier and display name, in lowercase letters and hyphens. | Each agent's `name` is its file name, so `Task(toph)` in the rule matches exactly. | [Subagents](https://cursor.com/docs/subagents) |
 | Model IDs take options in brackets, such as `claude-opus-5[effort=high]`. Opus 4.8 is hidden by default. | Sokka and Iroh use `claude-opus-5-5[effort=high]`, Zuko uses `gemini-4-argon`, and the rest keep `composer-2.5-fast`. | [Subagents](https://cursor.com/docs/subagents), [models](https://cursor.com/docs/models-and-pricing) |
-| A pinned model that can't run falls back to the parent's model, and the result names the model that ran. | Gotcha #1 below describes 3.8 and 3.9 only. | [Release notes](https://cursor.com/docs/release-notes) |
-| A permission hook that prints invalid JSON, or keys outside its schema, blocks the action. The keys are `permission`, `user_message`, and `agent_message`. | `guard-shell.sh` prints only those keys and escapes its messages. `scripts/test-cursor-hooks.sh` checks every reply. | [Hooks](https://cursor.com/docs/hooks) |
+| A pinned model that can't run falls back to another model. The desktop app picks a compatible model, and the task card shows it. Since CLI v2026.10.22, the subagent runs on the parent's model, and its result says so. | Gotcha #1 below describes 3.8 and 3.9 only. | [Subagents](https://cursor.com/docs/subagents), [CLI changelog](https://cursor.com/docs/cli/changelog) |
+| A permission hook that prints invalid JSON, or a reply that doesn't match the hook's schema, blocks the action. The reply fields are `permission`, `user_message`, and `agent_message`. On Windows, Cursor runs hook commands through PowerShell. | `guard-shell.sh` prints only those fields and escapes its messages. `scripts/test-cursor-hooks.sh` checks every reply. `install.ps1` leaves the bash hooks off on Windows. | [Hooks](https://cursor.com/docs/hooks) |
 | User rules live in Customize, not in a folder. Rules from a repository arrive through a plugin. | The installer's default is a local Cursor plugin in `~/.cursor/plugins/local/team-avatar/`. `--project` still writes `.cursor/`. | [Rules](https://cursor.com/docs/rules), [plugins](https://cursor.com/docs/plugins) |
 | A Cursor Plugin keeps its manifest in `.cursor-plugin/plugin.json` and its hooks in `hooks/hooks.json`. | Both files are new. The root `plugin.json`, which no tool read, is gone. | [Plugins reference](https://cursor.com/docs/reference/plugins) |
 | A skill's `name` must match its folder. | Two vendored skills now match. | [Skills](https://cursor.com/docs/skills) |
 
-Model IDs for 3.27, taken from Cursor's model list and not yet confirmed on a live build:
+Model IDs, not yet confirmed on a 3.27 build. Cursor's model list gives display names rather than
+IDs, so two of these are inferred:
 
-| ID | Model | Used by |
-| -- | ----- | ------- |
-| `composer-2.5-fast` | Composer 2.5 Fast | Aang, Appa, Katara, Momo, Toph |
-| `claude-opus-5-5[effort=high]` | Claude Opus 5.5, high effort | Sokka, Iroh |
-| `gemini-4-argon` | Gemini 4 Argon | Zuko |
+| ID | Model | Used by | Evidence |
+| -- | ----- | ------- | -------- |
+| `composer-2.5-fast` | Composer 2.5 Fast | Aang, Appa, Katara, Momo, Toph | Routed on 3.9.8. The CLI v2026.10.22 notes say Composer 2.5 Fast subagents now run without an "Unknown model ID" error. |
+| `claude-opus-5-5[effort=high]` | Claude Opus 5.5, high effort | Sokka, Iroh | Inferred from the fast variant `claude-opus-5-5-fast` on the models page and the `[effort=high]` option on the subagents page. |
+| `gemini-4-argon` | Gemini 4 Argon | Zuko | Inferred from the model page's address, `docs/models/gemini-4-argon`. |
 
 ---
 
@@ -91,8 +93,8 @@ valid. Omitting `model:` makes a subagent inherit its parent's model (`inherit`)
 
 ## Gotchas the docs don't tell you
 
-> **Changed in Cursor 3.27:** a pinned model that can't run now falls back to the parent agent's
-> model, and the subagent's result names the model that ran. This finding describes 3.8 and 3.9.
+> **Changed since 3.9:** a pinned model that can't run now falls back to another model, and Cursor
+> shows the model that ran. This finding describes 3.8 and 3.9.
 
 **1. An invalid or stale slug silently downgrades to `composer-2.5-fast` — it does not error.**
 Cursor's docs only mention fallback for plan/admin/Max-Mode reasons. In practice, a *typo

@@ -85,8 +85,8 @@ Report:
 ## Suite A — Per-agent model routing
 
 **Goal:** every agent routes to its configured model. On Cursor 3.27, a pinned model that
-can't run falls back to the parent agent's model, and the subagent's result says which model
-ran. A FAIL here usually shows the parent's model on an Opus or Gemini agent.
+can't run falls back to another model, and the task card shows which model ran. A FAIL here
+usually shows a different model on an Opus or Gemini agent.
 
 | Agent | Persona | Expected model (Cursor UI badge) |
 | ----- | ------- | -------------------------------- |
@@ -123,8 +123,8 @@ Dispatch the <AGENT_NAME> agent with the task: reply "<AGENT_NAME> ok". Nothing 
 …and read the model badge on that single sub-run.
 
 **PASS:** all 8 badges match the Expected column.
-**FAIL:** any agent shows a different model (most commonly an Opus or Gemini agent showing
-the parent's model, which means its model ID didn't resolve or your plan can't run it).
+**FAIL:** any agent shows a different model (most commonly an Opus or Gemini agent, which
+means its model ID didn't resolve or your plan can't run it).
 
 ---
 
@@ -283,8 +283,8 @@ rm -f .cursor/hooks/last-invocation.log
 
 ## Interpreting failures
 
-- **An Opus or Gemini agent shows the parent's model** → its model ID didn't resolve or your
-  plan can't run it. Read the note in the subagent's result, then check the agent's frontmatter
+- **An Opus or Gemini agent shows a different model** → its model ID didn't resolve or your
+  plan can't run it. Read the subagent's task card or result, then check the agent's frontmatter
   against the model IDs in `VALIDATION.md`.
 - **A destructive canary ran instead of being blocked** → the shell guard isn't registered.
   Most likely: Cursor wasn't cold-restarted after install, Customize doesn't list the plugin's

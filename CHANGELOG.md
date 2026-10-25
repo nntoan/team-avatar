@@ -15,16 +15,20 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
 ### Changed
 
 - `install.sh` and `install.ps1` install the default user scope as a local Cursor plugin in
-  `~/.cursor/plugins/local/team-avatar/`. Cursor 3.27 has no file-based user rules, so the old
-  copy in `~/.cursor/rules/` never loaded the orchestration rule. Install and uninstall move the
-  old user-scope files into a backup folder. `--project` still writes `.cursor/`.
+  `~/.cursor/plugins/local/team-avatar/`. Cursor no longer reads user rules from files, so the old
+  copy in `~/.cursor/rules/` doesn't load the orchestration rule. Install and uninstall move the
+  old user-scope files into a backup folder, but only files that match what an earlier installer
+  wrote. `--project` still writes `.cursor/`.
+- `install.ps1` leaves the bash hooks off on Windows, where Cursor runs hooks through PowerShell.
 - The repository is a Cursor Plugin: `.cursor-plugin/plugin.json` and `hooks/hooks.json` are new,
   and the unused root `plugin.json` is gone.
-- Agent names are their file names (`aang`, `toph`, and so on), as Cursor 3.27 requires.
+- Agent names are their file names (`aang`, `toph`, and so on). Cursor uses the name as the
+  agent's identifier and asks for lowercase letters and hyphens.
 - Sokka and Iroh run `claude-opus-5-5[effort=high]` instead of the hidden Opus 4.8. Zuko runs
   `gemini-4-argon`. Sokka is marked read-only.
 - `guard-shell.sh` prints only `permission`, `user_message`, and `agent_message`, and escapes its
-  messages. Cursor 3.27 blocks a command when a permission hook breaks that schema.
+  messages. Cursor blocks a command when a permission hook prints invalid JSON or a reply that
+  doesn't match the hook's schema.
 - `post-edit-lint.sh` lints from the workspace root that Cursor passes in `CURSOR_PROJECT_DIR`.
 - Two vendored skills have names that match their folders.
 
@@ -33,6 +37,8 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
 - `scripts/test-cursor-hooks.sh` checks the shell guard's replies against Cursor's hook schema.
 - `scripts/test-install-sh.sh` and `scripts/test-install-ps1.ps1` run each installer against
   throwaway home folders.
+- `.github/workflows/validate-cursor-edition.yml` runs the three suites on Linux when the Cursor
+  edition changes.
 
 ### Fixed
 

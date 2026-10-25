@@ -14,10 +14,10 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
 
 ### Changed
 
-- The installer's default user scope installs a local Cursor plugin in
+- `install.sh` and `install.ps1` install the default user scope as a local Cursor plugin in
   `~/.cursor/plugins/local/team-avatar/`. Cursor 3.27 has no file-based user rules, so the old
-  copy in `~/.cursor/rules/` never loaded the orchestration rule. The installer moves the old
-  user-scope files into a backup folder. `--project` still writes `.cursor/`.
+  copy in `~/.cursor/rules/` never loaded the orchestration rule. Install and uninstall move the
+  old user-scope files into a backup folder. `--project` still writes `.cursor/`.
 - The repository is a Cursor Plugin: `.cursor-plugin/plugin.json` and `hooks/hooks.json` are new,
   and the unused root `plugin.json` is gone.
 - Agent names are their file names (`aang`, `toph`, and so on), as Cursor 3.27 requires.
@@ -31,6 +31,15 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
 ### Added
 
 - `scripts/test-cursor-hooks.sh` checks the shell guard's replies against Cursor's hook schema.
+- `scripts/test-install-sh.sh` and `scripts/test-install-ps1.ps1` run each installer against
+  throwaway home folders.
+
+### Fixed
+
+- Both installers install all 21 bundled skills. Their skill lists left out
+  `crafting-effective-readmes`.
+- `install.ps1` uses a local checkout on Windows PowerShell 5.1. Its three-argument `Join-Path`
+  calls failed there, so it downloaded `main` instead.
 
 ## [1.0.0] - 2026-10-24
 

@@ -539,11 +539,11 @@ Yes, if your plan includes agent mode with subagents.
 
 #### How do I update?
 
-Run the install command again with `--force` (`-Force` on Windows).
+Run the install command again with `--force` (`-Force` on Windows). Installers before Cursor 3.27 wrote straight into `~/.cursor/agents/`, `rules/`, `commands/`, `hooks/`, and `skills/`. The new installer moves those files into `~/.cursor/team-avatar-backup-<timestamp>/` and prints each move. It deletes nothing.
 
 #### How do I uninstall?
 
-Run the install command with `--uninstall` (`-Uninstall` on Windows).
+Run the install command with `--uninstall` (`-Uninstall` on Windows). It removes `~/.cursor/plugins/local/team-avatar/` and leaves `~/.cursor/permissions.json` in place.
 
 #### What about Claude Code and Codex?
 

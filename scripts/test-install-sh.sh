@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Runs install.sh against throwaway HOME directories and checks the result with explicit assertions.
-# Never touches the real HOME. Needs git, python3, curl, and an origin/main ref (the old layout).
+# Never touches the real HOME. Needs git, python3, curl, and the v0.4.2 tag, the last release
+# that installed straight into ~/.cursor/.
 # usage: bash scripts/test-install-sh.sh
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -121,7 +122,7 @@ check_not "no skills folder installed" test -d "$H1C/.cursor/plugins/local/team-
 
 printf '== 2. migration from the old layout\n'
 OLD="$(new_dir old)"
-git -C "$ROOT" archive origin/main | tar -x -C "$OLD"
+git -C "$ROOT" archive v0.4.2 | tar -x -C "$OLD"
 H2="$(new_home)"
 run_installer "$H2" "$TMP" "$OLD/install.sh"
 eq "old installer exits 0" "$STATUS" "0"

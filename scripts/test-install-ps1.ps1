@@ -4,12 +4,13 @@
     Behavior tests for install.ps1. Runs the installer in a child PowerShell with HOME pointed at a throwaway folder.
 
 .PARAMETER LegacyRepo
-    A checkout of origin/main (the installer that wrote the old ~/.cursor layout). Needed for the migration test.
-    Make it with: git archive origin/main | tar -x -C <dir>
+    A checkout of the v0.4.2 tag, the last release that wrote the old ~/.cursor layout. Needed for the migration test.
+    Make it with: git archive v0.4.2 | tar -x -C <dir>
 
 .EXAMPLE
-    docker run --rm -v "$PWD:/repo:ro" -v /path/to/main-checkout:/legacy:ro -e TA_LEGACY_REPO=/legacy `
+    docker run --rm -v "$PWD:/repo:ro" -v /path/to/v0.4.2-checkout:/legacy:ro -e TA_LEGACY_REPO=/legacy `
         -w /repo mcr.microsoft.com/powershell:latest pwsh -NoProfile -File scripts/test-install-ps1.ps1
+    On Apple Silicon, use mcr.microsoft.com/powershell:7.5-azurelinux-3.0-arm64. The latest tag has no arm64 build.
 #>
 [CmdletBinding()]
 param(
@@ -166,7 +167,7 @@ if (-not $LegacyRepo -or -not (Test-Path (Join-Path $LegacyRepo 'install.ps1')))
 else {
     $home2 = New-TempDir 'home'
     $r = Invoke-Installer -Script (Join-Path $LegacyRepo 'install.ps1') -HomeDir $home2 -Cwd $cwd1
-    Assert-That 'main-branch installer exits 0' ($r.Code -eq 0) $r.Output
+    Assert-That 'v0.4.2 installer exits 0' ($r.Code -eq 0) $r.Output
     $cursor2 = Join-Path $home2 '.cursor'
     $oldAgents = @(Get-ChildItem (Join-Path $cursor2 'agents') -Filter '*.md' -File)
     Assert-That 'old layout has agents in ~/.cursor/agents' ($oldAgents.Count -eq 8)
@@ -352,6 +353,41 @@ $r = Invoke-Installer -Script $Installer -HomeDir $home7 -Cwd $cwd1 -Arguments @
 Assert-That '-Force overwrites it' ((Get-Content $pluginFile -Raw) -notmatch 'local edit')
 Assert-That 'tree matches the first install again' ((Get-Tree (Join-Path $home7 '.cursor')) -join "`n" -eq ($first -join "`n"))
 
+# ---------------------------------------------------------------------------
+Write-Host '7. Remote mode builds the same tree from a lone install.ps1'
+$port = Get-Random -Minimum 20000 -Maximum 60000
+$listener = New-Object System.Net.HttpListener
+$listener.Prefixes.Add("http://localhost:${port}/")
+$listener.Start()
+$server = [powershell]::Create()
+$null = $server.AddScript({
+        param($Listener, $Root)
+        while ($Listener.IsListening) {
+            try { $ctx = $Listener.GetContext() } catch { break }
+            $file = Join-Path $Root ([Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath.TrimStart('/')))
+            if (Test-Path -LiteralPath $file -PathType Leaf) {
+                $bytes = [IO.File]::ReadAllBytes($file)
+                $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+            }
+            else { $ctx.Response.StatusCode = 404 }
+            $ctx.Response.Close()
+        }
+    }).AddArgument($listener).AddArgument($RepoRoot)
+$null = $server.BeginInvoke()
+try {
+    $home8 = New-TempDir 'home'
+    $lone8 = New-TempDir 'lone'
+    Copy-Item $Installer (Join-Path $lone8 'install.ps1')
+    $env:OH_MY_CURSOR_SOURCE_BASE_URL = "http://localhost:${port}"
+    $r = Invoke-Installer -Script (Join-Path $lone8 'install.ps1') -HomeDir $home8 -Cwd $cwd1
+    Assert-That 'remote install exits 0' ($r.Code -eq 0) $r.Output
+    Assert-That 'remote install builds the same tree as a local install' (((Get-Tree (Join-Path $home8 '.cursor')) -join "`n") -eq ($first -join "`n"))
+}
+finally {
+    $env:OH_MY_CURSOR_SOURCE_BASE_URL = 'http://127.0.0.1:9'
+    $listener.Stop()
+    $server.Dispose()
+}
 
 # ---------------------------------------------------------------------------
 Remove-Item $Sandbox -Recurse -Force -ErrorAction SilentlyContinue

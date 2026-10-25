@@ -614,7 +614,8 @@ backup_old_user_layout() {
   OLD_LAYOUT_MOVED=0
 
   local file name rel skill line
-  # cactus-juice.md names no character, so its own phrase marks it as ours.
+  # Every shipped command names its character as a whole word. cactus-juice.md names none, so
+  # its own phrase marks it as ours.
   local characters='aang|sokka|katara|zuko|toph|appa|momo|iroh|cactus juice'
 
   for file in "${AGENT_FILES[@]}"; do
@@ -622,8 +623,9 @@ backup_old_user_layout() {
     rel="agents/${file}"
     if [ -f "${CURSOR_DIR}/${rel}" ]; then
       line="$(sed -n 2p "${CURSOR_DIR}/${rel}")"
-      # Ours: the current name, or an old sentence name such as "name: toph is exploring files".
-      if [ "$line" = "name: ${name}" ] || [[ "$line" == "name: ${name} is "* ]]; then
+      # Ours: a name an earlier release shipped, such as "name: toph", "name: toph is exploring
+      # files and docs by vibration", or "name: aang - Executes & Debugs Code".
+      if [ "$line" = "name: ${name}" ] || [[ "$line" == "name: ${name} is "* ]] || [[ "$line" == "name: ${name} - "* ]]; then
         backup_old_file "$rel"
       fi
     fi
@@ -645,17 +647,23 @@ backup_old_user_layout() {
 
   for file in "${COMMAND_FILES[@]}"; do
     rel="commands/${file}"
-    if [ -f "${CURSOR_DIR}/${rel}" ] && grep -qiE "$characters" "${CURSOR_DIR}/${rel}"; then
+    if [ -f "${CURSOR_DIR}/${rel}" ] && grep -qiwE "$characters" "${CURSOR_DIR}/${rel}"; then
       backup_old_file "$rel"
     fi
   done
 
-  for file in "${HOOK_FILES[@]}"; do
-    rel="hooks/${file}"
-    if [ -f "${CURSOR_DIR}/${rel}" ] && [[ "$(sed -n 2p "${CURSOR_DIR}/${rel}")" == *[Hh]ook* ]]; then
-      backup_old_file "$rel"
-    fi
-  done
+  # A user's own ~/.cursor/hooks.json may run scripts with these names, so leave them when it exists.
+  if [ ! -e "${CURSOR_DIR}/hooks.json" ]; then
+    for file in "${HOOK_FILES[@]}"; do
+      rel="hooks/${file}"
+      [ -f "${CURSOR_DIR}/${rel}" ] || continue
+      # Ours: the second line an earlier release shipped for that script.
+      case "${file}:$(sed -n 2p "${CURSOR_DIR}/${rel}")" in
+        "guard-shell.sh:# beforeShellExecution hook"* | "post-edit-lint.sh:# afterFileEdit hook"* | "post-edit-lint.sh:# Post-edit hook:"* | "pre-commit-check.sh:# Pre-commit hook:"*)
+          backup_old_file "$rel" ;;
+      esac
+    done
+  fi
 
   local skills_dir="${CURSOR_DIR}/skills"
   local old_skills=("${SKILL_DIRS[@]}")
@@ -666,11 +674,18 @@ backup_old_user_layout() {
     done < "${skills_dir}/MANIFEST"
   fi
   # A skill folder is ours only when its description matches the bundled copy, so a user's own
-  # skill that shares a bundled name stays where it is.
-  local ours theirs
+  # skill that shares a bundled name stays where it is. With --no-skills the plugin gets no
+  # skills, so the old folders stay in use.
+  local ours theirs seen=" "
   for skill in "${old_skills[@]}"; do
+    case "$seen" in *" ${skill} "*) continue ;; esac
+    seen="${seen}${skill} "
     rel="skills/${skill}"
     [ -d "${CURSOR_DIR}/${rel}" ] || continue
+    if [ "$WITH_SKILLS" != true ]; then
+      log "  ${DIM}[left]${RESET} ~/.cursor/${rel}"
+      continue
+    fi
     ours="$(grep -m1 '^description:' "${WORK_DIR}/skills/${skill}/SKILL.md" 2>/dev/null || true)"
     theirs="$(grep -m1 '^description:' "${CURSOR_DIR}/${rel}/SKILL.md" 2>/dev/null || true)"
     if [ -n "$ours" ] && [ "$ours" = "$theirs" ]; then

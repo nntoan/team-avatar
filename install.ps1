@@ -96,7 +96,8 @@ $COMMAND_FILES = @('plan.md', 'build.md', 'search.md', 'fix.md', 'tasks.md', 'sc
 $HOOK_FILES = @('post-edit-lint.sh', 'pre-commit-check.sh', 'guard-shell.sh')
 $CONFIG_FILES = @('hooks.json', 'permissions.json')
 $PLUGIN_FILES = @('.cursor-plugin/plugin.json', 'hooks/hooks.json')
-$CHARACTER_PATTERN = 'aang|sokka|katara|zuko|toph|appa|momo|iroh|cactus juice'
+# Every shipped command names its character as a whole word. cactus-juice.md names none, so its own phrase marks it as ours.
+$CHARACTER_PATTERN = '\b(aang|sokka|katara|zuko|toph|appa|momo|iroh|cactus juice)\b'
 $RULE_FILE = 'orchestrator.mdc'
 $RULE_FILE_DISABLED = 'orchestrator.mdc.disabled'
 $SKILL_DIRS = @(
@@ -776,7 +777,7 @@ function Get-LegacyUserFiles {
         $path = Join-Path (Join-Path $CursorDir 'agents') $file
         $head = @(Get-Content -LiteralPath $path -TotalCount 2 -ErrorAction SilentlyContinue)
         $name = [IO.Path]::GetFileNameWithoutExtension($file)
-        if ($head.Count -ge 2 -and ($head[1].TrimEnd() -ceq "name: ${name}" -or $head[1].StartsWith("name: ${name} is "))) { $found.Add("agents/${file}") }
+        if ($head.Count -ge 2 -and ($head[1].TrimEnd() -ceq "name: ${name}" -or $head[1].StartsWith("name: ${name} is ", [StringComparison]::Ordinal) -or $head[1].StartsWith("name: ${name} - ", [StringComparison]::Ordinal))) { $found.Add("agents/${file}") }
     }
 
     foreach ($file in ($PROTOCOL_FILES + $LEGACY_PROTOCOL_FILES)) {
@@ -793,8 +794,18 @@ function Get-LegacyUserFiles {
         if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'commands') $file) $CHARACTER_PATTERN) { $found.Add("commands/${file}") }
     }
 
-    foreach ($file in $HOOK_FILES) {
-        if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'hooks') $file) 'beforeShellExecution|afterFileEdit|Pre-commit hook') { $found.Add("hooks/${file}") }
+    # A user's own ~/.cursor/hooks.json may run scripts with these names, so leave them when it exists.
+    if (-not (Test-Path -LiteralPath (Join-Path $CursorDir 'hooks.json'))) {
+        # Ours: the second line an earlier release shipped for that script.
+        $hookHeads = @{
+            'guard-shell.sh'      = @('# beforeShellExecution hook')
+            'post-edit-lint.sh'   = @('# afterFileEdit hook', '# Post-edit hook:')
+            'pre-commit-check.sh' = @('# Pre-commit hook:')
+        }
+        foreach ($file in $HOOK_FILES) {
+            $head = @(Get-Content -LiteralPath (Join-Path (Join-Path $CursorDir 'hooks') $file) -TotalCount 2 -ErrorAction SilentlyContinue)
+            if ($head.Count -ge 2 -and @($hookHeads[$file] | Where-Object { $head[1].StartsWith($_, [StringComparison]::Ordinal) }).Count -gt 0) { $found.Add("hooks/${file}") }
+        }
     }
 
     $skillsDir = Join-Path $CursorDir 'skills'
@@ -809,10 +820,14 @@ function Get-LegacyUserFiles {
     foreach ($skill in ($skills | Select-Object -Unique)) {
         $installed = Join-Path $skillsDir $skill
         if (-not (Test-Path -LiteralPath $installed -PathType Container)) { continue }
+        if (-not $SkillsSrcDir) {
+            Write-Host "  [left] skills/${skill}" -ForegroundColor DarkGray
+            continue
+        }
         $desc = Get-FirstDescription -SkillDir $installed
-        $srcDesc = if ($SkillsSrcDir) { Get-FirstDescription -SkillDir (Join-Path $SkillsSrcDir $skill) } else { $null }
+        $srcDesc = Get-FirstDescription -SkillDir (Join-Path $SkillsSrcDir $skill)
         if ($desc -and $srcDesc -and $desc -ceq $srcDesc) { $found.Add("skills/${skill}") }
-        else { Write-Host "  [left] skills/${skill} (not a copy of the bundled skill)" -ForegroundColor DarkGray }
+        else { Write-Host "  [left] skills/${skill} (not the bundled copy)" -ForegroundColor DarkGray }
     }
     if (Test-Path -LiteralPath $manifest -PathType Leaf) { $found.Add('skills/MANIFEST') }
 

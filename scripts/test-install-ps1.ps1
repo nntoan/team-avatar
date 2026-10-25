@@ -238,6 +238,10 @@ Write-TextFile (Join-Path $cursor3 'commands/plan.md') "Plan with Sokka`n"
 Write-TextFile (Join-Path $cursor3 'commands/doc.md') "Write the docs with IROH`n"
 Write-TextFile (Join-Path $cursor3 'commands/cactus-juice.md') "CACTUS JUICE MODE`n"
 Write-TextFile (Join-Path $cursor3 'commands/build.md') "Build the thing`n"
+Write-TextFile (Join-Path $cursor3 'agents/appa.md') "---`nname: appa - Executes Plans`n---`n"
+Write-TextFile (Join-Path $cursor3 'commands/fix.md') "Fix it. Apparently this works.`n"
+Write-TextFile (Join-Path $cursor3 'hooks/guard-shell.sh') "#!/bin/sh`n# my own guard hook`n"
+Write-TextFile (Join-Path $cursor3 'hooks/pre-commit-check.sh') "#!/usr/bin/env bash`n# Pre-commit hook: enforce hard constraints before any commit.`n"
 Write-TextFile (Join-Path $cursor3 'rules/orchestrator.mdc') "---`nalwaysApply: true`n---`nmy own rule`n"
 $srcArchitect = Join-Path $RepoRoot 'skills/architect'
 $srcDebugging = Join-Path $RepoRoot 'skills/debugging'
@@ -258,6 +262,10 @@ Assert-That 'rule without "Team Avatar orchestration" stays' ((Test-Path (Join-P
 Assert-That 'skill with the same description line moves' ((Test-Path (Join-Path $b3 'skills/architect/SKILL.md')) -and -not (Test-Path (Join-Path $cursor3 'skills/architect')))
 Assert-That 'skill with a different description stays and says so' ((Test-Path (Join-Path $cursor3 'skills/debugging/SKILL.md')) -and $r.Output -match '\[left\] skills/debugging')
 Assert-That 'skill folder without SKILL.md stays' (Test-Path (Join-Path $cursor3 'skills/planning/notes.txt'))
+Assert-That 'agent with "name: appa - ..." moves' (Test-Path (Join-Path $b3 'agents/appa.md'))
+Assert-That 'command that only says "apparently" stays' ((Test-Path (Join-Path $cursor3 'commands/fix.md')) -and -not (Test-Path (Join-Path $b3 'commands/fix.md')))
+Assert-That 'hook script with its own second line stays' ((Test-Path (Join-Path $cursor3 'hooks/guard-shell.sh')) -and -not (Test-Path (Join-Path $b3 'hooks/guard-shell.sh')))
+Assert-That 'hook script with a shipped second line moves' ((Test-Path (Join-Path $b3 'hooks/pre-commit-check.sh')) -and -not (Test-Path (Join-Path $cursor3 'hooks/pre-commit-check.sh')))
 
 Write-Host '2d. -NoSkills leaves every old skill folder'
 $home4 = New-TempDir 'home'
@@ -266,6 +274,14 @@ $r = Invoke-Installer -Script $Installer -HomeDir $home4 -Cwd $cwd1 -Arguments @
 Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
 Assert-That 'old skill stays and says so' ((Test-Path (Join-Path $home4 '.cursor/skills/architect/SKILL.md')) -and $r.Output -match '\[left\] skills/architect')
 Assert-That 'plugin has no skills folder' (-not (Test-Path (Join-Path $home4 '.cursor/plugins/local/team-avatar/skills')))
+
+Write-Host '2e. A user hooks.json keeps the old hook scripts in place'
+$home2e = New-TempDir 'home'
+Write-TextFile (Join-Path $home2e '.cursor/hooks.json') '{"version": 1, "hooks": {}}'
+Write-TextFile (Join-Path $home2e '.cursor/hooks/pre-commit-check.sh') "#!/usr/bin/env bash`n# Pre-commit hook: enforce hard constraints before any commit.`n"
+$r = Invoke-Installer -Script $Installer -HomeDir $home2e -Cwd $cwd1
+Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
+Assert-That 'old hook script stays' (Test-Path (Join-Path $home2e '.cursor/hooks/pre-commit-check.sh'))
 
 # ---------------------------------------------------------------------------
 Write-Host '3. Uninstall removes the plugin folder'
@@ -335,6 +351,7 @@ Assert-That 'without -Force a changed plugin file is kept' ((Get-Content $plugin
 $r = Invoke-Installer -Script $Installer -HomeDir $home7 -Cwd $cwd1 -Arguments @('-Force')
 Assert-That '-Force overwrites it' ((Get-Content $pluginFile -Raw) -notmatch 'local edit')
 Assert-That 'tree matches the first install again' ((Get-Tree (Join-Path $home7 '.cursor')) -join "`n" -eq ($first -join "`n"))
+
 
 # ---------------------------------------------------------------------------
 Remove-Item $Sandbox -Recurse -Force -ErrorAction SilentlyContinue

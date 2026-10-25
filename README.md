@@ -39,8 +39,6 @@ We measured it, too. On [SWE-bench Verified Mini](docs/evidence/team-avatar-sweb
 
 ## See it work
 
-### In the desktop apps
-
 Each app gets one short request. The prompt names `avatar-mode` and three bug reports, and avatar-mode picks the workflow and the characters. These are unedited window captures from Claude Desktop and the Codex app. An agent typed each prompt by driving the app. [How they were made](docs/evidence/desktop-apps/README.md).
 
 ```text
@@ -71,21 +69,6 @@ The finished activity log shows the investigation, the fix, and the two reviews.
 
 <img src="docs/evidence/desktop-apps/codex-app-activity.png" alt="The Codex app's expanded activity log for the run" width="820">
 
-### In the terminal
-
-One prompt, three bugs, three Katara subagents working at the same time. Both runs are real terminal sessions on a small demo repo with three failing tests, recorded and replayed frame by frame. [How they were made](docs/evidence/release-v1.0.0/README.md).
-
-**Claude Code.** `/team-avatar:kyoshi-formation` starts three `team-avatar:katara` agents, one per module.
-
-<img src="docs/evidence/release-v1.0.0/claude-subagents-running.png" alt="Claude Code running three Katara subagents in parallel" width="820">
-
-<img src="docs/evidence/release-v1.0.0/claude-result.png" alt="Claude Code reporting all three fixes with root causes" width="820">
-
-**Codex.** `$kyoshi-formation` gives each Katara its own worktree, then merges and reruns the suite.
-
-<img src="docs/evidence/release-v1.0.0/codex-subagents-start.png" alt="Codex starting three Katara agents" width="820">
-
-<img src="docs/evidence/release-v1.0.0/codex-result.png" alt="Codex reporting three passing fixes" width="820">
 
 ## Install
 

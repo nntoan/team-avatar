@@ -1,6 +1,14 @@
 # Team Avatar in the desktop apps: screenshots
 
-These are unedited window captures from the Claude desktop app and the Codex desktop app. Both apps got the demo repo from the [terminal screenshots](../release-v1.0.0/README.md), which has one failing test for each of three bugs. Both got the same one-line prompt:
+These are unedited window captures from the Claude desktop app and the Codex desktop app. Both apps got the same small Node repo, with three independent bugs and one failing test per bug:
+
+| File | Bug |
+|------|-----|
+| `src/cart.js` | `Math.floor` turns $19.99 into 1998 cents |
+| `src/slug.js` | `replace(" ", "-")` replaces only the first space |
+| `src/paginate.js` | page 1 returns the second page |
+
+Both apps got the same one-line prompt:
 
 ```text
 /team-avatar:avatar-mode Fix these three reported issues: the cart total comes out a cent short, slugs still have spaces in them, and page 1 shows the second page of results.

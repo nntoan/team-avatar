@@ -15,6 +15,33 @@ default, and a slug list confirmed to route on a real build. Re-run the
 
 ---
 
+## Cursor 3.27 update (2026-10-25): checked against the docs, live run pending
+
+Cursor 3.27 (October 22, 2026) changed several things this edition depends on. This update follows
+Cursor's docs. Nobody has run the suites on a 3.27 build yet, so run the
+[2-minute check](#2-minute-validation) and [`docs/E2E-TEST.md`](docs/E2E-TEST.md) before you rely on
+the matrix below.
+
+| Change in Cursor | What the edition does now | Source |
+| ---------------- | ------------------------- | ------ |
+| A subagent's `name` is its identifier and display name, in lowercase letters and hyphens. | Each agent's `name` is its file name, so `Task(toph)` in the rule matches exactly. | [Subagents](https://cursor.com/docs/subagents) |
+| Model IDs take options in brackets, such as `claude-opus-5[effort=high]`. Opus 4.8 is hidden by default. | Sokka and Iroh use `claude-opus-5-5[effort=high]`, Zuko uses `gemini-4-argon`, and the rest keep `composer-2.5-fast`. | [Subagents](https://cursor.com/docs/subagents), [models](https://cursor.com/docs/models-and-pricing) |
+| A pinned model that can't run falls back to the parent's model, and the result names the model that ran. | Gotcha #1 below describes 3.8 and 3.9 only. | [Release notes](https://cursor.com/docs/release-notes) |
+| A permission hook that prints invalid JSON, or keys outside its schema, blocks the action. The keys are `permission`, `user_message`, and `agent_message`. | `guard-shell.sh` prints only those keys and escapes its messages. `scripts/test-cursor-hooks.sh` checks every reply. | [Hooks](https://cursor.com/docs/hooks) |
+| User rules live in Customize, not in a folder. Rules from a repository arrive through a plugin. | The installer's default is a local Cursor plugin in `~/.cursor/plugins/local/team-avatar/`. `--project` still writes `.cursor/`. | [Rules](https://cursor.com/docs/rules), [plugins](https://cursor.com/docs/plugins) |
+| A Cursor Plugin keeps its manifest in `.cursor-plugin/plugin.json` and its hooks in `hooks/hooks.json`. | Both files are new. The root `plugin.json`, which no tool read, is gone. | [Plugins reference](https://cursor.com/docs/reference/plugins) |
+| A skill's `name` must match its folder. | Two vendored skills now match. | [Skills](https://cursor.com/docs/skills) |
+
+Model IDs for 3.27, taken from Cursor's model list and not yet confirmed on a live build:
+
+| ID | Model | Used by |
+| -- | ----- | ------- |
+| `composer-2.5-fast` | Composer 2.5 Fast | Aang, Appa, Katara, Momo, Toph |
+| `claude-opus-5-5[effort=high]` | Claude Opus 5.5, high effort | Sokka, Iroh |
+| `gemini-4-argon` | Gemini 4 Argon | Zuko |
+
+---
+
 ## Compatibility matrix
 
 | Capability | 3.8.23 | 3.9.8 | Notes |
@@ -39,6 +66,8 @@ Legend: ✅ works as configured · ⚠️ caveat · ⚠️→✅ caveat found on
 
 ## Validated Task-tool model slugs
 
+These slugs were validated on 3.8 and 3.9. For 3.27, see [the 3.27 update](#cursor-327-update-2026-10-25-checked-against-the-docs-live-run-pending).
+
 The Task tool accepts **specific slugs only** — the README/orchestrator shorthand is not
 valid. Omitting `model:` makes a subagent inherit its parent's model (`inherit`).
 
@@ -61,6 +90,9 @@ valid. Omitting `model:` makes a subagent inherit its parent's model (`inherit`)
 ---
 
 ## Gotchas the docs don't tell you
+
+> **Changed in Cursor 3.27:** a pinned model that can't run now falls back to the parent agent's
+> model, and the subagent's result names the model that ran. This finding describes 3.8 and 3.9.
 
 **1. An invalid or stale slug silently downgrades to `composer-2.5-fast` — it does not error.**
 Cursor's docs only mention fallback for plan/admin/Max-Mode reasons. In practice, a *typo

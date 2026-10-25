@@ -108,15 +108,15 @@ Outside Claude Code and Codex you get the skills on their own. The `team-avatar:
 
 ## Team Avatar for Cursor (the original oh-my-cursor)
 
-The Cursor edition still ships as config files: 8 agents, 9 slash commands, hooks that block bad commits, and one orchestration rule. It runs on Cursor's built-in `Task` subagents, with no external runtime and no wrapper CLI. It doesn't use the plugin above.
+The Cursor edition is a Cursor plugin: 8 agents, 9 slash commands, hooks that block bad commits, one orchestration rule, and 21 bundled skills. It runs on Cursor's built-in `Task` subagents, with no external runtime and no wrapper CLI. It doesn't use the Claude Code and Codex plugin above.
 
-Each agent runs on its own model through Cursor's `model:` field. An invalid model slug falls back to the default without an error, so every slug here is verified against a real Cursor build ([VALIDATION.md](VALIDATION.md)).
+Each agent runs on its own model through Cursor's `model:` field. When a pinned model can't run, Cursor runs that agent on the parent's model and says so in the result. [VALIDATION.md](VALIDATION.md) records which models were checked, and on which build.
 
 Jump to: [Install](#install-the-cursor-edition) · [Orchestrator](#the-orchestrator) · [Agents](#the-agents) · [Model policy](#model-policy) · [Slash commands](#slash-commands) · [Orchestration modes](#orchestration-modes) · [Architecture](#architecture) · [Hooks](#hooks) · [Automations](#automations) · [Bundled skills](#bundled-skills) · [FAQ](#faq)
 
 ### Install the Cursor edition
 
-You need [Cursor](https://www.cursor.com/) 3.4 or later with agent mode (subagents). Nothing else.
+You need [Cursor](https://www.cursor.com/) 3.27 or later. The installer adds the edition as a local Cursor plugin in `~/.cursor/plugins/local/team-avatar/`, which is how Cursor applies a rule to every project. On Enterprise plans, an admin must turn on **Allow Local Plugin Imports** first. Cursor's [plugin docs](https://cursor.com/docs/plugins.md) cover sharing a plugin through a team marketplace.
 
 macOS and Linux:
 
@@ -133,7 +133,7 @@ irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1 | 
 <details>
 <summary>Installer options</summary>
 
-Append a flag to the macOS and Linux one-liner above. To work from a checkout, clone the repository and run `bash install.sh` with the same flags.
+Append a flag to the macOS and Linux one-liner above. To work from a checkout, clone the repository and run `bash install.sh` with the same flags. Without `--project`, the installer builds the local plugin for every project. With it, the edition goes into the repository's `.cursor/` folder instead.
 
 ```bash
 bash -s -- --project         # Install to this project only (./.cursor/)
@@ -227,7 +227,7 @@ Skills: [`design-patterns-implementation`](skills/design-patterns-implementation
 <a id="agent-sokka"></a>
 
 <details open>
-<summary><img src="screenshots/faces/sokka.png" width="20" height="20" /> <strong>Sokka</strong> · <em>The Strategist</em> · <code>claude-opus-4-8-thinking-high</code></summary>
+<summary><img src="screenshots/faces/sokka.png" width="20" height="20" /> <strong>Sokka</strong> · <em>The Strategist</em> · <code>claude-opus-5-5[effort=high]</code></summary>
 
 Planning, ambiguity analysis, and plan review. The brain behind every mission.
 
@@ -257,7 +257,7 @@ Skills: [`debugging`](skills/debugging/SKILL.md) · [`refactoring`](skills/refac
 <a id="agent-zuko"></a>
 
 <details open>
-<summary><img src="screenshots/faces/zuko.png" width="20" height="20" /> <strong>Zuko</strong> · <em>The Firebender</em> · <code>gemini-3.1-pro</code></summary>
+<summary><img src="screenshots/faces/zuko.png" width="20" height="20" /> <strong>Zuko</strong> · <em>The Firebender</em> · <code>gemini-4-argon</code></summary>
 
 Visual design: image generation, icons, and UI mockups. Brings designs to life.
 
@@ -317,7 +317,7 @@ Skills: [`refactoring`](skills/refactoring/SKILL.md) · [`refactoring-patterns`]
 <a id="agent-iroh"></a>
 
 <details>
-<summary><img src="screenshots/faces/iroh.png" width="20" height="20" /> <strong>Iroh</strong> · <em>The Storyteller</em> · <code>claude-opus-4-8-thinking-high</code></summary>
+<summary><img src="screenshots/faces/iroh.png" width="20" height="20" /> <strong>Iroh</strong> · <em>The Storyteller</em> · <code>claude-opus-5-5[effort=high]</code></summary>
 
 Documentation specialist. The only agent that owns the README, the CHANGELOG, and the project docs.
 
@@ -333,13 +333,13 @@ Skills: [`crafting-effective-readmes`](skills/crafting-effective-readmes/SKILL.m
 
 Every agent defaults to Composer 2.5 (`composer-2.5-fast`), which is fast and draws on Cursor's Auto and Composer pool ([#20](https://github.com/tmcfarlane/team-avatar/issues/20), [#21](https://github.com/tmcfarlane/team-avatar/issues/21)). Cursor's model docs list what is currently available. Three agents use a different model:
 
-| Agent     | Model                           | Reason                                 |
-| --------- | ------------------------------- | -------------------------------------- |
-| **Sokka** | `claude-opus-4-8-thinking-high` | Maximum reasoning for complex planning |
-| **Iroh**  | `claude-opus-4-8-thinking-high` | Long-form documentation quality        |
-| **Zuko**  | `gemini-3.1-pro`                | Multimodal and visual work             |
+| Agent     | Model                          | Reason                                 |
+| --------- | ------------------------------ | -------------------------------------- |
+| **Sokka** | `claude-opus-5-5[effort=high]` | Maximum reasoning for complex planning |
+| **Iroh**  | `claude-opus-5-5[effort=high]` | Long-form documentation quality        |
+| **Zuko**  | `gemini-4-argon`               | Multimodal and visual work             |
 
-Workers that a coordinator spawns may use Cursor's `fast` tier or inherit the coordinator's model. If a workflow regresses on Composer 2.5, change `model:` in the agent's Markdown file.
+Workers that a coordinator spawns run on the model their own file pins. If a workflow regresses on Composer 2.5, change `model:` in the agent's Markdown file.
 
 #### Per-agent model routing
 
@@ -347,7 +347,7 @@ Workers that a coordinator spawns may use Cursor's `fast` tier or inherit the co
   <img src="screenshots/guy-spills-it.png" alt="Cursor per-agent model routing in agent frontmatter">
 </p>
 
-Cursor's `model:` field in an agent's frontmatter routes that agent to a specific model ([Cursor docs](https://cursor.com/docs/subagents)). The value must be an exact, valid Cursor `Task` tool slug. Cursor does not accept alias strings there:
+Cursor's `model:` field in an agent's frontmatter routes that agent to a specific model ([Cursor docs](https://cursor.com/docs/subagents)). The value is a model ID from Cursor's [model list](https://cursor.com/docs/models-and-pricing.md), with optional settings in brackets such as `[effort=high]`:
 
 ```yaml
 ---
@@ -357,15 +357,15 @@ model: composer-2.5-fast # fast executor pool
 
 ```yaml
 ---
-model: gemini-3.1-pro # multimodal tasks
+model: claude-opus-5-5[effort=high] # model options go in brackets
 ---
 ```
 
-> **An unrecognized slug does not error. It falls back to `composer-2.5-fast` without telling you.** A typo or a stale name looks like it works while the agent runs the wrong model. Use a verified slug and confirm the routing with [`VALIDATION.md`](VALIDATION.md). An agent with no `model:` line inherits its parent's model.
+> **When a pinned model can't run, Cursor 3.27 runs the agent on the parent's model and says which model ran.** That happens when an admin blocks the model, your plan doesn't include it, or a legacy plan needs Max Mode for it. The subagent's task card shows the model that ran. An agent with no `model:` line inherits its parent's model.
 
-Valid slugs on Cursor 3.8.x, verified in June 2026: `composer-2.5-fast`, `claude-opus-4-8-thinking-high`, `gemini-3.1-pro`, `claude-4.6-opus-high-thinking`, `claude-4.6-sonnet-medium-thinking`, `claude-fable-5-thinking-high`, `gpt-5.3-codex-high-fast`, `gpt-5.5-medium`, and `kimi-k2.5`.
+Models this edition uses, checked against Cursor's [model list](https://cursor.com/docs/models-and-pricing.md) on October 25, 2026: `composer-2.5-fast`, `claude-opus-5-5[effort=high]`, and `gemini-4-argon`. Opus 4.8, which Sokka and Iroh used before, is now hidden by default.
 
-> **Slugs change between Cursor versions, and Cursor's docs don't mention it.** Verify them against your build before you rely on routing. The [VALIDATION.md](VALIDATION.md) sweep takes about 2 minutes.
+> **Model IDs change between Cursor versions.** Check them against your build before you rely on routing. The [VALIDATION.md](VALIDATION.md) sweep takes about 2 minutes.
 
 ### Slash commands
 
@@ -453,9 +453,9 @@ On Cursor 3.4 and later, the agents run as a two-tier swarm. Coordinators (Aang,
 
 ### Hooks
 
-Hooks enforce rules at the system level, so nothing depends on an agent remembering to verify. They run through Cursor's [hooks](https://cursor.com/docs/hooks) system and `.cursor/hooks.json`. Each hook is a script that reads a JSON payload on stdin. For `beforeShellExecution`, it returns an allow, deny, or ask decision.
+Hooks enforce rules at the system level, so nothing depends on an agent remembering to verify. They run through Cursor's [hooks](https://cursor.com/docs/hooks) system, from the plugin's `hooks/hooks.json` or a project's `.cursor/hooks.json`. Each hook is a script that reads a JSON payload on stdin. For `beforeShellExecution`, it returns an allow, deny, or ask decision.
 
-> **Hooks are project-scoped.** Install them with `install.sh --project` inside a repository. Hook command paths are relative to the workspace root, so a user-scope (`~/.cursor`) install skips the hook config on purpose. After you install, quit Cursor completely (Cmd+Q) and reopen it, because a window reload does not register project hooks. Make sure the workspace is trusted.
+> **Both installs include the hooks.** The local plugin carries them in `hooks/hooks.json`, and `install.sh --project` writes `.cursor/hooks.json` into the repository. Plugin hooks start in the plugin's folder, so the guard moves to the command's working directory from Cursor's payload before it checks a commit. After you install, quit Cursor completely (Cmd+Q) and reopen it, and make sure the workspace is trusted. `scripts/test-cursor-hooks.sh` checks the guard's replies against Cursor's hook schema.
 
 | Hook handler          | Event                  | Purpose                                                                         |
 | --------------------- | ---------------------- | ------------------------------------------------------------------------------- |

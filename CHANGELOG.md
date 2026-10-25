@@ -3,9 +3,34 @@
 All notable changes to Team Avatar (formerly oh-my-cursor) are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/); this project uses [SemVer](https://semver.org/).
 
-> **Validated against Cursor 3.9.8** (latest) — every release is verified on a real
+> **Last validated against Cursor 3.9.8.** Every release is verified on a real
 > Cursor build before tagging. See [`VALIDATION.md`](VALIDATION.md) for the per-version
 > compatibility matrix and the 2-minute re-validation check.
+
+## [Unreleased]
+
+The Cursor edition moves to Cursor 3.27. These changes follow Cursor's docs and still need a live
+run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
+
+### Changed
+
+- The installer's default user scope installs a local Cursor plugin in
+  `~/.cursor/plugins/local/team-avatar/`. Cursor 3.27 has no file-based user rules, so the old
+  copy in `~/.cursor/rules/` never loaded the orchestration rule. The installer moves the old
+  user-scope files into a backup folder. `--project` still writes `.cursor/`.
+- The repository is a Cursor Plugin: `.cursor-plugin/plugin.json` and `hooks/hooks.json` are new,
+  and the unused root `plugin.json` is gone.
+- Agent names are their file names (`aang`, `toph`, and so on), as Cursor 3.27 requires.
+- Sokka and Iroh run `claude-opus-5-5[effort=high]` instead of the hidden Opus 4.8. Zuko runs
+  `gemini-4-argon`. Sokka is marked read-only.
+- `guard-shell.sh` prints only `permission`, `user_message`, and `agent_message`, and escapes its
+  messages. Cursor 3.27 blocks a command when a permission hook breaks that schema.
+- `post-edit-lint.sh` lints from the workspace root that Cursor passes in `CURSOR_PROJECT_DIR`.
+- Two vendored skills have names that match their folders.
+
+### Added
+
+- `scripts/test-cursor-hooks.sh` checks the shell guard's replies against Cursor's hook schema.
 
 ## [1.0.0] - 2026-10-24
 

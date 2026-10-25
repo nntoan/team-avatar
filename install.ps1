@@ -98,6 +98,8 @@ $CONFIG_FILES = @('hooks.json', 'permissions.json')
 $PLUGIN_FILES = @('.cursor-plugin/plugin.json', 'hooks/hooks.json')
 # Every shipped command names its character as a whole word. cactus-juice.md names none, so its own phrase marks it as ours.
 $CHARACTER_PATTERN = '\b(aang|sokka|katara|zuko|toph|appa|momo|iroh|cactus juice)\b'
+# Cursor on Windows runs hook commands through PowerShell, so the bash hooks can't run there.
+$ON_WINDOWS = [IO.Path]::DirectorySeparatorChar -eq '\'
 $RULE_FILE = 'orchestrator.mdc'
 $RULE_FILE_DISABLED = 'orchestrator.mdc.disabled'
 $SKILL_DIRS = @(
@@ -592,7 +594,12 @@ function Install-ToDir {
     # paths are relative to the workspace root, so user-scope (~/.cursor) would not resolve
     # across other projects. Install it only for a project-scope cursor install.
     if ($Scope -eq 'project' -and (Split-Path $TargetDir -Leaf) -eq '.cursor') {
-        Install-FileSet -SrcDir $WorkDir -DestDir $TargetDir -Label 'config' -Files $CONFIG_FILES -IsForce $IsForce -IsDryRun $IsDryRun
+        $configFiles = $CONFIG_FILES
+        if ($ON_WINDOWS) {
+            $configFiles = @($CONFIG_FILES | Where-Object { $_ -ne 'hooks.json' })
+            Write-Host '  [skipped] hooks.json: the hooks are bash scripts, and Cursor runs hooks through PowerShell on Windows' -ForegroundColor Yellow
+        }
+        Install-FileSet -SrcDir $WorkDir -DestDir $TargetDir -Label 'config' -Files $configFiles -IsForce $IsForce -IsDryRun $IsDryRun
         Install-GitPreCommitHook -IsDryRun $IsDryRun
     }
 
@@ -877,6 +884,12 @@ function Install-UserPlugin {
     Write-Host "Installing local Cursor plugin to $($Dirs.PluginDir)" -ForegroundColor White
     Write-Host ''
     Install-ToDir -TargetDir $Dirs.PluginDir -WorkDir $WorkDir -IsForce $IsForce -IsDryRun $IsDryRun
+    if ($ON_WINDOWS) {
+        # The hook scripts stay in the plugin, but its hook config runs none of them.
+        [IO.File]::WriteAllText((Join-Path (Join-Path $WorkDir 'hooks') 'hooks.json'), "{ ""version"": 1, ""hooks"": {} }`n")
+        Write-Host '  Hooks are off on Windows: they are bash scripts, and Cursor runs hooks through PowerShell there.' -ForegroundColor Yellow
+        Write-Host ''
+    }
     Install-FileSet -SrcDir $WorkDir -DestDir $Dirs.PluginDir -Label 'plugin manifest and hook config' -Files $PLUGIN_FILES -IsForce $IsForce -IsDryRun $IsDryRun
 
     if (-not $IsDryRun -and [IO.Path]::DirectorySeparatorChar -eq '/') {

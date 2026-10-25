@@ -18,6 +18,7 @@ PLUGIN_HOOKS_CONFIG="hooks.json"
 SKILL_DIRS=(
   architect
   codebase-search
+  crafting-effective-readmes
   create-an-asset
   cursor-image-generation
   debugging

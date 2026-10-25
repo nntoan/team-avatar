@@ -56,7 +56,8 @@ valid_json() { python3 -I -c 'import json, sys; json.load(open(sys.argv[1]))' "$
 AGENTS="aang sokka katara zuko toph appa momo iroh"
 COMMANDS="plan build search fix tasks scout cactus-juice doc image"
 HOOKS="post-edit-lint.sh pre-commit-check.sh guard-shell.sh"
-SKILL_COUNT=20
+# Every folder under skills/ must ship, so a folder missing from the installer's SKILL_DIRS fails.
+REPO_SKILLS="$(cd "$ROOT/skills" && find . -mindepth 1 -maxdepth 1 -type d | sort)"
 
 expected_plugin_files() { # everything except skills/, sorted
   {
@@ -74,9 +75,8 @@ assert_plugin_layout() { # label plugin-dir
   local label="$1" p="$2"
   eq "$label: plugin files match the spec layout" \
     "$(cd "$p" && find . -type f -not -path './skills/*' | sort)" "$(expected_plugin_files)"
-  local skill_dirs
-  skill_dirs="$(cd "$p/skills" && find . -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')"
-  eq "$label: $SKILL_COUNT bundled skill folders" "$skill_dirs" "$SKILL_COUNT"
+  eq "$label: every bundled skill folder" \
+    "$(cd "$p/skills" && find . -mindepth 1 -maxdepth 1 -type d | sort)" "$REPO_SKILLS"
   check "$label: planning skill has SKILL.md" test -f "$p/skills/planning/SKILL.md"
   for h in $HOOKS; do check "$label: hooks/$h is executable" test -x "$p/hooks/$h"; done
   check "$label: plugin.json is valid JSON" valid_json "$p/.cursor-plugin/plugin.json"

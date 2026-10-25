@@ -3,7 +3,9 @@
 #
 # Reads a JSON payload on stdin (fields: command, cwd, hook_event_name, ...) and prints a
 # JSON decision on stdout per Cursor's hook protocol:
-#   {"continue": <bool>, "permission": "allow|deny|ask", "userMessage": "...", "agentMessage": "..."}
+#   {"permission": "allow|deny|ask", "user_message": "...", "agent_message": "..."}
+# Cursor 3.27 blocks the command when a permission hook prints invalid JSON or keys outside that
+# schema, so every message goes through json_str and only the documented keys are printed.
 #
 # Blocks (deny) clearly destructive commands and commits that contain the anti-patterns
 # Team Avatar agents are told never to introduce.
@@ -55,26 +57,28 @@ if [ "${OMC_HOOKS_DEBUG:-}" = "1" ]; then
   printf '%s\t%s\n' "$(date '+%FT%T' 2>/dev/null)" "${COMMAND:-<unparsed>}" >> "$HERE/last-invocation.log" 2>/dev/null || true
 fi
 
-allow() { printf '{"continue": true, "permission": "allow"}\n'; exit 0; }
-ask() { printf '{"continue": true, "permission": "ask", "userMessage": "%s", "agentMessage": "%s"}\n' "$1" "$1"; exit 0; }
+# Escapes a value for a JSON string: backslashes and quotes, with control characters as spaces.
+json_str() { printf '%s' "$1" | LC_ALL=C tr '\000-\037' ' ' | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'; }
+allow() { printf '{"permission": "allow"}\n'; exit 0; }
+ask() { local m; m="$(json_str "$1")"; printf '{"permission": "ask", "user_message": "%s", "agent_message": "%s"}\n' "$m" "$m"; exit 0; }
 decide() {
-  local reason="$1"
+  local reason; reason="$(json_str "$1")"
   if [ "${OMC_HOOKS_OBSERVE:-}" = "1" ]; then
-    printf '{"continue": true, "permission": "allow", "agentMessage": "[observe] would block: %s"}\n' "$reason"
+    printf '{"permission": "allow", "agent_message": "[observe] would block: %s"}\n' "$reason"
     exit 0
   fi
-  printf '{"continue": false, "permission": "deny", "userMessage": "Blocked by oh-my-cursor: %s", "agentMessage": "Denied by policy: %s. Adjust .cursor/hooks/guard-shell.sh or set OMC_HOOKS_OBSERVE=1 to override."}\n' "$reason" "$reason"
+  printf '{"permission": "deny", "user_message": "Blocked by oh-my-cursor: %s", "agent_message": "Denied by policy: %s. Adjust hooks/guard-shell.sh or set OMC_HOOKS_OBSERVE=1 to override."}\n' "$reason" "$reason"
   exit 0
 }
 # Surface for human approval (deterministic "hold for review"). Used where the auto-review
 # classifier is unreliable, e.g. reading credential/secret files.
 hold() {
-  local reason="$1"
+  local reason; reason="$(json_str "$1")"
   if [ "${OMC_HOOKS_OBSERVE:-}" = "1" ]; then
-    printf '{"continue": true, "permission": "allow", "agentMessage": "[observe] would hold for review: %s"}\n' "$reason"
+    printf '{"permission": "allow", "agent_message": "[observe] would hold for review: %s"}\n' "$reason"
     exit 0
   fi
-  printf '{"continue": true, "permission": "ask", "userMessage": "Held by oh-my-cursor for review: %s", "agentMessage": "Held for review: %s. Approve only if this credential/secret access is intended."}\n' "$reason" "$reason"
+  printf '{"permission": "ask", "user_message": "Held by oh-my-cursor for review: %s", "agent_message": "Held for review: %s. Approve only if this credential/secret access is intended."}\n' "$reason" "$reason"
   exit 0
 }
 

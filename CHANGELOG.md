@@ -9,8 +9,8 @@ All notable changes to Team Avatar (formerly oh-my-cursor) are documented here. 
 
 ## [Unreleased]
 
-The Cursor edition moves to Cursor 3.27. These changes follow Cursor's docs and still need a live
-run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
+The Cursor edition moves to Cursor 3.27. These changes follow Cursor's docs and a partial live run
+on Cursor 3.27.12, recorded in [`VALIDATION.md`](VALIDATION.md).
 
 ### Changed
 

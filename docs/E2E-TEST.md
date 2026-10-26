@@ -57,6 +57,7 @@ Report:
 ## Preconditions (verify before testing)
 
 - [ ] **Cursor 3.27 or newer** running, signed into a plan with the Agent + Task tools (Pro).
+      A Free plan runs only Auto, so Suite A can't pass on it.
       *Note your exact version.* The last build validated end-to-end was **3.9.8**. On anything
       newer (e.g. **3.27**) the suites **are** the re-validation: Suite A catches model-slug
       changes, Suite B catches hook-schema changes. A newer version is **not** a precondition
@@ -266,6 +267,16 @@ result. No `src/omc-e2e-canary.ts` was created; no cleanup needed.
 ### Run 2 — 2026-06-27 — Cursor 3.9.8 — PASS 13/15 (+0 BLOCKED)
 - FAIL: B3 commit anti-pattern guard did not block `as any`; `git commit -m "omc e2e canary"` succeeded as `b6e58a1` on `omc-e2e-sandbox`.
 - FAIL: C2 credential-read policy did not hold `cat ~/.ssh/config` for review; Cursor auto-ran it and the command exited 1 because the file did not exist.
+
+### Run 3 (2026-10-26): Cursor 3.27.12 and CLI 2026.10.22, partial
+Driven through `cursor-agent -p --plugin-dir ~/.cursor/plugins/local/team-avatar` on a Free plan,
+plus the desktop app's Customize view. Full results are in `VALIDATION.md`.
+- A: all 8 agents ran, but a Free plan runs only Auto, so no pinned model could be checked. With
+  the Claude Code edition also installed, its agents ran in place of this edition's.
+- B: B1 and B2 were blocked. B3 committed `as any` until two guard fixes, after which both the
+  combined stage-and-commit and the separate commit were blocked.
+- C: not checkable through the CLI, which rejects every shell command that is not on its own
+  allowlist in print mode.
 
 ---
 

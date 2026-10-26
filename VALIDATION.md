@@ -15,11 +15,12 @@ default, and a slug list confirmed to route on a real build. Re-run the
 
 ---
 
-## Cursor 3.27 update (2026-10-25): checked against the docs, live run pending
+## Cursor 3.27 update (2026-10-25): checked against the docs and a partial live run
 
 This update follows Cursor's docs as of October 25, 2026, for desktop 3.27 and CLI v2026.10.22.
 Some of these behaviors changed after 3.9.8, the last build validated here, and the docs don't
-always say which release changed them. Nobody has run the suites on a 3.27 build yet, so run the
+always say which release changed them. A partial live run on Cursor 3.27.12 is recorded below.
+Model routing and auto-review still need a paid plan and the desktop app, so run the
 [2-minute check](#2-minute-validation) and [`docs/E2E-TEST.md`](docs/E2E-TEST.md) before you rely on
 the matrix below.
 
@@ -41,6 +42,34 @@ on 3.27 yet:
 | `composer-2.5-fast` | Composer 2.5 Fast | Aang, Appa, Katara, Momo, Toph | Listed by `cursor-agent models` on CLI 2026.10.22. Routed on 3.9.8. |
 | `claude-opus-5-5-high` | Claude Opus 5.5, high effort | Sokka, Iroh | Listed by `cursor-agent models` on CLI 2026.10.22. The bracket form `claude-opus-5-5[effort=high]` was rejected on a Free account, as was the CLI's own bracket example, so it is not used. |
 | `gemini-4-argon` | Gemini 4 Argon | Zuko | Recognized by CLI 2026.10.22, which answered with the Free plan limit rather than "Cannot use this model". The list shows `gemini-4-argon-low`, `-medium`, and `-high`. |
+
+### Live run on Cursor 3.27.12 (2026-10-26)
+
+Cursor desktop 3.27.12 and Cursor CLI 2026.10.22 on macOS, signed in to a Free plan, with this
+edition installed as a local plugin and the Claude Code edition of Team Avatar also installed. The
+CLI ran the checks in a throwaway repository with `--plugin-dir ~/.cursor/plugins/local/team-avatar`.
+Its transcripts land in `~/.cursor/projects/<workspace>/agent-transcripts/`.
+
+| Check | Result | Evidence |
+| ----- | ------ | -------- |
+| Plugin loads in the desktop app | PASS | Customize lists Team Avatar (Local) 1.1.0 with 21 skills, 8 subagents, the `orchestrator` rule, 9 commands, and 2 hooks. The plugin log says `loadUserLocalPlugin team-avatar loaded`. |
+| Agents load and run in the CLI | PASS | All 8 agents ran when dispatched by name, and each replied. |
+| Model routing (Suite A) | NOT VERIFIED | A Free plan runs only Auto. The CLI answered `Named models unavailable` for each pinned ID. |
+| Both editions installed | FAIL, now warned | The Claude Code edition's `aang`, `katara`, `sokka`, `iroh`, and `zuko` ran in place of this edition's agents. The installers now warn when they find both. |
+| Destructive command (B1) | PASS | `rm -rf /tmp/omc-e2e-canary` was blocked by the hook. |
+| Force-push (B2) | PASS | `git push --force omc-e2e-fake-remote main` was blocked by the hook. |
+| Anti-pattern commit (B3) | FAIL, now fixed | The first run committed `as any`. After the two guard fixes, a rerun blocked the combined stage-and-commit and then the separate commit. |
+| Auto-review (Suite C) | NOT VERIFIED | In print mode the CLI rejects every shell command that is not on its own allowlist, `git status` included, so `permissions.json` never applied. Check it in the desktop app with Run Mode set to Auto-review. |
+
+What the run showed about Cursor 3.27:
+
+- A `beforeShellExecution` payload can carry an empty `cwd`, and a plugin hook starts in the
+  plugin's folder. `CURSOR_PROJECT_DIR` and `workspace_roots` name the repository.
+- `CURSOR_PLUGIN_ROOT` pointed at another installed plugin during the run. A hook should find its
+  own files from the script's location.
+- The guard covers shell commands only. When the shell was blocked, the agent listed and read
+  `~/.ssh` with its file tools, which only a `beforeReadFile` hook would cover.
+- The CLI adds a `Co-authored-by: Cursor` trailer to commits unless commit attribution is off.
 
 ---
 

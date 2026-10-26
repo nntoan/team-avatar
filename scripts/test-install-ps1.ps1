@@ -159,6 +159,15 @@ $r = Invoke-Installer -Script $Installer -HomeDir $home1b -Cwd $cwd1
 Assert-That 'permissions.json content kept' ((Get-Content (Join-Path $home1b '.cursor/permissions.json') -Raw) -eq '{"mine":true}')
 Assert-That 'prints one line saying so' ($r.Output -match 'exists and differs')
 
+Write-Host '1c. A skill with a bundled name in ~/.agents/skills'
+$home1c = New-TempDir 'home'
+Write-TextFile (Join-Path $home1c '.agents/skills/planning/SKILL.md') "---`nname: planning`ndescription: my planning notes`n---`n"
+$r = Invoke-Installer -Script $Installer -HomeDir $home1c -Cwd $cwd1
+Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
+Assert-That 'the note names the duplicate skill' ($r.Output -match 'bundled names: planning')
+Assert-That 'the installer never suggests deleting a folder' ($r.Output -notmatch 'delete')
+Assert-That '~/.agents/skills is untouched' (Test-Path (Join-Path $home1c '.agents/skills/planning/SKILL.md'))
+
 # ---------------------------------------------------------------------------
 Write-Host '2. Migration from the old installer layout'
 if (-not $LegacyRepo -or -not (Test-Path (Join-Path $LegacyRepo 'install.ps1'))) {

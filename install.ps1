@@ -717,17 +717,12 @@ function Install-Skills {
 
     Write-Host ''
 
-    # Check for legacy skills location
-    $legacySkillsDir = Join-Path (Join-Path $HOME '.agents') 'skills'
-    if (Test-Path $legacySkillsDir) {
-        $legacyCount = 0
-        foreach ($skill in $SKILL_DIRS) {
-            if (Test-Path (Join-Path $legacySkillsDir $skill)) { $legacyCount++ }
-        }
-        if ($legacyCount -gt 0) {
-            Write-Host "Note: ${legacyCount} matching skill(s) found in ~/.agents/skills/ (legacy location)." -ForegroundColor DarkGray
-            Write-Host "They show as 'Rules' in Cursor UI. The new installs in ${SkillsDir} show as 'Skills'." -ForegroundColor DarkGray
-            Write-Host 'You can safely delete ~/.agents/skills/ once verified.' -ForegroundColor DarkGray
+    # Cursor also loads user skills from ~/.agents/skills/, so a skill there with a bundled name shows twice.
+    $agentsSkillsDir = Join-Path (Join-Path $HOME '.agents') 'skills'
+    if (Test-Path $agentsSkillsDir) {
+        $same = @($SKILL_DIRS | Where-Object { Test-Path (Join-Path $agentsSkillsDir $_) })
+        if ($same.Count -gt 0) {
+            Write-Host "Note: ~/.agents/skills/ has skills with bundled names: $($same -join ' '). Cursor loads both copies." -ForegroundColor DarkGray
             Write-Host ''
         }
     }

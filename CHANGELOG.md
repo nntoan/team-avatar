@@ -46,6 +46,9 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
   `crafting-effective-readmes`.
 - `install.ps1` uses a local checkout on Windows PowerShell 5.1. Its three-argument `Join-Path`
   calls failed there, so it downloaded `main` instead.
+- The installers no longer call `~/.agents/skills/` a legacy folder that is safe to delete. Cursor
+  and other tools load user skills from it, so the note now names the skills that share a bundled
+  name instead.
 
 ## [1.0.0] - 2026-10-24
 

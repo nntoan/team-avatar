@@ -120,6 +120,16 @@ H1C="$(new_home)"
 install_user "$H1C" --no-skills
 check_not "no skills folder installed" test -d "$H1C/.cursor/plugins/local/team-avatar/skills"
 
+printf '== 1d. a skill with a bundled name in ~/.agents/skills\n'
+H1D="$(new_home)"
+mkdir -p "$H1D/.agents/skills/planning"
+printf -- '---\nname: planning\ndescription: my planning notes\n---\n' > "$H1D/.agents/skills/planning/SKILL.md"
+install_user "$H1D"
+eq "with ~/.agents/skills: installer exits 0" "$STATUS" "0"
+check "the note names the duplicate skill" bash -c "printf '%s' \"\$1\" | grep -q 'bundled names: planning'" _ "$OUT"
+check_not "the installer never suggests deleting a folder" bash -c "printf '%s' \"\$1\" | grep -qi 'delete'" _ "$OUT"
+check "~/.agents/skills is untouched" test -f "$H1D/.agents/skills/planning/SKILL.md"
+
 printf '== 2. migration from the old layout\n'
 OLD="$(new_dir old)"
 git -C "$ROOT" archive v0.4.2 | tar -x -C "$OLD"

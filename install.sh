@@ -1055,15 +1055,14 @@ install_skills() {
 
   log ""
 
+  # Cursor also loads user skills from ~/.agents/skills/, so a skill there with a bundled name shows twice.
   if [ -d "${HOME}/.agents/skills" ]; then
-    local legacy_count=0
+    local same=""
     for skill in "${SKILL_DIRS[@]}"; do
-      [ -d "${HOME}/.agents/skills/${skill}" ] && legacy_count=$((legacy_count + 1))
+      [ -d "${HOME}/.agents/skills/${skill}" ] && same="${same} ${skill}"
     done
-    if [ "$legacy_count" -gt 0 ]; then
-      log "${DIM}Note: ${legacy_count} matching skill(s) found in ~/.agents/skills/ (legacy location).${RESET}"
-      log "${DIM}They show as 'Rules' in Cursor UI. The new installs in ~/.cursor/skills/ show as 'Skills'.${RESET}"
-      log "${DIM}You can safely delete ~/.agents/skills/ once verified.${RESET}"
+    if [ -n "$same" ]; then
+      log "${DIM}Note: ~/.agents/skills/ has skills with bundled names:${same}. Cursor loads both copies.${RESET}"
       log ""
     fi
   fi

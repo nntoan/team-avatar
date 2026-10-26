@@ -598,6 +598,10 @@ function Install-ToDir {
         if ($ON_WINDOWS) {
             $configFiles = @($CONFIG_FILES | Where-Object { $_ -ne 'hooks.json' })
             Write-Host '  [skipped] hooks.json: the hooks are bash scripts, and Cursor runs hooks through PowerShell on Windows' -ForegroundColor Yellow
+            $oldHooks = Join-Path $TargetDir 'hooks.json'
+            if ((Test-Path -LiteralPath $oldHooks) -and (Select-String -LiteralPath $oldHooks -Pattern 'guard-shell.sh' -SimpleMatch -Quiet)) {
+                Write-Host "  [warning] ${oldHooks} from an earlier install still runs the bash hooks, which block shell commands on Windows. Delete it, or remove its hooks." -ForegroundColor Yellow
+            }
         }
         Install-FileSet -SrcDir $WorkDir -DestDir $TargetDir -Label 'config' -Files $configFiles -IsForce $IsForce -IsDryRun $IsDryRun
         Install-GitPreCommitHook -IsDryRun $IsDryRun

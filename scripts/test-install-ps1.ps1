@@ -349,13 +349,20 @@ $proj = New-TempDir 'project'
 $r = Invoke-Installer -Script $Installer -HomeDir $home6 -Cwd $proj -Arguments @('-Scope', 'project')
 Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
 $pc = Join-Path $proj '.cursor'
-$projExpected = @('rules/orchestrator.mdc', 'agents/protocols/team-avatar.md', 'hooks.json', 'permissions.json')
+# On Windows the installer leaves .cursor/hooks.json out, because Cursor runs hooks through PowerShell there.
+$projExpected = @('rules/orchestrator.mdc', 'agents/protocols/team-avatar.md', 'permissions.json')
+if ($IsUnix) { $projExpected += 'hooks.json' }
 $projExpected += $AGENTS | ForEach-Object { "agents/${_}.md" }
 $projExpected += $COMMANDS | ForEach-Object { "commands/${_}.md" }
 $projExpected += $HOOKS | ForEach-Object { "hooks/${_}" }
 $projMissing = @($projExpected | Where-Object { -not (Test-Path (Join-Path $pc $_)) })
 Assert-That 'project layout files present' ($projMissing.Count -eq 0) ($projMissing -join ', ')
-Assert-That '.cursor/hooks.json uses .cursor/hooks/ paths' ((Get-Content (Join-Path $pc 'hooks.json') -Raw) -match '\.cursor/hooks/guard-shell\.sh')
+if ($IsUnix) {
+    Assert-That '.cursor/hooks.json uses .cursor/hooks/ paths' ((Get-Content (Join-Path $pc 'hooks.json') -Raw) -match '\.cursor/hooks/guard-shell\.sh')
+}
+else {
+    Assert-That 'no .cursor/hooks.json on Windows' (-not (Test-Path (Join-Path $pc 'hooks.json')))
+}
 Assert-That 'no hooks/hooks.json copied into .cursor/hooks' (-not (Test-Path (Join-Path $pc 'hooks/hooks.json')))
 Assert-That 'no plugin manifest in the project' (-not (Test-Path (Join-Path $pc '.cursor-plugin')) -and -not (Test-Path (Join-Path $pc 'plugins')))
 Assert-That 'nothing written under the home' (-not (Test-Path (Join-Path $home6 '.cursor')))

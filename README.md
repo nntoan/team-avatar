@@ -459,7 +459,7 @@ Hooks enforce rules at the system level, so nothing depends on an agent remember
 
 | Hook handler          | Event                  | Purpose                                                                         |
 | --------------------- | ---------------------- | ------------------------------------------------------------------------------- |
-| `guard-shell.sh`      | `beforeShellExecution` | Blocks destructive commands (`rm -rf /`, a force-push to `main`, a hard reset of a shared branch) and commits that contain forbidden anti-patterns (`as any`, `@ts-ignore`, empty catches). It matches text in the command, so it also blocks `rm -rf` on any absolute or home path and a force-push to any branch whose name contains `main` or `master`. |
+| `guard-shell.sh`      | `beforeShellExecution` | Blocks destructive commands (`rm -rf /`, a force-push to `main`, a hard reset of a shared branch) and commits that contain forbidden anti-patterns (`as any`, `@ts-ignore`, empty catches). It matches text in the command, so it also blocks `rm -rf` on any absolute or home path and a force-push to any branch whose name contains `main` or `master`. It also blocks a command that stages files and commits in one go, because the anti-pattern check only sees what was staged before the command ran. |
 | `post-edit-lint.sh`   | `afterFileEdit`        | Lints the edited file and reports issues right away. It never blocks.          |
 | `pre-commit-check.sh` | (library)              | The anti-pattern checker that `guard-shell.sh` calls. It also works as a git pre-commit hook. |
 

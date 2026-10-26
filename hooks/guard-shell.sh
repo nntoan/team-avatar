@@ -102,8 +102,14 @@ case "$COMMAND" in
 esac
 
 # --- Commit anti-pattern guard ---
+# The check reads what is staged before the command runs, so a command that also stages files
+# would commit changes the check never saw.
 case "$COMMAND" in
   *"git commit"*)
+    if [[ "$COMMAND" == *"git add"* || "$COMMAND" == *"git stage"* ]] ||
+      [[ "$COMMAND" =~ git[[:space:]]+commit.*[[:space:]](-[A-Za-z]*a[A-Za-z]*|--all)([[:space:]]|$) ]]; then
+      decide "commit in the same command that stages files; run git add first, then git commit in a separate command"
+    fi
     if [ -x "$HERE/pre-commit-check.sh" ]; then
       if ! OUT="$("$HERE/pre-commit-check.sh" 2>&1)"; then
         decide "commit contains forbidden anti-patterns ($(printf '%s' "$OUT" | tr '\n' ' ' | cut -c1-160))"

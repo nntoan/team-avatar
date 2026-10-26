@@ -43,4 +43,15 @@ printf 'const x = y as any; // "quoted" \\ backslash\n' > "$TMP/a.ts" && git -C 
 check "commit with anti-patterns is denied" deny "{\"command\": \"git commit -m test\", \"cwd\": \"$TMP\"}"
 check "same commit in observe mode is allowed" allow "{\"command\": \"git commit -m test\", \"cwd\": \"$TMP\"}" OMC_HOOKS_OBSERVE=1
 
+# A command that stages and commits in one go is denied even when the staged files are clean,
+# because the check runs before the command stages anything.
+CLEAN="$TMP/clean"; mkdir -p "$CLEAN"
+git -C "$CLEAN" init -q && git -C "$CLEAN" config user.email t@t && git -C "$CLEAN" config user.name t
+printf 'export const y = 1;\n' > "$CLEAN/b.ts" && git -C "$CLEAN" add b.ts
+check "staging and committing in one command is denied" deny "{\"command\": \"git add b.ts && git commit -m test\", \"cwd\": \"$CLEAN\"}"
+check "commit -am is denied" deny "{\"command\": \"git commit -am test\", \"cwd\": \"$CLEAN\"}"
+check "commit --all is denied" deny "{\"command\": \"git commit --all -m test\", \"cwd\": \"$CLEAN\"}"
+check "a clean commit is allowed" allow "{\"command\": \"git commit -m 'fix a bug'\", \"cwd\": \"$CLEAN\"}"
+check "commit --amend is allowed" allow "{\"command\": \"git commit --amend -m 'fix a bug'\", \"cwd\": \"$CLEAN\"}"
+
 [ "$fails" -eq 0 ] && echo "all hook checks passed" || { echo "$fails hook check(s) failed"; exit 1; }

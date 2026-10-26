@@ -7,7 +7,7 @@
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GUARD="$ROOT/hooks/guard-shell.sh"
-TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
+TMP="$(mktemp -d)"; NEUTRAL="$(mktemp -d)"; trap 'rm -rf "$TMP" "$NEUTRAL"' EXIT
 fails=0
 
 check() { # name expected-permission payload [env]
@@ -42,6 +42,12 @@ git -C "$TMP" init -q && git -C "$TMP" config user.email t@t && git -C "$TMP" co
 printf 'const x = y as any; // "quoted" \\ backslash\n' > "$TMP/a.ts" && git -C "$TMP" add a.ts
 check "commit with anti-patterns is denied" deny "{\"command\": \"git commit -m test\", \"cwd\": \"$TMP\"}"
 check "same commit in observe mode is allowed" allow "{\"command\": \"git commit -m test\", \"cwd\": \"$TMP\"}" OMC_HOOKS_OBSERVE=1
+
+# A plugin hook starts outside the repository and Cursor can send an empty cwd, so the guard must
+# check the workspace from CURSOR_PROJECT_DIR. Run it from a folder that is not a repository.
+cd "$NEUTRAL"
+check "empty cwd checks the commit in CURSOR_PROJECT_DIR" deny '{"command": "git commit -m test", "cwd": ""}' "CURSOR_PROJECT_DIR=$TMP"
+cd "$ROOT"
 
 # A command that stages and commits in one go is denied even when the staged files are clean,
 # because the check runs before the command stages anything.

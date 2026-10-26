@@ -90,8 +90,12 @@ fi
 
 [ -z "$COMMAND" ] && allow
 
-# Resolve git checks in the agent's real worktree.
-if [ -n "$CWD" ] && [ -d "$CWD" ]; then cd "$CWD" 2>/dev/null || true; fi
+# Resolve git checks in the agent's real worktree. A plugin hook starts in the plugin's folder, and
+# Cursor 3.27 sends an empty cwd when the shell call names no directory, so fall back to the
+# workspace root.
+for dir in "$CWD" "${CURSOR_PROJECT_DIR:-}"; do
+  if [ -n "$dir" ] && [ -d "$dir" ] && cd "$dir" 2>/dev/null; then break; fi
+done
 
 # --- Destructive command denylist (unambiguous, always guarded) ---
 case "$COMMAND" in

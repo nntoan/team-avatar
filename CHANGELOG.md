@@ -48,9 +48,11 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
   `crafting-effective-readmes`.
 - `install.ps1` uses a local checkout on Windows PowerShell 5.1. Its three-argument `Join-Path`
   calls failed there, so it downloaded `main` instead.
-- `guard-shell.sh` blocks a command that stages files and commits in one go. The anti-pattern
-  check reads only what is staged before the command runs, so on Cursor 3.27 an agent committed an
-  `as any` that way unchecked.
+- `guard-shell.sh` checks commits in the workspace root. A plugin hook starts in the plugin's
+  folder, and Cursor 3.27 sends an empty `cwd` when the shell call names no directory, so the
+  anti-pattern check looked at the wrong folder and let an `as any` commit through.
+- `guard-shell.sh` blocks a command that stages files and commits in one go, because the
+  anti-pattern check reads only what is staged before the command runs.
 - The installers no longer call `~/.agents/skills/` a legacy folder that is safe to delete. Cursor
   and other tools load user skills from it, so the note now names the skills that share a bundled
   name instead.

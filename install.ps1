@@ -758,13 +758,19 @@ function Test-FileMatches {
     return (Test-Path -LiteralPath $Path -PathType Leaf) -and [bool](Select-String -LiteralPath $Path -Pattern $Pattern -Quiet)
 }
 
-function Get-FirstDescription {
+# A SKILL.md's description line plus the indented lines that continue it.
+function Get-SkillDescription {
     param([string]$SkillDir)
     $skillFile = Join-Path $SkillDir 'SKILL.md'
     if (-not (Test-Path -LiteralPath $skillFile -PathType Leaf)) { return $null }
-    $line = Select-String -LiteralPath $skillFile -Pattern '^description:' | Select-Object -First 1
-    if ($line) { return $line.Line.TrimEnd() }
-    return $null
+    $block = New-Object System.Collections.Generic.List[string]
+    foreach ($line in (Get-Content -LiteralPath $skillFile)) {
+        if ($block.Count -eq 0) { if ($line -match '^description:') { $block.Add($line.TrimEnd()) } }
+        elseif ($line -match '^[ \t]') { $block.Add($line.TrimEnd()) }
+        else { break }
+    }
+    if ($block.Count -eq 0) { return $null }
+    return ($block -join "`n")
 }
 
 function Get-LegacyUserFiles {
@@ -826,8 +832,8 @@ function Get-LegacyUserFiles {
             Write-Host "  [left] skills/${skill}" -ForegroundColor DarkGray
             continue
         }
-        $desc = Get-FirstDescription -SkillDir $installed
-        $srcDesc = Get-FirstDescription -SkillDir (Join-Path $SkillsSrcDir $skill)
+        $desc = Get-SkillDescription -SkillDir $installed
+        $srcDesc = Get-SkillDescription -SkillDir (Join-Path $SkillsSrcDir $skill)
         if ($desc -and $srcDesc -and $desc -ceq $srcDesc) { $found.Add("skills/${skill}") }
         else { Write-Host "  [left] skills/${skill} (not the bundled copy)" -ForegroundColor DarkGray }
     }

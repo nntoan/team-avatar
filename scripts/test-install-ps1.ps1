@@ -99,10 +99,15 @@ function Get-Tree {
         } | Sort-Object)
 }
 
-function Get-FirstDescriptionLine {
+function Get-DescriptionBlock {
     param([string]$SkillDir)
-    $match = Select-String -Path (Join-Path $SkillDir 'SKILL.md') -Pattern '^description:' | Select-Object -First 1
-    return $match.Line.TrimEnd()
+    $block = @()
+    foreach ($line in (Get-Content -LiteralPath (Join-Path $SkillDir 'SKILL.md'))) {
+        if ($block.Count -eq 0) { if ($line -match '^description:') { $block += $line.TrimEnd() } }
+        elseif ($line -match '^[ \t]') { $block += $line.TrimEnd() }
+        else { break }
+    }
+    return ($block -join "`n")
 }
 
 function Get-BackupDirs {
@@ -196,7 +201,7 @@ else {
     $expectMoved = @{}
     foreach ($skill in $oldSkills) {
         $src = Join-Path $RepoRoot "skills/$($skill.Name)"
-        $expectMoved[$skill.Name] = (Test-Path (Join-Path $src 'SKILL.md')) -and ((Get-FirstDescriptionLine $src) -ceq (Get-FirstDescriptionLine $skill.FullName))
+        $expectMoved[$skill.Name] = (Test-Path (Join-Path $src 'SKILL.md')) -and ((Get-DescriptionBlock $src) -ceq (Get-DescriptionBlock $skill.FullName))
     }
     Write-TextFile (Join-Path $cursor2 'agents/custom.md') "---`nname: custom`n---`n"
     Write-TextFile (Join-Path $cursor2 'commands/mine.md') "my own command`n"
@@ -261,10 +266,11 @@ Write-TextFile (Join-Path $cursor3 'agents/appa.md') "---`nname: appa - Executes
 Write-TextFile (Join-Path $cursor3 'commands/fix.md') "Fix it. Apparently this works.`n"
 Write-TextFile (Join-Path $cursor3 'hooks/guard-shell.sh') "#!/bin/sh`n# my own guard hook`n"
 Write-TextFile (Join-Path $cursor3 'hooks/pre-commit-check.sh') "#!/usr/bin/env bash`n# Pre-commit hook: enforce hard constraints before any commit.`n"
+Write-TextFile (Join-Path $cursor3 'skills/vercel-composition-patterns/SKILL.md') "---`nname: vercel-composition-patterns`ndescription:`n  My own notes on composition.`n---`n"
 Write-TextFile (Join-Path $cursor3 'rules/orchestrator.mdc') "---`nalwaysApply: true`n---`nmy own rule`n"
 $srcArchitect = Join-Path $RepoRoot 'skills/architect'
 $srcDebugging = Join-Path $RepoRoot 'skills/debugging'
-Write-TextFile (Join-Path $cursor3 'skills/architect/SKILL.md') ("---`nname: architect`n$(Get-FirstDescriptionLine $srcArchitect)`n---`nold body`n")
+Write-TextFile (Join-Path $cursor3 'skills/architect/SKILL.md') ("---`nname: architect`n$(Get-DescriptionBlock $srcArchitect)`n---`nold body`n")
 Write-TextFile (Join-Path $cursor3 'skills/debugging/SKILL.md') "---`nname: debugging`ndescription: my own debugging notes`n---`n"
 Write-TextFile (Join-Path $cursor3 'skills/planning/notes.txt') "no SKILL.md here`n"
 $r = Invoke-Installer -Script $Installer -HomeDir $home3 -Cwd $cwd1
@@ -285,10 +291,11 @@ Assert-That 'agent with "name: appa - ..." moves' (Test-Path (Join-Path $b3 'age
 Assert-That 'command that only says "apparently" stays' ((Test-Path (Join-Path $cursor3 'commands/fix.md')) -and -not (Test-Path (Join-Path $b3 'commands/fix.md')))
 Assert-That 'hook script with its own second line stays' ((Test-Path (Join-Path $cursor3 'hooks/guard-shell.sh')) -and -not (Test-Path (Join-Path $b3 'hooks/guard-shell.sh')))
 Assert-That 'hook script with a shipped second line moves' ((Test-Path (Join-Path $b3 'hooks/pre-commit-check.sh')) -and -not (Test-Path (Join-Path $cursor3 'hooks/pre-commit-check.sh')))
+Assert-That 'same-named skill with its own multi-line description stays' ((Test-Path (Join-Path $cursor3 'skills/vercel-composition-patterns/SKILL.md')) -and -not (Test-Path (Join-Path $b3 'skills/vercel-composition-patterns')))
 
 Write-Host '2d. -NoSkills leaves every old skill folder'
 $home4 = New-TempDir 'home'
-Write-TextFile (Join-Path $home4 '.cursor/skills/architect/SKILL.md') ("---`nname: architect`n$(Get-FirstDescriptionLine $srcArchitect)`n---`n")
+Write-TextFile (Join-Path $home4 '.cursor/skills/architect/SKILL.md') ("---`nname: architect`n$(Get-DescriptionBlock $srcArchitect)`n---`n")
 $r = Invoke-Installer -Script $Installer -HomeDir $home4 -Cwd $cwd1 -Arguments @('-NoSkills')
 Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
 Assert-That 'old skill stays and says so' ((Test-Path (Join-Path $home4 '.cursor/skills/architect/SKILL.md')) -and $r.Output -match '\[left\] skills/architect')

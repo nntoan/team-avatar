@@ -607,6 +607,9 @@ backup_old_file() {
   OLD_LAYOUT_MOVED=$((OLD_LAYOUT_MOVED + 1))
 }
 
+# A SKILL.md's description line plus the indented lines that continue it.
+skill_description() { awk '/^description:/ {on=1; print; next} on && /^[ \t]/ {print; next} on {exit}' "$1" 2>/dev/null || true; }
+
 # Earlier installers wrote straight into ~/.cursor/. Cursor 3.27 reads Team Avatar from the plugin,
 # so those copies are moved (never deleted) into a backup folder. A file moves only when it is clearly ours.
 backup_old_user_layout() {
@@ -686,8 +689,8 @@ backup_old_user_layout() {
       log "  ${DIM}[left]${RESET} ~/.cursor/${rel}"
       continue
     fi
-    ours="$(grep -m1 '^description:' "${WORK_DIR}/skills/${skill}/SKILL.md" 2>/dev/null || true)"
-    theirs="$(grep -m1 '^description:' "${CURSOR_DIR}/${rel}/SKILL.md" 2>/dev/null || true)"
+    ours="$(skill_description "${WORK_DIR}/skills/${skill}/SKILL.md")"
+    theirs="$(skill_description "${CURSOR_DIR}/${rel}/SKILL.md")"
     if [ -n "$ours" ] && [ "$ours" = "$theirs" ]; then
       backup_old_file "$rel"
     else

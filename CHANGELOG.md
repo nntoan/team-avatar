@@ -25,7 +25,7 @@ on Cursor 3.27.12, recorded in [`VALIDATION.md`](VALIDATION.md).
 - Agent names are their file names (`aang`, `toph`, and so on). Cursor uses the name as the
   agent's identifier and asks for lowercase letters and hyphens.
 - Sokka and Iroh run `claude-opus-5-5-high` instead of the hidden Opus 4.8. Zuko runs
-  `gemini-4-argon`. Sokka is marked read-only.
+  `gemini-4-argon`.
 - `guard-shell.sh` prints only `permission`, `user_message`, and `agent_message`, and escapes its
   messages. Cursor blocks a command when a permission hook prints invalid JSON or a reply that
   doesn't match the hook's schema.

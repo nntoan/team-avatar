@@ -130,6 +130,16 @@ check "the note names the duplicate skill" bash -c "printf '%s' \"\$1\" | grep -
 check_not "the installer never suggests deleting a folder" bash -c "printf '%s' \"\$1\" | grep -qi 'delete'" _ "$OUT"
 check "~/.agents/skills is untouched" test -f "$H1D/.agents/skills/planning/SKILL.md"
 
+printf '== 1e. the Claude Code edition is installed too\n'
+check_not "a plain install says nothing about the Claude Code edition" bash -c "printf '%s' \"\$1\" | grep -q 'Claude Code edition'" _ "$(cd "$TMP" && HOME="$(new_home)" bash "$INSTALLER" 2>&1)"
+H1E="$(new_home)"
+mkdir -p "$H1E/.claude/plugins"
+printf '{"version": 2, "plugins": {"team-avatar@team-avatar": [{"scope": "user"}]}}\n' > "$H1E/.claude/plugins/installed_plugins.json"
+install_user "$H1E"
+eq "with the Claude Code edition: installer exits 0" "$STATUS" "0"
+check "the installer warns about the Claude Code edition" bash -c "printf '%s' \"\$1\" | grep -q 'Claude Code edition of Team Avatar is installed'" _ "$OUT"
+check "the warning names the Cursor setting" bash -c "printf '%s' \"\$1\" | grep -q 'Include Third-Party Plugins'" _ "$OUT"
+
 printf '== 2. migration from the old layout\n'
 OLD="$(new_dir old)"
 git -C "$ROOT" archive v0.4.2 | tar -x -C "$OLD"

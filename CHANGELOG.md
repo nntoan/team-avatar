@@ -39,6 +39,8 @@ run on a 3.27 build ([`VALIDATION.md`](VALIDATION.md)).
   throwaway home folders.
 - `.github/workflows/validate-cursor-edition.yml` runs the three suites on Linux when the Cursor
   edition changes.
+- The installers warn when the Claude Code edition of Team Avatar is installed too. Cursor loads it
+  as well, and its agents take over the shared names.
 
 ### Fixed
 

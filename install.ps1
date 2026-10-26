@@ -1233,6 +1233,15 @@ function Main {
             Write-Host '  team-avatar plugin shows its rules, agents, commands, skills, and hooks.' -ForegroundColor Yellow
             Write-Host '  On Enterprise, an admin must turn on Allow Local Plugin Imports.' -ForegroundColor Yellow
             Write-Host ''
+            # Cursor also loads Claude Code plugins, and the Claude Code edition's agents take over these names.
+            $claudePlugins = Join-Path (Join-Path (Join-Path $HOME '.claude') 'plugins') 'installed_plugins.json'
+            if ((Test-Path -LiteralPath $claudePlugins) -and (Select-String -LiteralPath $claudePlugins -Pattern '"team-avatar@' -SimpleMatch -Quiet)) {
+                Write-Host 'The Claude Code edition of Team Avatar is installed too. Cursor loads Claude Code' -ForegroundColor Yellow
+                Write-Host "  plugins, and that edition's agents take over the same names, so these agents don't run." -ForegroundColor Yellow
+                Write-Host '  To use this edition in Cursor, turn off Include Third-Party Plugins, Skills, and Other' -ForegroundColor Yellow
+                Write-Host '  Configs in Cursor Settings, or uninstall one edition.' -ForegroundColor Yellow
+                Write-Host ''
+            }
         }
     }
     finally {

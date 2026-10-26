@@ -159,7 +159,16 @@ $r = Invoke-Installer -Script $Installer -HomeDir $home1b -Cwd $cwd1
 Assert-That 'permissions.json content kept' ((Get-Content (Join-Path $home1b '.cursor/permissions.json') -Raw) -eq '{"mine":true}')
 Assert-That 'prints one line saying so' ($r.Output -match 'exists and differs')
 
-Write-Host '1c. A skill with a bundled name in ~/.agents/skills'
+Write-Host '1c. The Claude Code edition is installed too'
+Assert-That 'a plain install says nothing about the Claude Code edition' ($r.Output -notmatch 'Claude Code edition')
+$home1d = New-TempDir 'home'
+Write-TextFile (Join-Path $home1d '.claude/plugins/installed_plugins.json') '{"version": 2, "plugins": {"team-avatar@team-avatar": [{"scope": "user"}]}}'
+$r = Invoke-Installer -Script $Installer -HomeDir $home1d -Cwd $cwd1
+Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
+Assert-That 'the installer warns about the Claude Code edition' ($r.Output -match 'Claude Code edition of Team Avatar is installed')
+Assert-That 'the warning names the Cursor setting' ($r.Output -match 'Include Third-Party Plugins')
+
+Write-Host '1d. A skill with a bundled name in ~/.agents/skills'
 $home1c = New-TempDir 'home'
 Write-TextFile (Join-Path $home1c '.agents/skills/planning/SKILL.md') "---`nname: planning`ndescription: my planning notes`n---`n"
 $r = Invoke-Installer -Script $Installer -HomeDir $home1c -Cwd $cwd1

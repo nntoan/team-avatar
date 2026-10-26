@@ -793,6 +793,14 @@ install_agents() {
     log "  ${YELLOW}Restart Cursor or run Developer: Reload Window. Then open Customize and check that the${RESET}"
     log "  ${YELLOW}${PLUGIN_NAME} plugin shows its rules, agents, commands, skills, and hooks.${RESET}"
     log ""
+    # Cursor also loads Claude Code plugins, and the Claude Code edition's agents take over these names.
+    if grep -qs '"team-avatar@' "${HOME}/.claude/plugins/installed_plugins.json"; then
+      log "  ${YELLOW}The Claude Code edition of Team Avatar is installed too. Cursor loads Claude Code${RESET}"
+      log "  ${YELLOW}plugins, and that edition's agents take over the same names, so these agents don't run.${RESET}"
+      log "  ${YELLOW}To use this edition in Cursor, turn off Include Third-Party Plugins, Skills, and Other${RESET}"
+      log "  ${YELLOW}Configs in Cursor Settings, or uninstall one edition.${RESET}"
+      log ""
+    fi
   fi
 }
 

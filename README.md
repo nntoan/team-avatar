@@ -549,6 +549,10 @@ Run the install command with `--uninstall` (`-Uninstall` on Windows). It removes
 
 Install the plugin from [Install](#install). It has the 9 characters and 58 skills built for those tools. The installer's `--claude` and `--codex` flags still work, but they copy only the Cursor edition.
 
+#### What if I also use the Claude Code edition?
+
+Cursor 3.27 loads Claude Code plugins, so it loads both editions, and the Claude Code edition's agents take over the shared names (`aang` through `zuko`). This edition's agents and model pins then don't run. To use this edition in Cursor, turn off **Include Third-Party Plugins, Skills, and Other Configs** in Cursor Settings. That also stops Cursor from loading your other Claude Code plugins and skills. Otherwise, uninstall one of the two. The installer warns when it finds both.
+
 ## Inspiration
 
 The Cursor edition adapts [oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent) (formerly oh-my-opencode): agent specialization, parallel dispatch, and phased orchestration, applied to Cursor's native `Task` subagents. The Claude Code and Codex plugin adapts pstack, as [The honest version](#the-honest-version) explains.

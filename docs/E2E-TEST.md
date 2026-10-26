@@ -95,8 +95,8 @@ usually shows a different model on an Opus or Gemini agent.
 | katara | surgical fixer | `composer-2.5-fast` |
 | momo | quick scout | `composer-2.5-fast` |
 | toph | runner | `composer-2.5-fast` |
-| sokka | planner | `claude-opus-5-5[effort=high]` |
-| iroh | reviewer/mentor | `claude-opus-5-5[effort=high]` |
+| sokka | planner | `claude-opus-5-5-high` |
+| iroh | reviewer/mentor | `claude-opus-5-5-high` |
 | zuko | visual/design | `gemini-4-argon` |
 
 ### Codex steps — A

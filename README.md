@@ -227,7 +227,7 @@ Skills: [`design-patterns-implementation`](skills/design-patterns-implementation
 <a id="agent-sokka"></a>
 
 <details open>
-<summary><img src="screenshots/faces/sokka.png" width="20" height="20" /> <strong>Sokka</strong> · <em>The Strategist</em> · <code>claude-opus-5-5[effort=high]</code></summary>
+<summary><img src="screenshots/faces/sokka.png" width="20" height="20" /> <strong>Sokka</strong> · <em>The Strategist</em> · <code>claude-opus-5-5-high</code></summary>
 
 Planning, ambiguity analysis, and plan review. The brain behind every mission.
 
@@ -317,7 +317,7 @@ Skills: [`refactoring`](skills/refactoring/SKILL.md) · [`refactoring-patterns`]
 <a id="agent-iroh"></a>
 
 <details>
-<summary><img src="screenshots/faces/iroh.png" width="20" height="20" /> <strong>Iroh</strong> · <em>The Storyteller</em> · <code>claude-opus-5-5[effort=high]</code></summary>
+<summary><img src="screenshots/faces/iroh.png" width="20" height="20" /> <strong>Iroh</strong> · <em>The Storyteller</em> · <code>claude-opus-5-5-high</code></summary>
 
 Documentation specialist. The only agent that owns the README, the CHANGELOG, and the project docs.
 
@@ -335,8 +335,8 @@ Every agent defaults to Composer 2.5 (`composer-2.5-fast`), which is fast and dr
 
 | Agent     | Model                          | Reason                                 |
 | --------- | ------------------------------ | -------------------------------------- |
-| **Sokka** | `claude-opus-5-5[effort=high]` | Maximum reasoning for complex planning |
-| **Iroh**  | `claude-opus-5-5[effort=high]` | Long-form documentation quality        |
+| **Sokka** | `claude-opus-5-5-high` | Maximum reasoning for complex planning |
+| **Iroh**  | `claude-opus-5-5-high` | Long-form documentation quality        |
 | **Zuko**  | `gemini-4-argon`               | Multimodal and visual work             |
 
 Workers that a coordinator spawns run on the model their own file pins. If a workflow regresses on Composer 2.5, change `model:` in the agent's Markdown file.
@@ -347,7 +347,7 @@ Workers that a coordinator spawns run on the model their own file pins. If a wor
   <img src="screenshots/guy-spills-it.png" alt="Cursor per-agent model routing in agent frontmatter">
 </p>
 
-Cursor's `model:` field in an agent's frontmatter routes that agent to a specific model ([Cursor docs](https://cursor.com/docs/subagents)). The value is a model ID from Cursor's [model list](https://cursor.com/docs/models-and-pricing.md), with optional settings in brackets such as `[effort=high]`:
+Cursor's `model:` field in an agent's frontmatter routes that agent to a specific model ([Cursor docs](https://cursor.com/docs/subagents)). The value is a model ID. Run `cursor-agent models` to list the IDs your account can use. Effort is part of the ID, as in `claude-opus-5-5-high`:
 
 ```yaml
 ---
@@ -357,13 +357,13 @@ model: composer-2.5-fast # fast executor pool
 
 ```yaml
 ---
-model: claude-opus-5-5[effort=high] # model options go in brackets
+model: claude-opus-5-5-high # Claude Opus 5.5 at high effort
 ---
 ```
 
-> **When a pinned model can't run, Cursor runs the agent on another model and shows which one ran.** That happens when an admin blocks the model, your plan doesn't include it, or a legacy plan needs Max Mode for it. Cursor's docs say the desktop app picks a compatible model, and the CLI uses the parent's model since v2026.10.22. The subagent's task card or result names the model that ran. An agent with no `model:` line inherits its parent's model.
+> **When a pinned model can't run, Cursor runs the agent on another model and shows which one ran.** That happens when an admin blocks the model, your plan doesn't include it, or a legacy plan needs Max Mode for it. Cursor's docs say the desktop app picks a compatible model, and the CLI uses the parent's model since v2026.10.22. The subagent's task card or result names the model that ran. On a Free plan only Auto runs, so every agent runs on Auto. An agent with no `model:` line inherits its parent's model.
 
-Models this edition uses: `composer-2.5-fast`, `claude-opus-5-5[effort=high]`, and `gemini-4-argon`. `composer-2.5-fast` ran on Cursor 3.9.8. The other two follow Cursor's [docs](https://cursor.com/docs/models-and-pricing.md) as of October 25, 2026, and haven't run on a live build yet. Opus 4.8, which Sokka and Iroh used before, is now hidden by default.
+Models this edition uses: `composer-2.5-fast`, `claude-opus-5-5-high`, and `gemini-4-argon`. On October 26, 2026, Cursor CLI 2026.10.22 recognized all three, and `cursor-agent models` listed the first two. `composer-2.5-fast` also ran on Cursor 3.9.8. None of them has run on a paid plan on 3.27 yet. Opus 4.8, which Sokka and Iroh used before, is now hidden by default.
 
 > **Model IDs change between Cursor versions.** Check them against your build before you rely on routing. The [VALIDATION.md](VALIDATION.md) sweep takes about 2 minutes.
 

@@ -97,7 +97,7 @@ Legend: ✅ works as configured · ⚠️ caveat · ⚠️→✅ caveat found on
 
 ## Validated Task-tool model slugs
 
-These slugs were validated on 3.8 and 3.9. For 3.27, see [the 3.27 update](#cursor-327-update-2026-10-25-checked-against-the-docs-live-run-pending).
+These slugs were validated on 3.8 and 3.9. For 3.27, see [the 3.27 update](#cursor-327-update-2026-10-25-checked-against-the-docs-and-a-partial-live-run).
 
 The Task tool accepts **specific slugs only** — the README/orchestrator shorthand is not
 valid. Omitting `model:` makes a subagent inherit its parent's model (`inherit`).

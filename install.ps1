@@ -856,7 +856,14 @@ function Move-LegacyUserFiles {
     $legacy = @(Get-LegacyUserFiles -CursorDir $CursorDir -SkillsSrcDir $SkillsSrcDir)
     if ($legacy.Count -eq 0) { return }
 
-    $backupDir = Join-Path $CursorDir "team-avatar-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+    # A second migration in the same second gets its own folder instead of overwriting the first.
+    $backupBase = Join-Path $CursorDir "team-avatar-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+    $backupDir = $backupBase
+    $backupN = 1
+    while (Test-Path $backupDir) {
+        $backupDir = "${backupBase}-${backupN}"
+        $backupN++
+    }
     Write-Host "Moving files from the old layout in ${CursorDir} to ${backupDir}" -ForegroundColor White
     Write-Host ''
 

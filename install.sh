@@ -613,7 +613,13 @@ skill_description() { awk '/^description:/ {on=1; print; next} on && /^[ \t]/ {p
 # Earlier installers wrote straight into ~/.cursor/. Cursor 3.27 reads Team Avatar from the plugin,
 # so those copies are moved (never deleted) into a backup folder. A file moves only when it is clearly ours.
 backup_old_user_layout() {
-  BACKUP_DIR="${CURSOR_DIR}/team-avatar-backup-$(date +%Y%m%d-%H%M%S)"
+  # A second migration in the same second gets its own folder instead of overwriting the first.
+  local base="${CURSOR_DIR}/team-avatar-backup-$(date +%Y%m%d-%H%M%S)" n=1
+  BACKUP_DIR="$base"
+  while [ -e "$BACKUP_DIR" ]; do
+    BACKUP_DIR="${base}-${n}"
+    n=$((n + 1))
+  done
   OLD_LAYOUT_MOVED=0
 
   local file name rel skill line

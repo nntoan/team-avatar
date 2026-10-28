@@ -60,4 +60,16 @@ check "commit --all is denied" deny "{\"command\": \"git commit --all -m test\",
 check "a clean commit is allowed" allow "{\"command\": \"git commit -m 'fix a bug'\", \"cwd\": \"$CLEAN\"}"
 check "commit --amend is allowed" allow "{\"command\": \"git commit --amend -m 'fix a bug'\", \"cwd\": \"$CLEAN\"}"
 
+# A path-limited commit records the working-tree contents of the named file, even when the index is empty.
+PATHSPEC="$TMP/pathspec"; mkdir -p "$PATHSPEC"
+git -C "$PATHSPEC" init -q && git -C "$PATHSPEC" config user.email t@t && git -C "$PATHSPEC" config user.name t
+printf 'export const z = 1;\n' > "$PATHSPEC/d.ts" && git -C "$PATHSPEC" add d.ts && git -C "$PATHSPEC" commit -q -m init
+printf 'export const z = 1 as any;\n' > "$PATHSPEC/d.ts"
+check "a path-limited commit of an unstaged anti-pattern is denied" deny "{\"command\": \"git commit d.ts -m test\", \"cwd\": \"$PATHSPEC\"}"
+check "a quoted pathspec is denied too" deny "{\"command\": \"git commit \\\"d.ts\\\" -m test\", \"cwd\": \"$PATHSPEC\"}"
+check "a pathspec after -- is denied too" deny "{\"command\": \"git commit -m test -- d.ts\", \"cwd\": \"$PATHSPEC\"}"
+check "an option value that names the file is not a pathspec" allow "{\"command\": \"git commit -m \\\"d.ts\\\"\", \"cwd\": \"$PATHSPEC\"}"
+printf 'export const z = 1;\n' > "$PATHSPEC/d.ts"
+check "a clean path-limited commit is allowed" allow "{\"command\": \"git commit d.ts -m test\", \"cwd\": \"$PATHSPEC\"}"
+
 [ "$fails" -eq 0 ] && echo "all hook checks passed" || { echo "$fails hook check(s) failed"; exit 1; }

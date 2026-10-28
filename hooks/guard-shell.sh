@@ -108,6 +108,62 @@ esac
 # --- Commit anti-pattern guard ---
 # The check reads what is staged before the command runs, so a command that also stages files
 # would commit changes the check never saw.
+
+# Prints the pathspecs of a `git commit <paths>` command, one per line. A `git commit <file>`
+# records the working-tree contents of the named files even when nothing is staged, so the
+# index check alone misses anti-patterns there. Option values (-m, -F, --author, ...) are not
+# paths. Best-effort: quotes are honored, nothing is eval'd, and only existing paths print.
+commit_pathspecs() {
+  local cmd="$1" word="" in_s=0 in_d=0 esc=0 i ch w
+  local -a words=()
+  for ((i = 0; i < ${#cmd}; i++)); do
+    ch="${cmd:$i:1}"
+    if [ "$esc" -eq 1 ]; then word="${word}${ch}"; esc=0; continue; fi
+    if [ "$in_s" -eq 1 ]; then
+      if [ "$ch" = "'" ]; then in_s=0; else word="${word}${ch}"; fi
+      continue
+    fi
+    if [ "$in_d" -eq 1 ]; then
+      if [ "$ch" = '"' ]; then in_d=0; elif [ "$ch" = "\\" ]; then esc=1; else word="${word}${ch}"; fi
+      continue
+    fi
+    case "$ch" in
+      "'") in_s=1 ;;
+      '"') in_d=1 ;;
+      "\\") esc=1 ;;
+      [[:space:]]) if [ -n "$word" ]; then words+=("$word"); word=""; fi ;;
+      *) word="${word}${ch}" ;;
+    esac
+  done
+  if [ -n "$word" ]; then words+=("$word"); fi
+
+  local seen_git=0 seen_commit=0 after_dd=0 skip_next=0 n=${#words[@]}
+  for ((i = 0; i < n; i++)); do
+    w="${words[$i]}"
+    if [ "$seen_commit" -eq 0 ]; then
+      if [ "$seen_git" -eq 0 ]; then
+        [ "$w" = "git" ] && seen_git=1
+      elif [ "$w" = "commit" ]; then
+        seen_commit=1
+      fi
+      continue
+    fi
+    if [ "$skip_next" -eq 1 ]; then skip_next=0; continue; fi
+    if [ "$after_dd" -eq 0 ]; then
+      case "$w" in
+        --) after_dd=1; continue ;;
+        # Options whose value is the next token: the value is not a pathspec.
+        -m|--message|-F|--file|--author|--date|-c|--reedit-message|-C|--reuse-message|-t|--template|--cleanup|-S|--gpg-sign|--fixup|--squash|-u|--untracked-files)
+          skip_next=1; continue ;;
+        --*=*) continue ;;            # --author="A U Thor" and friends
+        -[mFcCtSu]?*) continue ;;     # attached values: -m"msg", -uno, ...
+        -*) continue ;;               # valueless flags: -n, -s, -e, -q, -v, --amend, ...
+      esac
+    fi
+    [ -e "$w" ] && printf '%s\n' "$w"
+  done
+}
+
 case "$COMMAND" in
   *"git commit"*)
     if [[ "$COMMAND" == *"git add"* || "$COMMAND" == *"git stage"* ]] ||
@@ -115,8 +171,25 @@ case "$COMMAND" in
       decide "commit in the same command that stages files; run git add first, then git commit in a separate command"
     fi
     if [ -x "$HERE/pre-commit-check.sh" ]; then
-      if ! OUT="$("$HERE/pre-commit-check.sh" 2>&1)"; then
-        decide "commit contains forbidden anti-patterns ($(printf '%s' "$OUT" | tr '\n' ' ' | cut -c1-160))"
+      COMMIT_PATHS="$(commit_pathspecs "$COMMAND")"
+      CHECK_INDEX=1
+      # -i/--include commits the index on top of the named files, so check both then.
+      if [ -n "$COMMIT_PATHS" ] && ! [[ "$COMMAND" =~ git[[:space:]]+commit.*[[:space:]](-[A-Za-z]*i[A-Za-z]*|--include)([[:space:]]|$) ]]; then
+        CHECK_INDEX=0
+      fi
+      if [ -n "$COMMIT_PATHS" ]; then
+        PATH_ARGS=()
+        while IFS= read -r p; do
+          [ -n "$p" ] && PATH_ARGS+=("$p")
+        done <<< "$COMMIT_PATHS"
+        if ! OUT="$("$HERE/pre-commit-check.sh" ${PATH_ARGS[@]+"${PATH_ARGS[@]}"} 2>&1)"; then
+          decide "commit contains forbidden anti-patterns ($(printf '%s' "$OUT" | tr '\n' ' ' | cut -c1-160))"
+        fi
+      fi
+      if [ "$CHECK_INDEX" -eq 1 ]; then
+        if ! OUT="$("$HERE/pre-commit-check.sh" 2>&1)"; then
+          decide "commit contains forbidden anti-patterns ($(printf '%s' "$OUT" | tr '\n' ' ' | cut -c1-160))"
+        fi
       fi
     fi
     ;;

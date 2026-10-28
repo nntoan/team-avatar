@@ -367,6 +367,19 @@ Assert-That 'no hooks/hooks.json copied into .cursor/hooks' (-not (Test-Path (Jo
 Assert-That 'no plugin manifest in the project' (-not (Test-Path (Join-Path $pc '.cursor-plugin')) -and -not (Test-Path (Join-Path $pc 'plugins')))
 Assert-That 'nothing written under the home' (-not (Test-Path (Join-Path $home6 '.cursor')))
 
+if (-not $IsUnix) {
+    Write-Host '5b. A pre-existing project hooks.json is kept on Windows, with a warning'
+    $pc2 = New-TempDir 'project-warn'
+    New-Item -ItemType Directory -Force -Path (Join-Path $pc2 '.cursor') | Out-Null
+    $hooksPath = Join-Path $pc2 '.cursor/hooks.json'
+    $seed = '{"version":1,"hooks":{"beforeShellExecution":[{"command":".cursor/hooks/guard-shell.sh"}]}}'
+    [IO.File]::WriteAllText($hooksPath, $seed)
+    $r = Invoke-Installer -Script $Installer -HomeDir (New-TempDir 'home') -Cwd $pc2 -Arguments @('-Scope', 'project')
+    Assert-That 'installer exits 0' ($r.Code -eq 0) $r.Output
+    Assert-That 'pre-existing project hooks.json kept unchanged' ((Test-Path $hooksPath) -and ((Get-Content $hooksPath -Raw) -eq $seed))
+    Assert-That 'warning printed for kept bash hooks' ($r.Output -match '\[warning\]')
+}
+
 # ---------------------------------------------------------------------------
 Write-Host '6. Running twice gives the same tree'
 $home7 = New-TempDir 'home'

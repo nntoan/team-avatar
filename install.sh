@@ -108,8 +108,8 @@ Restart Cursor afterwards. On Cursor Enterprise, an admin must turn on
 "Allow Local Plugin Imports". Project scope installs files into ./.cursor/.
 
 ${BOLD}USAGE${RESET}
-  curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash
-  curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash -s -- [OPTIONS]
+  curl -fsSL https://raw.githubusercontent.com/nntoan/team-avatar/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/nntoan/team-avatar/main/install.sh | bash -s -- [OPTIONS]
   bash install.sh [OPTIONS]
 
 ${BOLD}OPTIONS${RESET}
@@ -236,7 +236,7 @@ toggle_orchestrator_rule() {
 # Embedded source files (all 12 agent/rule files)
 # ---------------------------------------------------------------------------
 
-SOURCE_BASE_URL_DEFAULT="https://raw.githubusercontent.com/tmcfarlane/team-avatar/main"
+SOURCE_BASE_URL_DEFAULT="https://raw.githubusercontent.com/nntoan/team-avatar/main"
 # Override for forks/dev:
 #   OH_MY_CURSOR_SOURCE_BASE_URL="https://raw.githubusercontent.com/<you>/<repo>/<ref>" bash install.sh
 OH_MY_CURSOR_SOURCE_BASE_URL="${OH_MY_CURSOR_SOURCE_BASE_URL:-$SOURCE_BASE_URL_DEFAULT}"

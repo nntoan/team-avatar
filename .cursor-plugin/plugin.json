@@ -5,11 +5,11 @@
   "author": {
     "name": "ZeroClickDev"
   },
-  "homepage": "https://github.com/tmcfarlane/team-avatar",
-  "repository": "https://github.com/tmcfarlane/team-avatar",
+  "homepage": "https://github.com/nntoan/team-avatar",
+  "repository": "https://github.com/nntoan/team-avatar",
   "license": "MIT",
   "keywords": ["subagents", "orchestration", "hooks", "skills", "team-avatar"],
-  "logo": "screenshots/teamavatar.png",
+  "logo": "https://raw.githubusercontent.com/nntoan/team-avatar/main/screenshots/teamavatar.png",
   "agents": [
     "./agents/aang.md",
     "./agents/sokka.md",

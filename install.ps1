@@ -60,7 +60,7 @@
     # Remove all components
 
 .EXAMPLE
-    irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1 | iex
+    irm https://raw.githubusercontent.com/nntoan/team-avatar/main/install.ps1 | iex
     # One-liner install from GitHub (default options only; clone the repo to pass flags)
 #>
 
@@ -129,7 +129,7 @@ $SKILL_DIRS = @(
 $LEGACY_AGENT_FILES = @('atlas.md', 'explore.md', 'generalPurpose.md', 'hephaestus.md', 'librarian.md', 'metis.md', 'momus.md', 'multimodal-looker.md', 'oracle.md', 'prometheus.md', 'sisyphus.md')
 $LEGACY_PROTOCOL_FILES = @('protocols/swarm-coordinator.md')
 
-$SOURCE_BASE_URL_DEFAULT = 'https://raw.githubusercontent.com/tmcfarlane/team-avatar/main'
+$SOURCE_BASE_URL_DEFAULT = 'https://raw.githubusercontent.com/nntoan/team-avatar/main'
 $SourceBaseUrl = if ($env:OH_MY_CURSOR_SOURCE_BASE_URL) { $env:OH_MY_CURSOR_SOURCE_BASE_URL } else { $SOURCE_BASE_URL_DEFAULT }
 
 # ---------------------------------------------------------------------------

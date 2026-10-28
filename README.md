@@ -121,13 +121,13 @@ You need [Cursor](https://www.cursor.com/) 3.27 or later. The installer adds the
 macOS and Linux:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nntoan/team-avatar/main/install.sh | bash
 ```
 
 Windows (PowerShell):
 
 ```powershell
-irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/nntoan/team-avatar/main/install.ps1 | iex
 ```
 
 <details>
@@ -152,10 +152,10 @@ On Windows:
 
 ```powershell
 # PowerShell 7+ / Windows 11 one-liner with flags:
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/tmcfarlane/team-avatar/main/install.ps1))) -Scope project -Force
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/nntoan/team-avatar/main/install.ps1))) -Scope project -Force
 
 # Or clone and run locally (all versions):
-git clone https://github.com/tmcfarlane/team-avatar.git && cd team-avatar
+git clone https://github.com/nntoan/team-avatar.git && cd team-avatar
 .\install.ps1                         # Default (user scope)
 .\install.ps1 -Scope project          # Project scope
 .\install.ps1 -AlsoClaude -AlsoCodex  # Also copy the Cursor edition into .claude/ and .codex/

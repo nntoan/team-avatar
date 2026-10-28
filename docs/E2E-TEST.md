@@ -238,9 +238,9 @@ Per-run template (copy the block, fill Observed + Status, then log the run below
 | A | katara | `composer-2.5-fast` | Cursor UI badge: Composer 2.5 Fast. | PASS |
 | A | momo | `composer-2.5-fast` | Cursor UI badge: Composer 2.5 Fast. | PASS |
 | A | toph | `composer-2.5-fast` | Cursor UI badge: Composer 2.5 Fast. | PASS |
-| A | sokka | `claude-opus-4-8-thinking-high` | Cursor UI badge: Opus 4.8 High. | PASS |
-| A | iroh | `claude-opus-4-8-thinking-high` | Cursor UI badge: Opus 4.8 High. | PASS |
-| A | zuko | `gemini-3.1-pro` | Cursor UI badge: Gemini 3.1 Pro. | PASS |
+| A | sokka | `claude-opus-5-5-high` | <fill in after the run> | <PASS/FAIL> |
+| A | iroh | `claude-opus-5-5-high` | <fill in after the run> | <PASS/FAIL> |
+| A | zuko | `gemini-4-argon` | <fill in after the run> | <PASS/FAIL> |
 | B | B1 rm -rf canary | blocked | Cursor reported: `Rejected: Command execution was blocked by a hook.` Command did not run. | PASS |
 | B | B2 force-push main | blocked | Cursor first rejected auto-run policy, then reported `Command execution was blocked by a hook.` Git did not run. | PASS |
 | B | B3 `as any` commit | blocked | File was created and staged; `git commit -m "omc e2e canary"` succeeded with commit `b6e58a1`. | FAIL |

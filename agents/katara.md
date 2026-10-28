@@ -104,8 +104,8 @@ After 3 consecutive failures:
 
 **Parallel Research**:
 ```
-Task(toph, model: fast, "Find all usages of UserService")
-Task(toph, model: fast, "Find error handling patterns")
+Task(toph, "Find all usages of UserService")
+Task(toph, "Find error handling patterns")
 ```
 
 **Cap**: max **3** `toph` dispatches per task. Batch related queries into one prompt. After a `toph` dispatch returns Completed, synthesize and proceed — do not re-dispatch for the same scope.

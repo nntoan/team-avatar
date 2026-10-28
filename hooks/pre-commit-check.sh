@@ -7,9 +7,33 @@
 
 set -euo pipefail
 
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
+# With file arguments (guard-shell.sh passes the paths of a path-limited commit), check those
+# working-tree files; a directory argument expands to every file under it. With no arguments
+# (git pre-commit hook), check the staged index.
+CHECK_FILES=()
+if [ "$#" -gt 0 ]; then
+  for p in "$@"; do
+    if [ -d "$p" ]; then
+      while IFS= read -r f; do
+        [ -n "$f" ] && CHECK_FILES+=("$f")
+      done <<< "$(find "$p" -type f 2>/dev/null || true)"
+    else
+      CHECK_FILES+=("$p")
+    fi
+  done
+else
+  STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
 
-if [ -z "$STAGED_FILES" ]; then
+  if [ -z "$STAGED_FILES" ]; then
+    exit 0
+  fi
+
+  while IFS= read -r f; do
+    [ -n "$f" ] && CHECK_FILES+=("$f")
+  done <<< "$STAGED_FILES"
+fi
+
+if [ ${#CHECK_FILES[@]} -eq 0 ]; then
   exit 0
 fi
 
@@ -28,7 +52,7 @@ check_pattern() {
   fi
 }
 
-for file in $STAGED_FILES; do
+for file in ${CHECK_FILES[@]+"${CHECK_FILES[@]}"}; do
   if [ ! -f "$file" ]; then
     continue
   fi

@@ -892,10 +892,18 @@ function Install-UserPlugin {
     if ($ON_WINDOWS) {
         # The hook scripts stay in the plugin, but its hook config runs none of them.
         [IO.File]::WriteAllText((Join-Path (Join-Path $WorkDir 'hooks') 'hooks.json'), "{ ""version"": 1, ""hooks"": {} }`n")
-        Write-Host '  Hooks are off on Windows: they are bash scripts, and Cursor runs hooks through PowerShell there.' -ForegroundColor Yellow
-        Write-Host ''
     }
     Install-FileSet -SrcDir $WorkDir -DestDir $Dirs.PluginDir -Label 'plugin manifest and hook config' -Files $PLUGIN_FILES -IsForce $IsForce -IsDryRun $IsDryRun
+    if ($ON_WINDOWS -and -not $IsDryRun) {
+        # Claim hooks are off only when the empty-hook config actually landed. Without -Force a
+        # differing existing file is kept, and it may still hold active bash hook entries.
+        $stagedHooks = Join-Path (Join-Path $WorkDir 'hooks') 'hooks.json'
+        $pluginHooks = Join-Path (Join-Path $Dirs.PluginDir 'hooks') 'hooks.json'
+        if ((Test-Path $pluginHooks) -and (Get-FileHash $stagedHooks).Hash -eq (Get-FileHash $pluginHooks).Hash) {
+            Write-Host '  Hooks are off on Windows: they are bash scripts, and Cursor runs hooks through PowerShell there.' -ForegroundColor Yellow
+            Write-Host ''
+        }
+    }
 
     if (-not $IsDryRun -and [IO.Path]::DirectorySeparatorChar -eq '/') {
         foreach ($file in $HOOK_FILES) {

@@ -8,7 +8,7 @@ CURSOR_MODE_LABEL="Team Avatar (Cursor 3.27+)"
 
 AGENT_FILES=(aang.md sokka.md katara.md zuko.md toph.md appa.md momo.md iroh.md)
 PROTOCOL_FILES=(protocols/team-avatar.md)
-COMMAND_FILES=(plan.md build.md search.md fix.md tasks.md scout.md cactus-juice.md doc.md image.md)
+COMMAND_FILES=(battle-plan.md build.md search.md fix.md tasks.md scout.md cactus-juice.md doc.md image.md)
 HOOK_FILES=(post-edit-lint.sh pre-commit-check.sh guard-shell.sh)
 CONFIG_FILES=(hooks.json permissions.json)
 RULE_FILE="orchestrator.mdc"
@@ -41,6 +41,8 @@ SKILL_DIRS=(
 
 LEGACY_AGENT_FILES=(atlas.md explore.md generalPurpose.md hephaestus.md librarian.md metis.md momus.md multimodal-looker.md oracle.md prometheus.md sisyphus.md)
 LEGACY_PROTOCOL_FILES=(protocols/swarm-coordinator.md)
+# plan.md shipped before the rename to battle-plan.md; still matched on migration and uninstall.
+LEGACY_COMMAND_FILES=(plan.md)
 
 FORCE=false
 DRY_RUN=false
@@ -654,7 +656,7 @@ backup_old_user_layout() {
     fi
   done
 
-  for file in "${COMMAND_FILES[@]}"; do
+  for file in "${COMMAND_FILES[@]}" "${LEGACY_COMMAND_FILES[@]}"; do
     rel="commands/${file}"
     if [ -f "${CURSOR_DIR}/${rel}" ] && grep -qiwE "$characters" "${CURSOR_DIR}/${rel}"; then
       backup_old_file "$rel"
@@ -867,7 +869,7 @@ uninstall_agents() {
   log "Removing commands from ${BOLD}${COMMANDS_DIR}${RESET}"
   log ""
 
-  for file in "${COMMAND_FILES[@]}"; do
+  for file in "${COMMAND_FILES[@]}" "${LEGACY_COMMAND_FILES[@]}"; do
     target="${COMMANDS_DIR}/${file}"
     if [ -f "$target" ]; then
       if [ "$DRY_RUN" = true ]; then

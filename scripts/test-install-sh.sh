@@ -55,7 +55,7 @@ files() { (cd "$1" && find . -type f | sort); }
 valid_json() { python3 -I -c 'import json, sys; json.load(open(sys.argv[1]))' "$1"; }
 
 AGENTS="aang sokka katara zuko toph appa momo iroh"
-COMMANDS="plan build search fix tasks scout cactus-juice doc image"
+COMMANDS="battle-plan build search fix tasks scout cactus-juice doc image"
 HOOKS="post-edit-lint.sh pre-commit-check.sh guard-shell.sh"
 # Every folder under skills/ must ship, so a folder missing from the installer's SKILL_DIRS fails.
 REPO_SKILLS="$(cd "$ROOT/skills" && find . -mindepth 1 -maxdepth 1 -type d | sort)"
@@ -169,6 +169,7 @@ eq "exactly one backup folder" "$(ls -d "$H2"/.cursor/team-avatar-backup-* | wc 
 check "backup holds the old toph byte for byte" cmp -s "$TMP/old-toph.md" "$B2/agents/toph.md"
 check "backup holds the old rule" test -f "$B2/rules/orchestrator.mdc"
 check "backup holds the old protocol" test -f "$B2/agents/protocols/team-avatar.md"
+# v0.4.2 shipped commands/plan.md; the rename to battle-plan.md came later.
 check "backup holds an old command" test -f "$B2/commands/plan.md"
 check "backup holds an old hook" test -f "$B2/hooks/guard-shell.sh"
 check "backup holds an old skill folder" test -f "$B2/skills/planning/SKILL.md"

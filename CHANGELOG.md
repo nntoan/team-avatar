@@ -14,6 +14,10 @@ on Cursor 3.27.12, recorded in [`VALIDATION.md`](VALIDATION.md).
 
 ### Changed
 
+- The planning command is now `/battle-plan` instead of `/plan`. Cursor ships a built-in `/plan`
+  that switches the agent into Plan mode, and Cursor does not namespace plugin commands, so the
+  two collided in the command menu. The installers treat an old user-scope `commands/plan.md`
+  like any other earlier-install file and move it into the backup folder.
 - `install.sh` and `install.ps1` install the default user scope as a local Cursor plugin in
   `~/.cursor/plugins/local/team-avatar/`. Cursor no longer reads user rules from files, so the old
   copy in `~/.cursor/rules/` doesn't load the orchestration rule. Install and uninstall move the

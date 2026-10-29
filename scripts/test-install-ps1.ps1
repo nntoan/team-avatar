@@ -41,7 +41,7 @@ if ($IsUnix -and -not (Get-Command git -ErrorAction SilentlyContinue)) {
 }
 
 $AGENTS = @('aang', 'sokka', 'katara', 'zuko', 'toph', 'appa', 'momo', 'iroh')
-$COMMANDS = @('plan', 'build', 'search', 'fix', 'tasks', 'scout', 'cactus-juice', 'doc', 'image')
+$COMMANDS = @('battle-plan', 'build', 'search', 'fix', 'tasks', 'scout', 'cactus-juice', 'doc', 'image')
 $HOOKS = @('guard-shell.sh', 'post-edit-lint.sh', 'pre-commit-check.sh')
 
 function Assert-That {
@@ -258,6 +258,7 @@ Write-TextFile (Join-Path $cursor3 'agents/sokka.md') "---`nname: sokka is plann
 Write-TextFile (Join-Path $cursor3 'agents/katara.md') "---`nname: katarax`n---`n"
 Write-TextFile (Join-Path $cursor3 'agents/zuko.md') "---`nname: zuko-custom`n---`n"
 Write-TextFile (Join-Path $cursor3 'agents/toph.md') "---`nname: toph`n"
+Write-TextFile (Join-Path $cursor3 'commands/battle-plan.md') "Plan with Sokka`n"
 Write-TextFile (Join-Path $cursor3 'commands/plan.md') "Plan with Sokka`n"
 Write-TextFile (Join-Path $cursor3 'commands/doc.md') "Write the docs with IROH`n"
 Write-TextFile (Join-Path $cursor3 'commands/cactus-juice.md') "CACTUS JUICE MODE`n"
@@ -280,7 +281,8 @@ Assert-That 'agent with exact "name: aang" moves' ((Test-Path (Join-Path $b3 'ag
 Assert-That 'agent with "name: sokka is ..." moves' (Test-Path (Join-Path $b3 'agents/sokka.md'))
 Assert-That 'agent "name: katarax" stays' ((Test-Path (Join-Path $cursor3 'agents/katara.md')) -and -not (Test-Path (Join-Path $b3 'agents/katara.md')))
 Assert-That 'agent "name: zuko-custom" stays' ((Test-Path (Join-Path $cursor3 'agents/zuko.md')) -and -not (Test-Path (Join-Path $b3 'agents/zuko.md')))
-Assert-That 'command that names a character moves (any case)' ((Test-Path (Join-Path $b3 'commands/plan.md')) -and (Test-Path (Join-Path $b3 'commands/doc.md')))
+Assert-That 'command that names a character moves (any case)' ((Test-Path (Join-Path $b3 'commands/battle-plan.md')) -and (Test-Path (Join-Path $b3 'commands/doc.md')))
+Assert-That 'legacy commands/plan.md (pre-rename) moves' (Test-Path (Join-Path $b3 'commands/plan.md'))
 Assert-That 'command that says "cactus juice" moves' (Test-Path (Join-Path $b3 'commands/cactus-juice.md'))
 Assert-That 'command with no character or cactus juice stays' ((Test-Path (Join-Path $cursor3 'commands/build.md')) -and -not (Test-Path (Join-Path $b3 'commands/build.md')))
 Assert-That 'rule without "Team Avatar orchestration" stays' ((Test-Path (Join-Path $cursor3 'rules/orchestrator.mdc')) -and -not (Test-Path (Join-Path $b3 'rules/orchestrator.mdc')))

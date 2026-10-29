@@ -92,7 +92,7 @@ $PLUGIN_NAME = 'team-avatar'
 
 $AGENT_FILES = @('aang.md', 'sokka.md', 'katara.md', 'zuko.md', 'toph.md', 'appa.md', 'momo.md', 'iroh.md')
 $PROTOCOL_FILES = @('protocols/team-avatar.md')
-$COMMAND_FILES = @('plan.md', 'build.md', 'search.md', 'fix.md', 'tasks.md', 'scout.md', 'cactus-juice.md', 'doc.md', 'image.md')
+$COMMAND_FILES = @('battle-plan.md', 'build.md', 'search.md', 'fix.md', 'tasks.md', 'scout.md', 'cactus-juice.md', 'doc.md', 'image.md')
 $HOOK_FILES = @('post-edit-lint.sh', 'pre-commit-check.sh', 'guard-shell.sh')
 $CONFIG_FILES = @('hooks.json', 'permissions.json')
 $PLUGIN_FILES = @('.cursor-plugin/plugin.json', 'hooks/hooks.json')
@@ -128,6 +128,8 @@ $SKILL_DIRS = @(
 
 $LEGACY_AGENT_FILES = @('atlas.md', 'explore.md', 'generalPurpose.md', 'hephaestus.md', 'librarian.md', 'metis.md', 'momus.md', 'multimodal-looker.md', 'oracle.md', 'prometheus.md', 'sisyphus.md')
 $LEGACY_PROTOCOL_FILES = @('protocols/swarm-coordinator.md')
+# plan.md shipped before the rename to battle-plan.md; still matched on migration and uninstall.
+$LEGACY_COMMAND_FILES = @('plan.md')
 
 $SOURCE_BASE_URL_DEFAULT = 'https://raw.githubusercontent.com/nntoan/team-avatar/main'
 $SourceBaseUrl = if ($env:OH_MY_CURSOR_SOURCE_BASE_URL) { $env:OH_MY_CURSOR_SOURCE_BASE_URL } else { $SOURCE_BASE_URL_DEFAULT }
@@ -802,7 +804,7 @@ function Get-LegacyUserFiles {
         if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'rules') $file) 'Team Avatar orchestration') { $found.Add("rules/${file}") }
     }
 
-    foreach ($file in $COMMAND_FILES) {
+    foreach ($file in ($COMMAND_FILES + $LEGACY_COMMAND_FILES)) {
         if (Test-FileMatches (Join-Path (Join-Path $CursorDir 'commands') $file) $CHARACTER_PATTERN) { $found.Add("commands/${file}") }
     }
 
@@ -1003,7 +1005,7 @@ function Uninstall-Agents {
     Write-Host "Removing commands from $($Dirs.CommandsDir)" -ForegroundColor White
     Write-Host ''
 
-    foreach ($file in $COMMAND_FILES) {
+    foreach ($file in ($COMMAND_FILES + $LEGACY_COMMAND_FILES)) {
         $target = Join-Path $Dirs.CommandsDir $file
         if (Test-Path $target) {
             if ($IsDryRun) {

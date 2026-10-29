@@ -181,7 +181,7 @@ For each subagent, read the **model badge** on its tab / run metadata and compar
 ### Orchestration smoke tests
 
 - [ ] Root thread refuses to work directly and delegates via `Task`
-- [ ] `/plan <ambiguous>` → Sokka asks a clarifying question before planning
+- [ ] `/battle-plan <ambiguous>` → Sokka asks a clarifying question before planning
 - [ ] `/search <topic>` → Toph returns read-only findings
 - [ ] `/build` after a plan → Aang/Appa implement and self-verify (lint/test)
 - [ ] `/fix <bug>` → Katara makes a minimal change

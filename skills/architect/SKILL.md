@@ -56,7 +56,7 @@ han-core:architect - Design system architecture and high-level technical strateg
 - Need to evaluate multiple approaches
 - Decisions have broad impact
 
-**Use /plan when:**
+**Use /battle-plan when:**
 
 - Implementing within existing architecture
 - Implementing specific feature within existing architecture
@@ -863,7 +863,7 @@ When the user says:
 - Apply all relevant design principle skills
 - Create diagrams (ASCII art or reference drawing tools)
 - Architecture evolves - document decisions and changes
-- Consider using /plan for detailed implementation after architecture is approved
+- Consider using /battle-plan for detailed implementation after architecture is approved
 - Archive decisions as ADRs for future reference
 
 ## Remember

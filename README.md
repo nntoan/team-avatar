@@ -373,7 +373,7 @@ Type a command in Cursor's chat to run its workflow:
 
 | Command         | Agent  | Purpose                                                                                     |
 | --------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `/plan`         | Sokka  | Full planning pipeline: ambiguity analysis, plan creation, and self-review                  |
+| `/battle-plan`  | Sokka  | Full planning pipeline: ambiguity analysis, plan creation, and self-review                  |
 | `/build`        | Aang   | Deep multi-file implementation with verification                                            |
 | `/search`       | Toph   | Multi-angle exploration of the codebase and docs                                            |
 | `/fix`          | Katara | Methodical debugging and code healing                                                       |
@@ -490,7 +490,7 @@ You are Team Avatar. Use @toph to explore the codebase, @sokka to create a plan,
 and @aang to implement. Verify with lints/build/tests. Keep going until done.
 ```
 
-Or chain the slash commands: `/plan add OAuth support with JWT tokens`, then `/build based on the plan above`.
+Or chain the slash commands: `/battle-plan add OAuth support with JWT tokens`, then `/build based on the plan above`.
 
 ### Bundled skills
 
@@ -531,7 +531,7 @@ To add your own skill, create a `SKILL.md` folder under `.cursor/skills/` (proje
 
 #### Do I need to choose agents myself?
 
-No. The orchestrator delegates on its own. Slash commands such as `/plan`, `/build`, and `/fix` give you explicit control when you want it.
+No. The orchestrator delegates on its own. Slash commands such as `/battle-plan`, `/build`, and `/fix` give you explicit control when you want it.
 
 #### Does it work on any Cursor plan?
 
